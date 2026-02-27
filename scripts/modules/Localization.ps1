@@ -1,0 +1,329 @@
+# Localization.ps1 - Multi-language support (FR, EN, ES, IT)
+
+$Script:CurrentLanguage = "FR"
+
+$Script:Strings = @{
+    # ============================================================
+    # FRANCAIS
+    # ============================================================
+    "FR" = @{
+        # --- App ---
+        AppTitle          = "TIA Openness Tool"
+        AppSubtitle       = "Export DataBlocks TIA Portal"
+
+        # --- Navigation ---
+        NavConnection     = "Connexion"
+        NavExport         = "Export DataBlocks"
+
+        # --- Version ---
+        LblVersion        = "Version TIA Portal :"
+        LblNoVersion      = "Aucune version TIA Portal detectee."
+        LblDllLoaded      = "DLL chargee : {0}"
+        LblDllError       = "Erreur de chargement DLL"
+        LblVersionLocked  = "Version verrouillee (connecte)"
+
+        # --- Connection Page ---
+        PageConnection    = "Connexion TIA Portal"
+        BtnScan           = "Scanner les instances TIA Portal"
+        LblInstances      = "Instances disponibles"
+        BtnConnect        = "Se connecter"
+        BtnDisconnect     = "Se deconnecter"
+        LblConnected      = "Connecte"
+        LblDisconnected   = "Deconnecte"
+        LblScanResult     = "{0} instance(s) trouvee(s)"
+        LblNoInstance     = "Aucune instance TIA Portal trouvee"
+        LblProject        = "Projet : {0}"
+        LblPlcCount       = "{0} automate(s) detecte(s)"
+
+        # --- Export Page ---
+        PageExport        = "Export DataBlocks"
+        BtnLoadDBs        = "Charger les DataBlocks"
+        BtnSelectAll      = "Tout selectionner"
+        BtnDeselectAll    = "Tout deselectionner"
+        LblHideInstanceDB = "Masquer les DBs d'instance"
+        LblDBCount        = "{0} DB(s)"
+        LblExportFolder   = "Dossier :"
+        LblDefaultFolder  = "Bureau (par defaut)"
+        BtnExport         = "Exporter les sources (.db)"
+        TypeGlobal        = "Global"
+        TypeInstance      = "Instance"
+        LblPlc            = "PLC {0}"
+
+        # --- Messages ---
+        MsgError          = "Erreur"
+        MsgInfo           = "Information"
+        MsgConfirm        = "Confirmation"
+        MsgNoInstance     = "Veuillez selectionner une instance TIA Portal."
+        MsgConnectFirst   = "Veuillez d'abord vous connecter a TIA Portal."
+        MsgNoSelection    = "Veuillez selectionner au moins un DataBlock."
+        MsgScanError      = "Erreur lors du scan :`n{0}"
+        MsgConnectError   = "Erreur de connexion :`n{0}"
+        MsgConnectOk      = "Connecte au projet : {0}`n{1} automate(s) detecte(s)"
+        MsgDisconnectOk   = "Deconnecte."
+        MsgLoadError      = "Erreur lors du chargement :`n{0}"
+        MsgExportDone     = "Export termine !"
+        MsgExportSuccess  = "Reussis : {0}"
+        MsgExportErrors   = "Erreurs : {0}"
+        MsgExportFolder   = "Dossier : {0}"
+        MsgExportDetail   = "Details des erreurs :"
+        MsgConfirmClose   = "Un export est en cours. Voulez-vous vraiment fermer ?"
+        MsgNoProject      = "Aucun projet ouvert dans TIA Portal."
+        MsgNoPlc          = "Aucun automate (PLC) trouve dans le projet."
+        MsgProcessNotFound = "Processus TIA Portal introuvable."
+        MsgBlockNotFound  = "{0} : Bloc introuvable"
+        MsgNoGenerateSource = "{0} : Ne supporte pas GenerateSource"
+        MsgDllRequired    = "Veuillez d'abord selectionner une version TIA Portal."
+        MsgRestartRequired = "La DLL est deja chargee. Un changement de version necessite de redemarrer l'application."
+
+        # --- Tooltips ---
+        TipScan           = "Rechercher les instances TIA Portal en cours d'execution"
+        TipConnect        = "Se connecter a l'instance selectionnee"
+        TipDisconnect     = "Se deconnecter de TIA Portal"
+        TipLoadDBs        = "Charger la liste des DataBlocks du projet"
+        TipExport         = "Exporter les DataBlocks selectionnes en fichiers .db"
+        TipBrowse         = "Choisir le dossier d'export"
+
+        # --- Language ---
+        LangLabel         = "Langue :"
+    }
+
+    # ============================================================
+    # ENGLISH
+    # ============================================================
+    "EN" = @{
+        # --- App ---
+        AppTitle          = "TIA Openness Tool"
+        AppSubtitle       = "TIA Portal DataBlock Export"
+
+        # --- Navigation ---
+        NavConnection     = "Connection"
+        NavExport         = "Export DataBlocks"
+
+        # --- Version ---
+        LblVersion        = "TIA Portal Version:"
+        LblNoVersion      = "No TIA Portal version detected."
+        LblDllLoaded      = "DLL loaded: {0}"
+        LblDllError       = "DLL loading error"
+        LblVersionLocked  = "Version locked (connected)"
+
+        # --- Connection Page ---
+        PageConnection    = "TIA Portal Connection"
+        BtnScan           = "Scan TIA Portal instances"
+        LblInstances      = "Available instances"
+        BtnConnect        = "Connect"
+        BtnDisconnect     = "Disconnect"
+        LblConnected      = "Connected"
+        LblDisconnected   = "Disconnected"
+        LblScanResult     = "{0} instance(s) found"
+        LblNoInstance     = "No TIA Portal instance found"
+        LblProject        = "Project: {0}"
+        LblPlcCount       = "{0} PLC(s) detected"
+
+        # --- Export Page ---
+        PageExport        = "Export DataBlocks"
+        BtnLoadDBs        = "Load DataBlocks"
+        BtnSelectAll      = "Select all"
+        BtnDeselectAll    = "Deselect all"
+        LblHideInstanceDB = "Hide instance DBs"
+        LblDBCount        = "{0} DB(s)"
+        LblExportFolder   = "Folder:"
+        LblDefaultFolder  = "Desktop (default)"
+        BtnExport         = "Export sources (.db)"
+        TypeGlobal        = "Global"
+        TypeInstance      = "Instance"
+        LblPlc            = "PLC {0}"
+
+        # --- Messages ---
+        MsgError          = "Error"
+        MsgInfo           = "Information"
+        MsgConfirm        = "Confirmation"
+        MsgNoInstance     = "Please select a TIA Portal instance."
+        MsgConnectFirst   = "Please connect to TIA Portal first."
+        MsgNoSelection    = "Please select at least one DataBlock."
+        MsgScanError      = "Error during scan:`n{0}"
+        MsgConnectError   = "Connection error:`n{0}"
+        MsgConnectOk      = "Connected to project: {0}`n{1} PLC(s) detected"
+        MsgDisconnectOk   = "Disconnected."
+        MsgLoadError      = "Error while loading:`n{0}"
+        MsgExportDone     = "Export completed!"
+        MsgExportSuccess  = "Successful: {0}"
+        MsgExportErrors   = "Errors: {0}"
+        MsgExportFolder   = "Folder: {0}"
+        MsgExportDetail   = "Error details:"
+        MsgConfirmClose   = "An export is in progress. Do you really want to close?"
+        MsgNoProject      = "No project open in TIA Portal."
+        MsgNoPlc          = "No PLC found in the project."
+        MsgProcessNotFound = "TIA Portal process not found."
+        MsgBlockNotFound  = "{0}: Block not found"
+        MsgNoGenerateSource = "{0}: Does not support GenerateSource"
+        MsgDllRequired    = "Please select a TIA Portal version first."
+        MsgRestartRequired = "DLL already loaded. Changing version requires restarting the application."
+
+        # --- Tooltips ---
+        TipScan           = "Search for running TIA Portal instances"
+        TipConnect        = "Connect to the selected instance"
+        TipDisconnect     = "Disconnect from TIA Portal"
+        TipLoadDBs        = "Load the project's DataBlock list"
+        TipExport         = "Export selected DataBlocks as .db files"
+        TipBrowse         = "Choose the export folder"
+
+        # --- Language ---
+        LangLabel         = "Language:"
+    }
+
+    # ============================================================
+    # ESPANOL
+    # ============================================================
+    "ES" = @{
+        AppTitle          = "TIA Openness Tool"
+        AppSubtitle       = "Exportar DataBlocks TIA Portal"
+        NavConnection     = "Conexion"
+        NavExport         = "Exportar DataBlocks"
+        LblVersion        = "Version TIA Portal:"
+        LblNoVersion      = "No se detecto ninguna version de TIA Portal."
+        LblDllLoaded      = "DLL cargada: {0}"
+        LblDllError       = "Error al cargar DLL"
+        LblVersionLocked  = "Version bloqueada (conectado)"
+        PageConnection    = "Conexion TIA Portal"
+        BtnScan           = "Buscar instancias TIA Portal"
+        LblInstances      = "Instancias disponibles"
+        BtnConnect        = "Conectar"
+        BtnDisconnect     = "Desconectar"
+        LblConnected      = "Conectado"
+        LblDisconnected   = "Desconectado"
+        LblScanResult     = "{0} instancia(s) encontrada(s)"
+        LblNoInstance     = "No se encontro ninguna instancia de TIA Portal"
+        LblProject        = "Proyecto: {0}"
+        LblPlcCount       = "{0} PLC(s) detectado(s)"
+        PageExport        = "Exportar DataBlocks"
+        BtnLoadDBs        = "Cargar DataBlocks"
+        BtnSelectAll      = "Seleccionar todo"
+        BtnDeselectAll    = "Deseleccionar todo"
+        LblHideInstanceDB = "Ocultar DBs de instancia"
+        LblDBCount        = "{0} DB(s)"
+        LblExportFolder   = "Carpeta:"
+        LblDefaultFolder  = "Escritorio (por defecto)"
+        BtnExport         = "Exportar fuentes (.db)"
+        TypeGlobal        = "Global"
+        TypeInstance      = "Instancia"
+        LblPlc            = "PLC {0}"
+        MsgError          = "Error"
+        MsgInfo           = "Informacion"
+        MsgConfirm        = "Confirmacion"
+        MsgNoInstance     = "Por favor seleccione una instancia de TIA Portal."
+        MsgConnectFirst   = "Por favor conectese primero a TIA Portal."
+        MsgNoSelection    = "Por favor seleccione al menos un DataBlock."
+        MsgScanError      = "Error durante la busqueda:`n{0}"
+        MsgConnectError   = "Error de conexion:`n{0}"
+        MsgConnectOk      = "Conectado al proyecto: {0}`n{1} PLC(s) detectado(s)"
+        MsgDisconnectOk   = "Desconectado."
+        MsgLoadError      = "Error al cargar:`n{0}"
+        MsgExportDone     = "Exportacion completada!"
+        MsgExportSuccess  = "Exitosos: {0}"
+        MsgExportErrors   = "Errores: {0}"
+        MsgExportFolder   = "Carpeta: {0}"
+        MsgExportDetail   = "Detalles de errores:"
+        MsgConfirmClose   = "Una exportacion esta en curso. Desea cerrar?"
+        MsgNoProject      = "No hay proyecto abierto en TIA Portal."
+        MsgNoPlc          = "No se encontro ningun PLC en el proyecto."
+        MsgProcessNotFound = "Proceso TIA Portal no encontrado."
+        MsgBlockNotFound  = "{0}: Bloque no encontrado"
+        MsgNoGenerateSource = "{0}: No soporta GenerateSource"
+        MsgDllRequired    = "Por favor seleccione una version de TIA Portal primero."
+        MsgRestartRequired = "DLL ya cargada. Cambiar de version requiere reiniciar la aplicacion."
+        TipScan           = "Buscar instancias de TIA Portal en ejecucion"
+        TipConnect        = "Conectar a la instancia seleccionada"
+        TipDisconnect     = "Desconectar de TIA Portal"
+        TipLoadDBs        = "Cargar la lista de DataBlocks del proyecto"
+        TipExport         = "Exportar DataBlocks seleccionados como archivos .db"
+        TipBrowse         = "Elegir la carpeta de exportacion"
+        LangLabel         = "Idioma:"
+    }
+
+    # ============================================================
+    # ITALIANO
+    # ============================================================
+    "IT" = @{
+        AppTitle          = "TIA Openness Tool"
+        AppSubtitle       = "Esportazione DataBlocks TIA Portal"
+        NavConnection     = "Connessione"
+        NavExport         = "Esporta DataBlocks"
+        LblVersion        = "Versione TIA Portal:"
+        LblNoVersion      = "Nessuna versione di TIA Portal rilevata."
+        LblDllLoaded      = "DLL caricata: {0}"
+        LblDllError       = "Errore caricamento DLL"
+        LblVersionLocked  = "Versione bloccata (connesso)"
+        PageConnection    = "Connessione TIA Portal"
+        BtnScan           = "Scansiona istanze TIA Portal"
+        LblInstances      = "Istanze disponibili"
+        BtnConnect        = "Connetti"
+        BtnDisconnect     = "Disconnetti"
+        LblConnected      = "Connesso"
+        LblDisconnected   = "Disconnesso"
+        LblScanResult     = "{0} istanza(e) trovata(e)"
+        LblNoInstance     = "Nessuna istanza TIA Portal trovata"
+        LblProject        = "Progetto: {0}"
+        LblPlcCount       = "{0} PLC rilevati"
+        PageExport        = "Esporta DataBlocks"
+        BtnLoadDBs        = "Carica DataBlocks"
+        BtnSelectAll      = "Seleziona tutto"
+        BtnDeselectAll    = "Deseleziona tutto"
+        LblHideInstanceDB = "Nascondi DB di istanza"
+        LblDBCount        = "{0} DB"
+        LblExportFolder   = "Cartella:"
+        LblDefaultFolder  = "Desktop (predefinito)"
+        BtnExport         = "Esporta sorgenti (.db)"
+        TypeGlobal        = "Globale"
+        TypeInstance      = "Istanza"
+        LblPlc            = "PLC {0}"
+        MsgError          = "Errore"
+        MsgInfo           = "Informazione"
+        MsgConfirm        = "Conferma"
+        MsgNoInstance     = "Selezionare un'istanza TIA Portal."
+        MsgConnectFirst   = "Connettersi prima a TIA Portal."
+        MsgNoSelection    = "Selezionare almeno un DataBlock."
+        MsgScanError      = "Errore durante la scansione:`n{0}"
+        MsgConnectError   = "Errore di connessione:`n{0}"
+        MsgConnectOk      = "Connesso al progetto: {0}`n{1} PLC rilevati"
+        MsgDisconnectOk   = "Disconnesso."
+        MsgLoadError      = "Errore durante il caricamento:`n{0}"
+        MsgExportDone     = "Esportazione completata!"
+        MsgExportSuccess  = "Riusciti: {0}"
+        MsgExportErrors   = "Errori: {0}"
+        MsgExportFolder   = "Cartella: {0}"
+        MsgExportDetail   = "Dettagli errori:"
+        MsgConfirmClose   = "Un'esportazione e in corso. Vuoi davvero chiudere?"
+        MsgNoProject      = "Nessun progetto aperto in TIA Portal."
+        MsgNoPlc          = "Nessun PLC trovato nel progetto."
+        MsgProcessNotFound = "Processo TIA Portal non trovato."
+        MsgBlockNotFound  = "{0}: Blocco non trovato"
+        MsgNoGenerateSource = "{0}: Non supporta GenerateSource"
+        MsgDllRequired    = "Selezionare prima una versione di TIA Portal."
+        MsgRestartRequired = "DLL gia caricata. Cambiare versione richiede il riavvio dell'applicazione."
+        TipScan           = "Cercare istanze TIA Portal in esecuzione"
+        TipConnect        = "Connettersi all'istanza selezionata"
+        TipDisconnect     = "Disconnettersi da TIA Portal"
+        TipLoadDBs        = "Caricare la lista dei DataBlocks del progetto"
+        TipExport         = "Esportare i DataBlocks selezionati come file .db"
+        TipBrowse         = "Scegliere la cartella di esportazione"
+        LangLabel         = "Lingua:"
+    }
+}
+
+function T([string]$Key) {
+    $s = $Script:Strings[$Script:CurrentLanguage]
+    if ($s -and $s.ContainsKey($Key)) { return $s[$Key] }
+    # Fallback to French
+    $fr = $Script:Strings["FR"]
+    if ($fr -and $fr.ContainsKey($Key)) { return $fr[$Key] }
+    return "[$Key]"
+}
+
+function Set-Language([string]$Lang) {
+    if ($Script:Strings.ContainsKey($Lang)) {
+        $Script:CurrentLanguage = $Lang
+        Set-AppStateValue -Key "Language" -Value $Lang
+    }
+}
+
+function Get-Language { return $Script:CurrentLanguage }
