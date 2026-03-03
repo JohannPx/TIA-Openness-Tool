@@ -24,6 +24,9 @@ $Script:AppState = @{
     FilteredDataBlocks = @()             # After filter applied
     HideInstanceDBs    = $true           # Filter toggle
 
+    # PLC Device Info (populated during connection)
+    PlcDeviceInfoList  = @()             # List of @{PlcIndex; Name; IpAddress; Rack; Slot; Tsap}
+
     # Export
     ExportFolder       = $null           # User-chosen or default export path
     LastExportResult   = $null           # Hashtable: SuccessCount, ErrorCount, Errors, OutputFolder

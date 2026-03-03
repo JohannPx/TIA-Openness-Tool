@@ -93,8 +93,16 @@ function Find-BlockByNumber {
 
     foreach ($block in $BlockGroup.Blocks) {
         if ($block.Number -eq $Number) {
+            $blockIsDataBlock = $block -is [Siemens.Engineering.SW.Blocks.DataBlock]
             $blockIsInstanceDB = $block -is [Siemens.Engineering.SW.Blocks.InstanceDB]
-            if ($blockIsInstanceDB -eq $IsInstanceDB) {
+
+            # Skip non-DB blocks (OBs, FBs, FCs also live in BlockGroup.Blocks)
+            if (-not $blockIsDataBlock -and -not $blockIsInstanceDB) { continue }
+
+            if ($IsInstanceDB -and $blockIsInstanceDB) {
+                return $block
+            }
+            elseif (-not $IsInstanceDB -and $blockIsDataBlock -and -not $blockIsInstanceDB) {
                 return $block
             }
         }

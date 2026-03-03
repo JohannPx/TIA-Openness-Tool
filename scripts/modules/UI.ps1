@@ -216,6 +216,7 @@ $Script:MainXaml = @'
           <RowDefinition Height="Auto"/>
           <RowDefinition Height="Auto"/>
           <RowDefinition Height="Auto"/>
+          <RowDefinition Height="Auto"/>
           <RowDefinition Height="*"/>
           <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
@@ -250,8 +251,15 @@ $Script:MainXaml = @'
           </Border>
         </Grid>
 
+        <!-- PLC Info Panel (visible after loading DataBlocks) -->
+        <Border x:Name="brdPlcInfo" Grid.Row="3" Visibility="Collapsed"
+                Background="#F0F9FF" BorderBrush="#BFDBFE" BorderThickness="1"
+                CornerRadius="4" Padding="10" Margin="0,0,0,8">
+          <StackPanel x:Name="spPlcInfo"/>
+        </Border>
+
         <!-- DataBlock list -->
-        <Border Grid.Row="3" Background="White" BorderBrush="#E2E8F0" BorderThickness="1"
+        <Border Grid.Row="4" Background="White" BorderBrush="#E2E8F0" BorderThickness="1"
                 CornerRadius="4">
           <ListBox x:Name="lbDataBlocks" BorderThickness="0" Background="Transparent"
                    HorizontalContentAlignment="Stretch"
@@ -260,7 +268,7 @@ $Script:MainXaml = @'
         </Border>
 
         <!-- Export section -->
-        <Border Grid.Row="4" Background="White" BorderBrush="#E2E8F0" BorderThickness="1"
+        <Border Grid.Row="5" Background="White" BorderBrush="#E2E8F0" BorderThickness="1"
                 CornerRadius="4" Padding="16" Margin="0,12,0,0">
           <Grid>
             <Grid.ColumnDefinitions>
@@ -277,7 +285,7 @@ $Script:MainXaml = @'
                       Margin="8,0,0,0" Cursor="Hand" FontWeight="Bold"
                       Background="White" BorderBrush="#CBD5E0" BorderThickness="1"/>
             </StackPanel>
-            <Button Grid.Column="1" x:Name="btnExport" Content="Exporter les sources (.db)"
+            <Button Grid.Column="1" x:Name="btnExportCsv" Content="Exporter Table CSV"
                     Width="240" Height="40" FontSize="13" FontWeight="SemiBold" Cursor="Hand"
                     Background="#27AE60" Foreground="White" BorderThickness="0"/>
           </Grid>
@@ -309,7 +317,7 @@ function Initialize-MainWindow {
     # Parse XAML
     [xml]$xaml = $Script:MainXaml
     $reader = [System.Xml.XmlNodeReader]::new($xaml)
-    $Script:Window = [System.Windows.Markup.XamlReader]::Load($reader)
+    $Script:ui_Window = [System.Windows.Markup.XamlReader]::Load($reader)
 
     # Bind all named elements to script variables with ui_ prefix
     $elementNames = @(
@@ -324,10 +332,11 @@ function Initialize-MainWindow {
         "pnlExport", "txtExportTitle",
         "btnLoadDBs", "btnSelectAll", "btnDeselectAll", "chkHideInstance", "txtDBCount",
         "lbDataBlocks",
-        "txtExportFolderLabel", "txtExportFolder", "btnBrowseFolder", "btnExport"
+        "brdPlcInfo", "spPlcInfo",
+        "txtExportFolderLabel", "txtExportFolder", "btnBrowseFolder", "btnExportCsv"
     )
     foreach ($name in $elementNames) {
-        $el = $Script:Window.FindName($name)
+        $el = $Script:ui_Window.FindName($name)
         if ($el) {
             Set-Variable -Name "ui_$name" -Value $el -Scope Script
         }
@@ -346,7 +355,7 @@ function Initialize-MainWindow {
     Register-ExportEvents
 
     # Window close guard
-    $Script:Window.Add_Closing({
+    $Script:ui_Window.Add_Closing({
         param($sender, $e)
         if ((Get-AppState).IsExporting) {
             $result = [System.Windows.MessageBox]::Show(
@@ -359,7 +368,7 @@ function Initialize-MainWindow {
         }
     })
 
-    return $Script:Window
+    return $Script:ui_Window
 }
 
 # =================== VERSION SELECTOR ===================
@@ -471,7 +480,7 @@ function Update-AllTexts {
     $Script:ui_btnDeselectAll.Content = T "BtnDeselectAll"
     $Script:ui_chkHideInstance.Content = T "LblHideInstanceDB"
     $Script:ui_txtExportFolderLabel.Text = T "LblExportFolder"
-    $Script:ui_btnExport.Content = T "BtnExport"
+    $Script:ui_btnExportCsv.Content = T "BtnExportCsv"
 
     # Export folder default text
     if (-not (Get-AppState).ExportFolder) {
@@ -492,7 +501,7 @@ function Update-AllTexts {
     $Script:ui_btnConnect.ToolTip = T "TipConnect"
     $Script:ui_btnDisconnect.ToolTip = T "TipDisconnect"
     $Script:ui_btnLoadDBs.ToolTip = T "TipLoadDBs"
-    $Script:ui_btnExport.ToolTip = T "TipExport"
+    $Script:ui_btnExportCsv.ToolTip = T "TipExportCsv"
     $Script:ui_btnBrowseFolder.ToolTip = T "TipBrowse"
 }
 
@@ -627,6 +636,7 @@ function Register-ExportEvents {
             $Script:ui_Window.Cursor = [System.Windows.Input.Cursors]::Wait
             Get-AllDataBlocks
             Refresh-DataBlockList
+            Refresh-PlcInfoPanel
         } catch {
             [System.Windows.MessageBox]::Show(
                 ((T "MsgLoadError") -f $_.Exception.Message),
@@ -667,8 +677,8 @@ function Register-ExportEvents {
         }
     })
 
-    # Export
-    $Script:ui_btnExport.Add_Click({
+    # Export CSV
+    $Script:ui_btnExportCsv.Add_Click({
         $state = Get-AppState
         $selected = @($state.FilteredDataBlocks | Where-Object { $_.IsSelected })
 
@@ -679,21 +689,21 @@ function Register-ExportEvents {
 
         try {
             Set-AppStateValue -Key "IsExporting" -Value $true
-            $Script:ui_btnExport.IsEnabled = $false
+            $Script:ui_btnExportCsv.IsEnabled = $false
             $Script:ui_Window.Cursor = [System.Windows.Input.Cursors]::Wait
 
             $folder = New-ExportFolder -BasePath $state.ExportFolder
-            $result = Invoke-DataBlockExport -SelectedBlocks $selected -OutputFolder $folder
+            $result = Invoke-TableExport -SelectedBlocks $selected -OutputFolder $folder
             $summary = Get-ExportSummary -Result $result
-            $icon = if ($result.ErrorCount -gt 0) { "Warning" } else { "Information" }
-            [System.Windows.MessageBox]::Show($summary, (T "MsgExportDone"), "OK", $icon)
+            $icon = if ($result.ErrorCount -gt 0 -or $result.OptimizedDBs.Count -gt 0) { "Warning" } else { "Information" }
+            [System.Windows.MessageBox]::Show($summary, (T "MsgExportCsvDone"), "OK", $icon)
         } catch {
             [System.Windows.MessageBox]::Show(
                 ((T "MsgLoadError") -f $_.Exception.Message),
                 (T "MsgError"), "OK", "Error")
         } finally {
             Set-AppStateValue -Key "IsExporting" -Value $false
-            $Script:ui_btnExport.IsEnabled = $true
+            $Script:ui_btnExportCsv.IsEnabled = $true
             $Script:ui_Window.Cursor = $null
         }
     })
@@ -719,4 +729,153 @@ function Set-AllBlocksSelected {
     $blocks = (Get-AppState).FilteredDataBlocks
     foreach ($b in $blocks) { $b.IsSelected = $Selected }
     Refresh-DataBlockList
+}
+
+# =================== PLC INFO PANEL ===================
+
+function Refresh-PlcInfoPanel {
+    $Script:ui_spPlcInfo.Children.Clear()
+    $plcInfoList = (Get-AppState).PlcDeviceInfoList
+
+    if ($plcInfoList.Count -eq 0) {
+        $Script:ui_brdPlcInfo.Visibility = [System.Windows.Visibility]::Collapsed
+        return
+    }
+
+    $Script:ui_brdPlcInfo.Visibility = [System.Windows.Visibility]::Visible
+    $brush = [System.Windows.Media.BrushConverter]::new()
+
+    foreach ($plcInfo in $plcInfoList) {
+        $panel = [System.Windows.Controls.StackPanel]::new()
+        $panel.Orientation = [System.Windows.Controls.Orientation]::Horizontal
+        $panel.Margin = [System.Windows.Thickness]::new(0, 2, 0, 2)
+
+        # PLC name
+        $txtName = [System.Windows.Controls.TextBlock]::new()
+        $txtName.Text = (T "LblPlcName") -f $plcInfo.Name
+        $txtName.FontWeight = [System.Windows.FontWeights]::SemiBold
+        $txtName.FontSize = 12
+        $txtName.Margin = [System.Windows.Thickness]::new(0, 0, 16, 0)
+        $txtName.VerticalAlignment = [System.Windows.VerticalAlignment]::Center
+        $panel.Children.Add($txtName) | Out-Null
+
+        # IP
+        $txtIp = [System.Windows.Controls.TextBlock]::new()
+        $ipText = if ($plcInfo.IpAddress) { $plcInfo.IpAddress } else { "N/A" }
+        $txtIp.Text = (T "LblPlcIp") -f $ipText
+        $txtIp.FontSize = 11
+        $txtIp.Foreground = $brush.ConvertFrom("#4A5568")
+        $txtIp.Margin = [System.Windows.Thickness]::new(0, 0, 16, 0)
+        $txtIp.VerticalAlignment = [System.Windows.VerticalAlignment]::Center
+        $panel.Children.Add($txtIp) | Out-Null
+
+        # TSAP
+        $txtTsap = [System.Windows.Controls.TextBlock]::new()
+        $txtTsap.Text = (T "LblPlcTsap") -f $plcInfo.Tsap
+        $txtTsap.FontSize = 11
+        $txtTsap.Foreground = $brush.ConvertFrom("#4A5568")
+        $txtTsap.Margin = [System.Windows.Thickness]::new(0, 0, 16, 0)
+        $txtTsap.VerticalAlignment = [System.Windows.VerticalAlignment]::Center
+        $panel.Children.Add($txtTsap) | Out-Null
+
+        # Edit button
+        $btnEdit = [System.Windows.Controls.Button]::new()
+        $btnEdit.Content = T "BtnEditPlcInfo"
+        $btnEdit.FontSize = 10
+        $btnEdit.Padding = [System.Windows.Thickness]::new(8, 2, 8, 2)
+        $btnEdit.Cursor = [System.Windows.Input.Cursors]::Hand
+        $btnEdit.Background = $brush.ConvertFrom("White")
+        $btnEdit.BorderBrush = $brush.ConvertFrom("#CBD5E0")
+        $btnEdit.Tag = $plcInfo.PlcIndex
+        $btnEdit.Add_Click({
+            param($sender, $e)
+            $plcIdx = $sender.Tag
+            Show-PlcInfoEditDialog -PlcIndex $plcIdx
+            Refresh-PlcInfoPanel
+        })
+        $panel.Children.Add($btnEdit) | Out-Null
+
+        $Script:ui_spPlcInfo.Children.Add($panel) | Out-Null
+    }
+}
+
+function Show-PlcInfoEditDialog {
+    param([int]$PlcIndex)
+
+    $plcInfoList = (Get-AppState).PlcDeviceInfoList
+    $plcInfo = $plcInfoList | Where-Object { $_.PlcIndex -eq $PlcIndex } | Select-Object -First 1
+    if (-not $plcInfo) { return }
+
+    # Create a simple edit dialog programmatically
+    $dlg = [System.Windows.Window]::new()
+    $dlg.Title = T "DlgPlcInfoTitle"
+    $dlg.Width = 380
+    $dlg.Height = 300
+    $dlg.WindowStartupLocation = [System.Windows.WindowStartupLocation]::CenterOwner
+    $dlg.Owner = $Script:ui_Window
+    $dlg.ResizeMode = [System.Windows.ResizeMode]::NoResize
+
+    $stack = [System.Windows.Controls.StackPanel]::new()
+    $stack.Margin = [System.Windows.Thickness]::new(16)
+
+    # PLC Name field
+    $lblName = [System.Windows.Controls.TextBlock]::new()
+    $lblName.Text = T "DlgPlcName"
+    $lblName.FontSize = 12
+    $lblName.Margin = [System.Windows.Thickness]::new(0, 0, 0, 4)
+    $stack.Children.Add($lblName) | Out-Null
+
+    $txtName = [System.Windows.Controls.TextBox]::new()
+    $txtName.Text = $plcInfo.Name
+    $txtName.FontSize = 13
+    $txtName.Padding = [System.Windows.Thickness]::new(6, 4, 6, 4)
+    $txtName.Margin = [System.Windows.Thickness]::new(0, 0, 0, 10)
+    $stack.Children.Add($txtName) | Out-Null
+
+    # IP Address field
+    $lblIp = [System.Windows.Controls.TextBlock]::new()
+    $lblIp.Text = T "DlgPlcIp"
+    $lblIp.FontSize = 12
+    $lblIp.Margin = [System.Windows.Thickness]::new(0, 0, 0, 4)
+    $stack.Children.Add($lblIp) | Out-Null
+
+    $txtIp = [System.Windows.Controls.TextBox]::new()
+    $txtIp.Text = $plcInfo.IpAddress
+    $txtIp.FontSize = 13
+    $txtIp.Padding = [System.Windows.Thickness]::new(6, 4, 6, 4)
+    $txtIp.Margin = [System.Windows.Thickness]::new(0, 0, 0, 10)
+    $stack.Children.Add($txtIp) | Out-Null
+
+    # TSAP field
+    $lblTsap = [System.Windows.Controls.TextBlock]::new()
+    $lblTsap.Text = T "DlgPlcTsap"
+    $lblTsap.FontSize = 12
+    $lblTsap.Margin = [System.Windows.Thickness]::new(0, 0, 0, 4)
+    $stack.Children.Add($lblTsap) | Out-Null
+
+    $txtTsap = [System.Windows.Controls.TextBox]::new()
+    $txtTsap.Text = $plcInfo.Tsap
+    $txtTsap.FontSize = 13
+    $txtTsap.Padding = [System.Windows.Thickness]::new(6, 4, 6, 4)
+    $txtTsap.Margin = [System.Windows.Thickness]::new(0, 0, 0, 16)
+    $stack.Children.Add($txtTsap) | Out-Null
+
+    # OK button
+    $btnOk = [System.Windows.Controls.Button]::new()
+    $btnOk.Content = "OK"
+    $btnOk.Width = 100
+    $btnOk.Height = 32
+    $btnOk.FontSize = 13
+    $btnOk.HorizontalAlignment = [System.Windows.HorizontalAlignment]::Right
+    $btnOk.IsDefault = $true
+    $btnOk.Add_Click({
+        $plcInfo.Name = $txtName.Text
+        $plcInfo.IpAddress = $txtIp.Text
+        $plcInfo.Tsap = $txtTsap.Text
+        $dlg.Close()
+    }.GetNewClosure())
+    $stack.Children.Add($btnOk) | Out-Null
+
+    $dlg.Content = $stack
+    $dlg.ShowDialog() | Out-Null
 }

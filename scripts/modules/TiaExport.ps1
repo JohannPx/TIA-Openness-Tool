@@ -1,5 +1,26 @@
-# TiaExport.ps1 - Export DataBlocks as .db source files
+# TiaExport.ps1 - Export DataBlocks as source files
 # Ported from TIA_APP_V1\Functions\GenerationFunction.cs
+
+function Get-BlockFileExtension {
+    # Returns the correct file extension based on the block's programming language
+    # STL -> .awl, SCL -> .scl, LAD/FBD/Graph -> .xml, default -> .scl
+    param([object]$Block)
+
+    try {
+        $lang = $Block.ProgrammingLanguage.ToString()
+        switch ($lang) {
+            "STL"       { return ".awl" }
+            "SCL"       { return ".scl" }
+            "LAD"       { return ".xml" }
+            "FBD"       { return ".xml" }
+            "Graph"     { return ".xml" }
+            "DB"        { return ".db"  }
+            default     { return ".scl" }
+        }
+    } catch {
+        return ".scl"
+    }
+}
 
 function New-ExportFolder {
     param([string]$BasePath)
@@ -65,7 +86,8 @@ function Invoke-DataBlockExport {
             $blocksToGenerate = [System.Collections.Generic.List[Siemens.Engineering.SW.ExternalSources.IGenerateSource]]::new()
             $blocksToGenerate.Add([Siemens.Engineering.SW.ExternalSources.IGenerateSource]$block)
 
-            $fileName = "DB$($dbInfo.Number)_$($dbInfo.Name).db"
+            $ext = Get-BlockFileExtension -Block $block
+            $fileName = "DB$($dbInfo.Number)_$($dbInfo.Name)$ext"
             $filePath = Join-Path $OutputFolder $fileName
 
             $systemGroup.GenerateSource(

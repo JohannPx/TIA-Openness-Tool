@@ -104,6 +104,105 @@ function Invoke-TiaScan {
     return $instances
 }
 
+function Get-SoftwareContainer {
+    # Calls the generic method DeviceItem.GetService<SoftwareContainer>() via reflection
+    # PowerShell 5.1 cannot call parameterless generic methods directly
+    param([object]$DeviceItem)
+
+    $method = $DeviceItem.GetType().GetMethod('GetService')
+    if (-not $method -or -not $method.IsGenericMethod) { return $null }
+    $generic = $method.MakeGenericMethod([Siemens.Engineering.HW.Features.SoftwareContainer])
+    return $generic.Invoke($DeviceItem, $null)
+}
+
+function Find-PlcSoftwareInDevice {
+    param([object]$DeviceItems)
+
+    $result = @()
+    foreach ($item in $DeviceItems) {
+        try {
+            $swContainer = Get-SoftwareContainer -DeviceItem $item
+            if ($swContainer -and $swContainer.Software -is [Siemens.Engineering.SW.PlcSoftware]) {
+                $result += @{
+                    PlcSoftware = $swContainer.Software
+                    DeviceItem  = $item
+                }
+            }
+        } catch {}
+        # Recurse into child DeviceItems
+        if ($item.DeviceItems.Count -gt 0) {
+            $result += @(Find-PlcSoftwareInDevice -DeviceItems $item.DeviceItems)
+        }
+    }
+    return $result
+}
+
+function Build-PlcDeviceInfoList {
+    param(
+        [array]$PlcResults,
+        [object]$Project
+    )
+
+    $plcInfoList = @()
+    $idx = 1
+
+    foreach ($plcData in $PlcResults) {
+        $deviceItem = $plcData.DeviceItem
+        $plcInfo = @{
+            PlcIndex  = $idx
+            Name      = "PLC_$idx"
+            IpAddress = ""
+            Rack      = 0
+            Slot      = 2
+            Tsap      = "3.02"
+        }
+
+        # Try to get device name (navigate up to the Device level)
+        try {
+            $plcInfo.Name = $deviceItem.Name
+        } catch {}
+
+        # Try to read IP address from DeviceItem or its sub-items
+        try {
+            # Search network interfaces in sub-items
+            foreach ($subItem in $deviceItem.DeviceItems) {
+                try {
+                    $addresses = $subItem.Addresses
+                    foreach ($addr in $addresses) {
+                        try {
+                            $ip = $addr.GetAttribute("IpAddress")
+                            if ($ip) {
+                                $plcInfo.IpAddress = $ip
+                                break
+                            }
+                        } catch {}
+                    }
+                    if ($plcInfo.IpAddress) { break }
+                } catch {}
+            }
+        } catch {}
+
+        # Try to read Rack / Slot from attributes
+        try {
+            $rack = $deviceItem.GetAttribute("RackNumber")
+            if ($null -ne $rack) { $plcInfo.Rack = [int]$rack }
+        } catch {}
+        try {
+            $slot = $deviceItem.GetAttribute("SlotNumber")
+            if ($null -ne $slot) { $plcInfo.Slot = [int]$slot }
+        } catch {}
+
+        # Compute TSAP from Rack/Slot: format "3.XX" where XX = rack*32 + slot in hex
+        $tsapByte = ($plcInfo.Rack * 32 + $plcInfo.Slot)
+        $plcInfo.Tsap = "3." + $tsapByte.ToString("X2")
+
+        $plcInfoList += $plcInfo
+        $idx++
+    }
+
+    return $plcInfoList
+}
+
 function Connect-TiaInstance {
     param([int]$ProcessId)
 
@@ -131,27 +230,27 @@ function Connect-TiaInstance {
 
         $project = $tiaPortal.Projects[0]
 
-        # Enumerate PLC devices
-        $plcList = @()
+        # Enumerate PLC devices (recursive traversal of DeviceItems tree)
+        $plcResults = @()
         foreach ($device in $project.Devices) {
-            foreach ($deviceItem in $device.DeviceItems) {
-                try {
-                    $swContainer = $deviceItem.GetService([Siemens.Engineering.HW.Features.SoftwareContainer])
-                    if ($swContainer -and $swContainer.Software -is [Siemens.Engineering.SW.PlcSoftware]) {
-                        $plcList += $swContainer.Software
-                    }
-                } catch {}
-            }
+            $plcResults += @(Find-PlcSoftwareInDevice -DeviceItems $device.DeviceItems)
         }
 
-        if ($plcList.Count -eq 0) {
+        if ($plcResults.Count -eq 0) {
             return @{ Success = $false; Message = T "MsgNoPlc" }
         }
+
+        # Extract PlcSoftware objects for backward compatibility
+        $plcList = @($plcResults | ForEach-Object { $_.PlcSoftware })
+
+        # Build PLC device info (name, IP, TSAP)
+        $plcDeviceInfoList = Build-PlcDeviceInfoList -PlcResults $plcResults -Project $project
 
         # Update state
         Set-AppStateValue -Key "TiaPortal" -Value $tiaPortal
         Set-AppStateValue -Key "CurrentProject" -Value $project
         Set-AppStateValue -Key "PlcSoftwareList" -Value $plcList
+        Set-AppStateValue -Key "PlcDeviceInfoList" -Value $plcDeviceInfoList
         Set-AppStateValue -Key "IsConnected" -Value $true
         Set-AppStateValue -Key "ConnectedProcessId" -Value $ProcessId
         Set-AppStateValue -Key "ProjectName" -Value $project.Name
@@ -178,6 +277,7 @@ function Disconnect-TiaInstance {
     Set-AppStateValue -Key "TiaPortal" -Value $null
     Set-AppStateValue -Key "CurrentProject" -Value $null
     Set-AppStateValue -Key "PlcSoftwareList" -Value @()
+    Set-AppStateValue -Key "PlcDeviceInfoList" -Value @()
     Set-AppStateValue -Key "IsConnected" -Value $false
     Set-AppStateValue -Key "ConnectedProcessId" -Value 0
     Set-AppStateValue -Key "ProjectName" -Value ""

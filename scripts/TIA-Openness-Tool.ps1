@@ -49,6 +49,7 @@ if (Test-Path $modulesDir) {
         "TiaConnection.ps1"
         "TiaDataBlocks.ps1"
         "TiaExport.ps1"
+        "TiaExportTable.ps1"
         "UIHelpers.ps1"
         "UI.ps1"
     )
