@@ -37,32 +37,32 @@ if ($consoleHwnd -ne [IntPtr]::Zero) {
     [Native.Win32]::ShowWindow($consoleHwnd, 0) | Out-Null  # 0 = SW_HIDE
 }
 
-# =================== MODULE LOADING ===================
-$ScriptDir = Split-Path -Parent $MyInvocation.MyCommand.Path
-$modulesDir = Join-Path $ScriptDir "modules"
+# =================== MODULE LOADING + LAUNCH ===================
+try {
+    $ScriptDir = Split-Path -Parent $MyInvocation.MyCommand.Path
+    $modulesDir = Join-Path $ScriptDir "modules"
 
-if (Test-Path $modulesDir) {
-    $moduleOrder = @(
-        "AppState.ps1"
-        "Localization.ps1"
-        "TiaVersions.ps1"
-        "TiaConnection.ps1"
-        "TiaDataBlocks.ps1"
-        "TiaExport.ps1"
-        "TiaExportTable.ps1"
-        "UIHelpers.ps1"
-        "UI.ps1"
-    )
-    foreach ($mod in $moduleOrder) {
-        $modPath = Join-Path $modulesDir $mod
-        if (Test-Path $modPath) {
-            . $modPath
+    if (Test-Path $modulesDir) {
+        $moduleOrder = @(
+            "AppState.ps1"
+            "Localization.ps1"
+            "TiaVersions.ps1"
+            "TiaConnection.ps1"
+            "TiaDataBlocks.ps1"
+            "TiaExport.ps1"
+            "TiaExportTable.ps1"
+            "UIHelpers.ps1"
+            "UI.ps1"
+        )
+        foreach ($mod in $moduleOrder) {
+            $modPath = Join-Path $modulesDir $mod
+            if (Test-Path $modPath) {
+                . $modPath
+            }
         }
     }
-}
 
-# =================== LAUNCH ===================
-try {
+    # =================== LAUNCH ===================
     $window = Initialize-MainWindow
     $window.ShowDialog() | Out-Null
 } catch {
@@ -72,12 +72,21 @@ try {
         $errMsg += "`n-> $($inner.Message)"
         $inner = $inner.InnerException
     }
+    # Log to file for debugging
+    $logPath = Join-Path ([Environment]::GetFolderPath('Desktop')) "TIA_Openness_Error.log"
+    "[$((Get-Date).ToString('yyyy-MM-dd HH:mm:ss'))] $errMsg`n$($_.ScriptStackTrace)" | Out-File $logPath -Encoding UTF8
+    # Show console again for error display
+    if ($consoleHwnd -ne [IntPtr]::Zero) {
+        [Native.Win32]::ShowWindow($consoleHwnd, 5) | Out-Null  # SW_SHOW
+    }
     try {
+        Add-Type -AssemblyName PresentationFramework -ErrorAction SilentlyContinue
         [System.Windows.MessageBox]::Show(
-            "$(T 'MsgError'): $errMsg`n`n$($_.ScriptStackTrace)",
-            (T "MsgError"), "OK", "Error")
+            "Erreur: $errMsg`n`n$($_.ScriptStackTrace)",
+            "Erreur", "OK", "Error")
     } catch {
         Write-Host "Erreur: $errMsg" -ForegroundColor Red
         Write-Host $_.ScriptStackTrace
+        Read-Host "Appuyez sur Entree pour fermer"
     }
 }

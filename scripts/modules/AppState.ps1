@@ -29,7 +29,13 @@ $Script:AppState = @{
 
     # Export
     ExportFolder       = $null           # User-chosen or default export path
+    ExportFormat       = "CSV"           # "CSV" (Siemens) or "EWON" (var_lst)
     LastExportResult   = $null           # Hashtable: SuccessCount, ErrorCount, Errors, OutputFolder
+
+    # Ewon var_lst config
+    EwonRepere         = ""              # Variable prefix (e.g. "i30")
+    EwonTopic          = "A"            # Topic: A, B, or C
+    EwonPageId         = 1              # Page: 1-11
 
     # Runtime
     IsExporting        = $false

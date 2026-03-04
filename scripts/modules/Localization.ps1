@@ -112,6 +112,17 @@ $Script:Strings = @{
         TipExportCsv      = "Exporter les DataBlocks selectionnes en table CSV (1 fichier par PLC)"
         TipBrowse         = "Choisir le dossier d'export"
 
+        # --- Export Format ---
+        LblExportFormat   = "Format d'export :"
+        OptCsvSiemens     = "CSV (Siemens)"
+        OptVarLstEwon     = "var_lst (Ewon)"
+        LblEwonRepere     = "Repere Ewon :"
+        LblEwonTopic      = "Topic :"
+        LblEwonPage       = "Page :"
+        BtnExportEwon     = "Exporter var_lst"
+        TipExportEwon     = "Exporter les DataBlocks selectionnes en var_lst.csv (Ewon Flexy)"
+        MsgExportEwonDone = "Export var_lst termine !"
+
         # --- Language ---
         LangLabel         = "Langue :"
     }
@@ -225,6 +236,17 @@ $Script:Strings = @{
         TipExportCsv      = "Export selected DataBlocks as CSV table (1 file per PLC)"
         TipBrowse         = "Choose the export folder"
 
+        # --- Export Format ---
+        LblExportFormat   = "Export format:"
+        OptCsvSiemens     = "CSV (Siemens)"
+        OptVarLstEwon     = "var_lst (Ewon)"
+        LblEwonRepere     = "Ewon Reference:"
+        LblEwonTopic      = "Topic:"
+        LblEwonPage       = "Page:"
+        BtnExportEwon     = "Export var_lst"
+        TipExportEwon     = "Export selected DataBlocks as var_lst.csv (Ewon Flexy)"
+        MsgExportEwonDone = "var_lst export completed!"
+
         # --- Language ---
         LangLabel         = "Language:"
     }
@@ -320,6 +342,16 @@ $Script:Strings = @{
         TipExport         = "Exportar DataBlocks seleccionados como archivos .db"
         TipExportCsv      = "Exportar DataBlocks seleccionados como tabla CSV (1 archivo por PLC)"
         TipBrowse         = "Elegir la carpeta de exportacion"
+        # --- Export Format ---
+        LblExportFormat   = "Formato de exportacion:"
+        OptCsvSiemens     = "CSV (Siemens)"
+        OptVarLstEwon     = "var_lst (Ewon)"
+        LblEwonRepere     = "Referencia Ewon:"
+        LblEwonTopic      = "Topic:"
+        LblEwonPage       = "Pagina:"
+        BtnExportEwon     = "Exportar var_lst"
+        TipExportEwon     = "Exportar DataBlocks seleccionados como var_lst.csv (Ewon Flexy)"
+        MsgExportEwonDone = "Exportacion var_lst completada!"
         LangLabel         = "Idioma:"
     }
 
@@ -414,6 +446,16 @@ $Script:Strings = @{
         TipExport         = "Esportare i DataBlocks selezionati come file .db"
         TipExportCsv      = "Esportare i DataBlocks selezionati come tabella CSV (1 file per PLC)"
         TipBrowse         = "Scegliere la cartella di esportazione"
+        # --- Export Format ---
+        LblExportFormat   = "Formato di esportazione:"
+        OptCsvSiemens     = "CSV (Siemens)"
+        OptVarLstEwon     = "var_lst (Ewon)"
+        LblEwonRepere     = "Riferimento Ewon:"
+        LblEwonTopic      = "Topic:"
+        LblEwonPage       = "Pagina:"
+        BtnExportEwon     = "Esporta var_lst"
+        TipExportEwon     = "Esportare i DataBlocks selezionati come var_lst.csv (Ewon Flexy)"
+        MsgExportEwonDone = "Esportazione var_lst completata!"
         LangLabel         = "Lingua:"
     }
 }

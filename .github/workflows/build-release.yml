@@ -1,0 +1,107 @@
+name: Build and Release
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Build Script
+        run: |
+          # Build a single .ps1 with UTF-8 BOM (required by PowerShell 5.1 for accented chars)
+          # 1. Write UTF-8 BOM
+          printf '\xEF\xBB\xBF' > ./TIA-Openness-Tool_latest.ps1
+
+          # 2. Concatenate modules in dependency order, stripping any embedded BOMs
+          for f in \
+            ./scripts/modules/AppState.ps1 \
+            ./scripts/modules/Localization.ps1 \
+            ./scripts/modules/TiaVersions.ps1 \
+            ./scripts/modules/TiaConnection.ps1 \
+            ./scripts/modules/TiaDataBlocks.ps1 \
+            ./scripts/modules/TiaExport.ps1 \
+            ./scripts/modules/TiaExportTable.ps1 \
+            ./scripts/modules/UIHelpers.ps1 \
+            ./scripts/modules/UI.ps1 \
+            ./scripts/TIA-Openness-Tool.ps1; do
+            LC_ALL=C sed '1s/^\xEF\xBB\xBF//' "$f" >> ./TIA-Openness-Tool_latest.ps1
+          done
+
+          # 3. Embed units.json as inline data (required for Ewon export)
+          # Insert a PowerShell variable containing the JSON before the main entry point
+          UNITS_JSON=$(cat ./scripts/data/units.json)
+          # Create a temp file with the embedded data
+          printf '\xEF\xBB\xBF' > ./TIA-Openness-Tool_latest_final.ps1
+
+          # Write everything before TIA-Openness-Tool.ps1 marker, then inject data, then the rest
+          # Simpler: rebuild with embedded JSON block inserted before the main script
+          printf '\xEF\xBB\xBF' > ./TIA-Openness-Tool_latest.ps1
+          for f in \
+            ./scripts/modules/AppState.ps1 \
+            ./scripts/modules/Localization.ps1 \
+            ./scripts/modules/TiaVersions.ps1 \
+            ./scripts/modules/TiaConnection.ps1 \
+            ./scripts/modules/TiaDataBlocks.ps1 \
+            ./scripts/modules/TiaExport.ps1 \
+            ./scripts/modules/TiaExportTable.ps1 \
+            ./scripts/modules/UIHelpers.ps1 \
+            ./scripts/modules/UI.ps1; do
+            LC_ALL=C sed '1s/^\xEF\xBB\xBF//' "$f" >> ./TIA-Openness-Tool_latest.ps1
+          done
+
+          # Embed units.json as a here-string variable
+          echo '' >> ./TIA-Openness-Tool_latest.ps1
+          echo '# =================== EMBEDDED DATA (units.json) ===================' >> ./TIA-Openness-Tool_latest.ps1
+          echo '$Script:EmbeddedUnitsJson = @'"'"'' >> ./TIA-Openness-Tool_latest.ps1
+          cat ./scripts/data/units.json >> ./TIA-Openness-Tool_latest.ps1
+          echo '' >> ./TIA-Openness-Tool_latest.ps1
+          echo ''"'"'@' >> ./TIA-Openness-Tool_latest.ps1
+          echo '' >> ./TIA-Openness-Tool_latest.ps1
+
+          # Append main entry point
+          LC_ALL=C sed '1s/^\xEF\xBB\xBF//' ./scripts/TIA-Openness-Tool.ps1 >> ./TIA-Openness-Tool_latest.ps1
+
+          # Clean temp
+          rm -f ./TIA-Openness-Tool_latest_final.ps1
+
+      - name: Load release body template
+        id: release_body
+        run: |
+          # Read the release body template
+          BODY_TEMPLATE=$(cat .github/release-body.md)
+
+          # Replace placeholders
+          BODY="${BODY_TEMPLATE}"
+          BODY="${BODY//\{\{VERSION\}\}/${{ github.ref_name }}}"
+          BODY="${BODY//\{\{DATE\}\}/$(date +'%Y-%m-%d')}"
+          BODY="${BODY//\{\{COMMIT_SHA\}\}/${{ github.sha }}}"
+          BODY="${BODY//\{\{COMMIT_MSG\}\}/${{ github.event.head_commit.message }}}"
+
+          # Save to file for the release action
+          echo "$BODY" > release_notes.md
+
+          # Append commits list
+          echo "" >> release_notes.md
+          echo "## Commits inclus" >> release_notes.md
+          git log -10 --pretty=format:"- %s (%h)" >> release_notes.md
+
+          echo "Release notes generated"
+
+      - name: Publish Latest Release
+        uses: ncipollo/release-action@v1
+        with:
+          tag: latest
+          name: Latest Release
+          bodyFile: release_notes.md
+          artifacts: ./TIA-Openness-Tool_latest.ps1
+          allowUpdates: true
+          removeArtifacts: true

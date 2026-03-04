@@ -219,6 +219,7 @@ $Script:MainXaml = @'
           <RowDefinition Height="Auto"/>
           <RowDefinition Height="*"/>
           <RowDefinition Height="Auto"/>
+          <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
         <TextBlock Grid.Row="0" x:Name="txtExportTitle" Text="Export DataBlocks"
@@ -267,8 +268,33 @@ $Script:MainXaml = @'
                    ScrollViewer.HorizontalScrollBarVisibility="Disabled"/>
         </Border>
 
+        <!-- Format selector + Ewon config -->
+        <Border Grid.Row="5" x:Name="brdFormatConfig" Background="#FFF7ED" BorderBrush="#FED7AA"
+                BorderThickness="1" CornerRadius="4" Padding="12" Margin="0,8,0,0">
+          <StackPanel>
+            <StackPanel Orientation="Horizontal" Margin="0,0,0,0">
+              <TextBlock x:Name="txtExportFormatLabel" Text="Format d'export :" FontSize="12"
+                         VerticalAlignment="Center" Margin="0,0,8,0"/>
+              <ComboBox x:Name="cbExportFormat" Width="200" Height="28" FontSize="12"/>
+            </StackPanel>
+            <StackPanel x:Name="pnlEwonConfig" Visibility="Collapsed" Orientation="Horizontal"
+                        Margin="0,8,0,0">
+              <TextBlock x:Name="txtEwonRepereLabel" Text="Repere Ewon :" FontSize="12"
+                         VerticalAlignment="Center" Margin="0,0,8,0"/>
+              <TextBox x:Name="txtEwonRepere" Width="100" Height="28" FontSize="12"
+                       Padding="4,2" Margin="0,0,16,0"/>
+              <TextBlock x:Name="txtEwonTopicLabel" Text="Topic :" FontSize="12"
+                         VerticalAlignment="Center" Margin="0,0,8,0"/>
+              <ComboBox x:Name="cbEwonTopic" Width="60" Height="28" FontSize="12" Margin="0,0,16,0"/>
+              <TextBlock x:Name="txtEwonPageLabel" Text="Page :" FontSize="12"
+                         VerticalAlignment="Center" Margin="0,0,8,0"/>
+              <ComboBox x:Name="cbEwonPage" Width="60" Height="28" FontSize="12"/>
+            </StackPanel>
+          </StackPanel>
+        </Border>
+
         <!-- Export section -->
-        <Border Grid.Row="5" Background="White" BorderBrush="#E2E8F0" BorderThickness="1"
+        <Border Grid.Row="6" Background="White" BorderBrush="#E2E8F0" BorderThickness="1"
                 CornerRadius="4" Padding="16" Margin="0,12,0,0">
           <Grid>
             <Grid.ColumnDefinitions>
@@ -333,6 +359,9 @@ function Initialize-MainWindow {
         "btnLoadDBs", "btnSelectAll", "btnDeselectAll", "chkHideInstance", "txtDBCount",
         "lbDataBlocks",
         "brdPlcInfo", "spPlcInfo",
+        "brdFormatConfig", "txtExportFormatLabel", "cbExportFormat",
+        "pnlEwonConfig", "txtEwonRepereLabel", "txtEwonRepere",
+        "txtEwonTopicLabel", "cbEwonTopic", "txtEwonPageLabel", "cbEwonPage",
         "txtExportFolderLabel", "txtExportFolder", "btnBrowseFolder", "btnExportCsv"
     )
     foreach ($name in $elementNames) {
@@ -479,8 +508,18 @@ function Update-AllTexts {
     $Script:ui_btnSelectAll.Content = T "BtnSelectAll"
     $Script:ui_btnDeselectAll.Content = T "BtnDeselectAll"
     $Script:ui_chkHideInstance.Content = T "LblHideInstanceDB"
+    $Script:ui_txtExportFormatLabel.Text = T "LblExportFormat"
+    $Script:ui_txtEwonRepereLabel.Text = T "LblEwonRepere"
+    $Script:ui_txtEwonTopicLabel.Text = T "LblEwonTopic"
+    $Script:ui_txtEwonPageLabel.Text = T "LblEwonPage"
     $Script:ui_txtExportFolderLabel.Text = T "LblExportFolder"
-    $Script:ui_btnExportCsv.Content = T "BtnExportCsv"
+    # Update export button based on current format
+    $fmt = $Script:ui_cbExportFormat.SelectedIndex
+    if ($fmt -eq 1) {
+        $Script:ui_btnExportCsv.Content = T "BtnExportEwon"
+    } else {
+        $Script:ui_btnExportCsv.Content = T "BtnExportCsv"
+    }
 
     # Export folder default text
     if (-not (Get-AppState).ExportFolder) {
@@ -501,7 +540,11 @@ function Update-AllTexts {
     $Script:ui_btnConnect.ToolTip = T "TipConnect"
     $Script:ui_btnDisconnect.ToolTip = T "TipDisconnect"
     $Script:ui_btnLoadDBs.ToolTip = T "TipLoadDBs"
-    $Script:ui_btnExportCsv.ToolTip = T "TipExportCsv"
+    if ($Script:ui_cbExportFormat.SelectedIndex -eq 1) {
+        $Script:ui_btnExportCsv.ToolTip = T "TipExportEwon"
+    } else {
+        $Script:ui_btnExportCsv.ToolTip = T "TipExportCsv"
+    }
     $Script:ui_btnBrowseFolder.ToolTip = T "TipBrowse"
 }
 
@@ -624,7 +667,43 @@ function Register-ConnectionEvents {
 
 # =================== EXPORT EVENTS ===================
 
+function Initialize-FormatSelector {
+    # Populate format ComboBox
+    $Script:ui_cbExportFormat.Items.Clear()
+    $Script:ui_cbExportFormat.Items.Add((T "OptCsvSiemens")) | Out-Null
+    $Script:ui_cbExportFormat.Items.Add((T "OptVarLstEwon")) | Out-Null
+    $Script:ui_cbExportFormat.SelectedIndex = 0
+
+    # Populate Ewon Topic ComboBox
+    $Script:ui_cbEwonTopic.Items.Clear()
+    foreach ($t in @("A","B","C")) { $Script:ui_cbEwonTopic.Items.Add($t) | Out-Null }
+    $Script:ui_cbEwonTopic.SelectedIndex = 0
+
+    # Populate Ewon Page ComboBox
+    $Script:ui_cbEwonPage.Items.Clear()
+    for ($i = 1; $i -le 11; $i++) { $Script:ui_cbEwonPage.Items.Add($i) | Out-Null }
+    $Script:ui_cbEwonPage.SelectedIndex = 0
+
+    # Format change event — show/hide Ewon config, update button text
+    $Script:ui_cbExportFormat.Add_SelectionChanged({
+        if ($Script:ui_cbExportFormat.SelectedIndex -eq 1) {
+            $Script:ui_pnlEwonConfig.Visibility = [System.Windows.Visibility]::Visible
+            $Script:ui_btnExportCsv.Content = T "BtnExportEwon"
+            $Script:ui_btnExportCsv.ToolTip = T "TipExportEwon"
+            Set-AppStateValue -Key "ExportFormat" -Value "EWON"
+        } else {
+            $Script:ui_pnlEwonConfig.Visibility = [System.Windows.Visibility]::Collapsed
+            $Script:ui_btnExportCsv.Content = T "BtnExportCsv"
+            $Script:ui_btnExportCsv.ToolTip = T "TipExportCsv"
+            Set-AppStateValue -Key "ExportFormat" -Value "CSV"
+        }
+    })
+}
+
 function Register-ExportEvents {
+    # Initialize format selector
+    Initialize-FormatSelector
+
     # Load DataBlocks
     $Script:ui_btnLoadDBs.Add_Click({
         if (-not (Get-AppState).IsConnected) {
@@ -693,10 +772,26 @@ function Register-ExportEvents {
             $Script:ui_Window.Cursor = [System.Windows.Input.Cursors]::Wait
 
             $folder = New-ExportFolder -BasePath $state.ExportFolder
-            $result = Invoke-TableExport -SelectedBlocks $selected -OutputFolder $folder
+            $format = $state.ExportFormat
+
+            $ewonConfig = $null
+            if ($format -eq "EWON") {
+                # Read Ewon config from UI
+                $ewonConfig = @{
+                    Repere = $Script:ui_txtEwonRepere.Text
+                    Topic  = $Script:ui_cbEwonTopic.SelectedItem
+                    PageId = $Script:ui_cbEwonPage.SelectedItem
+                }
+                Set-AppStateValue -Key "EwonRepere" -Value $ewonConfig.Repere
+                Set-AppStateValue -Key "EwonTopic" -Value $ewonConfig.Topic
+                Set-AppStateValue -Key "EwonPageId" -Value $ewonConfig.PageId
+            }
+
+            $result = Invoke-TableExport -SelectedBlocks $selected -OutputFolder $folder -Format $format -EwonConfig $ewonConfig
             $summary = Get-ExportSummary -Result $result
+            $doneKey = if ($format -eq "EWON") { "MsgExportEwonDone" } else { "MsgExportCsvDone" }
             $icon = if ($result.ErrorCount -gt 0 -or $result.OptimizedDBs.Count -gt 0) { "Warning" } else { "Information" }
-            [System.Windows.MessageBox]::Show($summary, (T "MsgExportCsvDone"), "OK", $icon)
+            [System.Windows.MessageBox]::Show($summary, (T $doneKey), "OK", $icon)
         } catch {
             [System.Windows.MessageBox]::Show(
                 ((T "MsgLoadError") -f $_.Exception.Message),

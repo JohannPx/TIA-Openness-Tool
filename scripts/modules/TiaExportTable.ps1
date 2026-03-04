@@ -9,7 +9,13 @@ function Export-BlockToXml {
         [string]$TempFolder
     )
 
-    $fileName = "DB$($Block.Number)_$($Block.Name).xml"
+    # PlcType (UDT) has no .Number property — use Name only
+    $blockName = $Block.Name -replace '[\\/:*?"<>|]', '_'
+    try {
+        $fileName = "DB$($Block.Number)_${blockName}.xml"
+    } catch {
+        $fileName = "TYPE_${blockName}.xml"
+    }
     $xmlPath = Join-Path $TempFolder $fileName
 
     $fileInfo = [System.IO.FileInfo]::new($xmlPath)
@@ -106,6 +112,70 @@ function Get-BlockMemoryLayout {
     return "Unknown"
 }
 
+function Get-CommentsFromXml {
+    # Recursively extract member comments from a SimaticML XML (FB or UDT)
+    # Returns a hashtable: "Path.To.Member" → "comment text"
+    param(
+        [System.Xml.XmlNode]$ParentNode,
+        [string]$ParentPath = ""
+    )
+
+    $comments = @{}
+    foreach ($child in $ParentNode.ChildNodes) {
+        if ($child.LocalName -ne "Member") { continue }
+
+        $name = $child.GetAttribute("Name")
+        $fullPath = if ($ParentPath) { "$ParentPath.$name" } else { $name }
+
+        # Extract comment
+        foreach ($cn in $child.ChildNodes) {
+            if ($cn.LocalName -eq "Comment") {
+                foreach ($mlText in $cn.ChildNodes) {
+                    if ($mlText.LocalName -eq "MultiLanguageText" -and -not [string]::IsNullOrEmpty($mlText.InnerText)) {
+                        $comments[$fullPath] = $mlText.InnerText
+                        break
+                    }
+                }
+                break
+            }
+        }
+
+        # Recurse into child Members (Struct)
+        $hasChildMembers = $false
+        foreach ($sub in $child.ChildNodes) {
+            if ($sub.LocalName -eq "Member") { $hasChildMembers = $true; break }
+        }
+        if ($hasChildMembers) {
+            $childComments = Get-CommentsFromXml -ParentNode $child -ParentPath $fullPath
+            foreach ($key in $childComments.Keys) { $comments[$key] = $childComments[$key] }
+        }
+
+        # Recurse into Sections (UDT/FB sub-types)
+        foreach ($sub in $child.ChildNodes) {
+            if ($sub.LocalName -eq "Sections") {
+                foreach ($section in $sub.ChildNodes) {
+                    if ($section.LocalName -eq "Section") {
+                        $childComments = Get-CommentsFromXml -ParentNode $section -ParentPath $fullPath
+                        foreach ($key in $childComments.Keys) { $comments[$key] = $childComments[$key] }
+                    }
+                }
+            }
+        }
+    }
+    return $comments
+}
+
+function Get-InstanceOfName {
+    # Detect if a SimaticML XML is an instance DB and return the FB/UDT name
+    param([xml]$XmlDoc)
+
+    $node = $XmlDoc.GetElementsByTagName("InstanceOfName")
+    if ($node.Count -gt 0 -and -not [string]::IsNullOrEmpty($node[0].InnerText)) {
+        return $node[0].InnerText
+    }
+    return $null
+}
+
 function Parse-SimaticMlMembers {
     param(
         [string]$XmlPath,
@@ -161,7 +231,9 @@ function Parse-MemberNodes {
         [System.Xml.XmlNamespaceManager]$Nsmgr,
         [string]$Prefix,
         [hashtable]$OffsetState,
-        [string]$SectionName = ""
+        [string]$SectionName = "",
+        [string]$CurrentUdtType = "",
+        [string]$UdtRelativePath = ""
     )
 
     $results = @()
@@ -183,17 +255,18 @@ function Parse-MemberNodes {
         # Skip system/internal members (starting with __)
         if ($name -match '^__') { continue }
 
-        # Get comment (multi-language text - take first available)
+        # Get comment (multi-language text - take first non-empty)
         $comment = ""
-        $commentNodes = @(
-            if ($Nsmgr) {
-                $member.SelectNodes("${Prefix}Comment/${Prefix}MultiLanguageText", $Nsmgr)
-            } else {
-                $member.SelectNodes("Comment/MultiLanguageText")
+        foreach ($childNode in $member.ChildNodes) {
+            if ($childNode.LocalName -eq "Comment") {
+                foreach ($mlText in $childNode.ChildNodes) {
+                    if ($mlText.LocalName -eq "MultiLanguageText" -and -not [string]::IsNullOrEmpty($mlText.InnerText)) {
+                        $comment = $mlText.InnerText
+                        break
+                    }
+                }
+                break
             }
-        )
-        if ($commentNodes.Count -gt 0 -and $commentNodes[0]) {
-            $comment = $commentNodes[0].InnerText
         }
 
         # Detect child structure early (needed for InOut complex type check)
@@ -217,31 +290,26 @@ function Parse-MemberNodes {
         $handledAsOpaque = $false
 
         # InOut complex types: stored as 6-byte ANY pointer in non-optimized layout
+        # Not shown in CSV but offset must be accounted for
         if ($SectionName -eq "InOut" -and $isComplex) {
-            $offset = ""
             if ($OffsetState -and $OffsetState.Enabled) {
                 # Close bits and word-align
                 if ($OffsetState.Bit -gt 0) { $OffsetState.Byte++; $OffsetState.Bit = 0 }
                 if ($OffsetState.Byte % 2 -ne 0) { $OffsetState.Byte++ }
-                $offset = "$($OffsetState.Byte)"
                 $OffsetState.Byte += 6  # 6-byte ANY pointer
-            }
-            $results += @{
-                Name     = $fullPath
-                DataType = $dataType
-                Offset   = $offset
-                Comment  = $comment
-                DbNumber = $DbNumber
             }
             $handledAsOpaque = $true
         }
-        # Struct (direct child Members)
+        # Struct (direct child Members) — keep same UDT context, extend relative path
         elseif ($directChildren.Count -gt 0) {
             if ($OffsetState -and $OffsetState.Enabled) { Align-OffsetState -State $OffsetState }
-            $childResults += @(Parse-MemberNodes -ParentNode $member -ParentPath $fullPath -DbNumber $DbNumber -Nsmgr $Nsmgr -Prefix $Prefix -OffsetState $OffsetState -SectionName $SectionName)
+            $childUdtPath = if ($CurrentUdtType) {
+                if ($UdtRelativePath) { "$UdtRelativePath.$name" } else { $name }
+            } else { "" }
+            $childResults += @(Parse-MemberNodes -ParentNode $member -ParentPath $fullPath -DbNumber $DbNumber -Nsmgr $Nsmgr -Prefix $Prefix -OffsetState $OffsetState -SectionName $SectionName -CurrentUdtType $CurrentUdtType -UdtRelativePath $childUdtPath)
             if ($OffsetState -and $OffsetState.Enabled) { Align-OffsetState -State $OffsetState }
         }
-        # Sections (FB instances / UDTs)
+        # Sections (FB instances / UDTs) — enter new UDT context
         elseif ($allSections.Count -gt 0) {
             $isUserType = $dataType.StartsWith('"')
 
@@ -250,11 +318,12 @@ function Parse-MemberNodes {
                 # Skip entirely — not present in export, no offset calculation
                 $handledAsOpaque = $true
             } else {
-                # User FB or UDT — expand all sections
+                # User FB or UDT — expand all sections, reset UDT context to this type
+                $udtName = $dataType.Trim('"')
                 if ($OffsetState -and $OffsetState.Enabled) { Align-OffsetState -State $OffsetState }
                 foreach ($sectionNode in $allSections) {
                     $secName = $sectionNode.GetAttribute("Name")
-                    $childResults += @(Parse-MemberNodes -ParentNode $sectionNode -ParentPath $fullPath -DbNumber $DbNumber -Nsmgr $Nsmgr -Prefix $Prefix -OffsetState $OffsetState -SectionName $secName)
+                    $childResults += @(Parse-MemberNodes -ParentNode $sectionNode -ParentPath $fullPath -DbNumber $DbNumber -Nsmgr $Nsmgr -Prefix $Prefix -OffsetState $OffsetState -SectionName $secName -CurrentUdtType $udtName -UdtRelativePath "")
                     # Align between sections
                     if ($OffsetState -and $OffsetState.Enabled) { Align-OffsetState -State $OffsetState }
                 }
@@ -264,45 +333,92 @@ function Parse-MemberNodes {
         if ($childResults.Count -gt 0) {
             $results += $childResults
         } elseif (-not $handledAsOpaque) {
-            # Leaf member — calculate offset
-            $offset = ""
-            if ($OffsetState -and $OffsetState.Enabled) {
-                $typeInfo = Get-S7TypeInfo -DataType $dataType
-                if ($typeInfo) {
-                    if ($typeInfo.IsBit) {
-                        # Bool: show byte.bit format (e.g. "0.0", "0.1")
-                        $offset = "$($OffsetState.Byte).$($OffsetState.Bit)"
-                        $OffsetState.Bit++
-                        if ($OffsetState.Bit -ge 8) {
-                            $OffsetState.Byte++
-                            $OffsetState.Bit = 0
+            # Compute UDT-relative path for comment resolution
+            $leafUdtPath = if ($CurrentUdtType) {
+                if ($UdtRelativePath) { "$UdtRelativePath.$name" } else { $name }
+            } else { $fullPath }
+
+            # Check if this is an Array type to expand into individual elements
+            $dtClean = $dataType.Trim('"')
+            $isArray = $dtClean -match '^Array\s*\[(\d+)\.\.(\d+)\]\s+of\s+(.+)$'
+
+            if ($isArray) {
+                $arrLo = [int]$Matches[1]; $arrHi = [int]$Matches[2]
+                $baseType = $Matches[3].Trim()
+                $elemInfo = Get-S7TypeInfo -DataType $baseType
+
+                if ($elemInfo) {
+                    # Word-align before array start
+                    if ($OffsetState -and $OffsetState.Enabled) {
+                        if ($OffsetState.Bit -gt 0) { $OffsetState.Byte++; $OffsetState.Bit = 0 }
+                        if ($OffsetState.Byte % 2 -ne 0) { $OffsetState.Byte++ }
+                    }
+
+                    for ($arrIdx = $arrLo; $arrIdx -le $arrHi; $arrIdx++) {
+                        $elemOffset = ""
+                        if ($OffsetState -and $OffsetState.Enabled) {
+                            if ($elemInfo.IsBit) {
+                                $elemOffset = "$($OffsetState.Byte).$($OffsetState.Bit)"
+                                $OffsetState.Bit++
+                                if ($OffsetState.Bit -ge 8) { $OffsetState.Byte++; $OffsetState.Bit = 0 }
+                            } else {
+                                $elemOffset = "$($OffsetState.Byte).0"
+                                $OffsetState.Byte += $elemInfo.Bytes
+                            }
                         }
-                    } else {
-                        # Close pending bits
-                        if ($OffsetState.Bit -gt 0) {
-                            $OffsetState.Byte++
-                            $OffsetState.Bit = 0
+                        $results += @{
+                            Name     = "${fullPath}[${arrIdx}]"
+                            DataType = $baseType
+                            Offset   = $elemOffset
+                            Comment  = $comment
+                            DbNumber = $DbNumber
+                            UdtType  = $CurrentUdtType
+                            UdtPath  = $leafUdtPath
                         }
-                        # Word alignment for 2+ byte types
-                        if ($typeInfo.WordAlign -and ($OffsetState.Byte % 2 -ne 0)) {
-                            $OffsetState.Byte++
-                        }
-                        # Non-Bool: show byte only (e.g. "48")
-                        $offset = "$($OffsetState.Byte)"
-                        $OffsetState.Byte += $typeInfo.Bytes
                     }
                 } else {
-                    # Unknown type: disable offset tracking from here
-                    $OffsetState.Enabled = $false
+                    # Unknown base type — emit as single entry without expansion
+                    $results += @{
+                        Name     = $fullPath
+                        DataType = $dataType
+                        Offset   = ""
+                        Comment  = $comment
+                        DbNumber = $DbNumber
+                        UdtType  = $CurrentUdtType
+                        UdtPath  = $leafUdtPath
+                    }
+                    if ($OffsetState -and $OffsetState.Enabled) { $OffsetState.Enabled = $false }
                 }
-            }
+            } else {
+                # Regular leaf member — calculate offset
+                $offset = ""
+                if ($OffsetState -and $OffsetState.Enabled) {
+                    $typeInfo = Get-S7TypeInfo -DataType $dataType
+                    if ($typeInfo) {
+                        if ($typeInfo.IsBit) {
+                            $offset = "$($OffsetState.Byte).$($OffsetState.Bit)"
+                            $OffsetState.Bit++
+                            if ($OffsetState.Bit -ge 8) { $OffsetState.Byte++; $OffsetState.Bit = 0 }
+                        } else {
+                            if ($OffsetState.Bit -gt 0) { $OffsetState.Byte++; $OffsetState.Bit = 0 }
+                            if ($typeInfo.WordAlign -and ($OffsetState.Byte % 2 -ne 0)) { $OffsetState.Byte++ }
+                            $offset = "$($OffsetState.Byte).0"
+                            $OffsetState.Byte += $typeInfo.Bytes
+                        }
+                    } else {
+                        $OffsetState.Enabled = $false
+                    }
+                }
 
-            $results += @{
-                Name     = $fullPath
-                DataType = $dataType
-                Offset   = $offset
-                Comment  = $comment
-                DbNumber = $DbNumber
+                $results += @{
+                    Name     = $fullPath
+                    DataType = $dataType
+                    Offset   = $offset
+                    Comment  = $comment
+                    DbNumber = $DbNumber
+                    UdtType  = $CurrentUdtType
+                    UdtPath  = $leafUdtPath
+                }
             }
         }
     }
@@ -318,10 +434,10 @@ function New-ExportFolder {
     if (-not $BasePath) {
         $BasePath = [Environment]::GetFolderPath('Desktop')
     }
-    $timestamp = Get-Date -Format "yyyyMMdd_HHmmss"
-    $folderPath = Join-Path $BasePath "ExportDB_$timestamp"
-    New-Item -ItemType Directory -Path $folderPath -Force | Out-Null
-    return $folderPath
+    if (-not (Test-Path $BasePath)) {
+        New-Item -ItemType Directory -Path $BasePath -Force | Out-Null
+    }
+    return $BasePath
 }
 
 function Write-CsvHeader {
@@ -355,12 +471,255 @@ function Write-CsvMemberRow {
     $Writer.WriteLine("$name;$($Member.DbNumber);$offset;$($Member.DataType);$comment;;;")
 }
 
+# =================== EWON VAR_LST FORMAT ===================
+
+# S7 address format suffixes for Ewon (from edgeMap S7_FORMAT)
+$Script:S7_EWON_FORMAT = @{
+    "Bool"="B"; "Byte"="B"; "SInt"="B"; "USInt"="B"
+    "Int"="S"; "UInt"="W"; "Word"="W"; "S5Time"="S"; "Date"="S"
+    "DInt"="L"; "UDInt"="D"; "DWord"="D"; "Real"="F"; "Time"="L"; "TOD"="L"; "Time_Of_Day"="L"
+    "LWord"="D"; "LInt"="L"; "ULInt"="D"; "LReal"="F"; "LTime"="L"
+    "Date_And_Time"="D"; "DTL"="D"; "String"="W"; "WString"="W"
+}
+
+# Ewon display type: 0=BOOL, 1=Float, 2=Int(8/16bit), 3=DWord(32/64bit)
+$Script:EWON_TYPE_MAP = @{
+    "Bool"=0
+    "Byte"=2; "SInt"=2; "USInt"=2; "Char"=2
+    "Int"=2; "UInt"=2; "Word"=2; "S5Time"=2; "Date"=2
+    "DInt"=3; "UDInt"=3; "DWord"=3; "Time"=3; "TOD"=3; "Time_Of_Day"=3
+    "Real"=1; "LReal"=1
+    "LInt"=3; "ULInt"=3; "LWord"=3; "LTime"=3
+    "Date_And_Time"=3; "DTL"=3; "String"=2; "WString"=2
+}
+
+# 62-column var_lst header (Ewon Flexy format)
+$Script:VAR_LST_COLUMNS = @(
+    @{N="Id";T="num"};@{N="Name";T="str"};@{N="Description";T="str"};@{N="ServerName";T="str"}
+    @{N="TopicName";T="str"};@{N="Address";T="str"};@{N="Coef";T="num"};@{N="Offset";T="num"}
+    @{N="LogEnabled";T="num"};@{N="AlEnabled";T="num"};@{N="AlBool";T="num"};@{N="MemTag";T="num"}
+    @{N="MbsTcpEnabled";T="num"};@{N="MbsTcpFloat";T="num"};@{N="SnmpEnabled";T="num"}
+    @{N="RTLogEnabled";T="num"};@{N="AlAutoAck";T="num"};@{N="ForceRO";T="num"}
+    @{N="SnmpOID";T="num"};@{N="AutoType";T="num"};@{N="AlHint";T="str"};@{N="AlHigh";T="num"}
+    @{N="AlLow";T="num"};@{N="AlTimeDB";T="num"};@{N="AlLevelDB";T="num"}
+    @{N="IVGroupA";T="num"};@{N="IVGroupB";T="num"};@{N="IVGroupC";T="num"};@{N="IVGroupD";T="num"}
+    @{N="PageId";T="num"};@{N="RTLogWindow";T="num"};@{N="RTLogTimer";T="num"}
+    @{N="LogDB";T="num"};@{N="LogTimer";T="num"};@{N="AlLoLo";T="num"};@{N="AlHiHi";T="num"}
+    @{N="MbsTcpRegister";T="num"};@{N="MbsTcpCoef";T="num"};@{N="MbsTcpOffset";T="num"}
+    @{N="EEN";T="num"};@{N="ETO";T="str"};@{N="ECC";T="str"};@{N="ESU";T="str"};@{N="EAT";T="str"}
+    @{N="ESH";T="num"};@{N="SEN";T="num"};@{N="STO";T="str"};@{N="SSU";T="str"}
+    @{N="TEN";T="num"};@{N="TSU";T="str"};@{N="FEN";T="num"};@{N="FFN";T="str"};@{N="FCO";T="str"}
+    @{N="KPI";T="num"};@{N="UseCustomUnit";T="num"};@{N="Type";T="num"};@{N="Unit";T="str"}
+    @{N="AlStat";T="num"};@{N="ChangeTime";T="str"};@{N="TagValue";T="num"}
+    @{N="TagQuality";T="num"};@{N="AlType";T="num"}
+)
+
+# Float column indices (0-based) — formatted with 6 decimal places
+$Script:EWON_FLOAT_COLS = @(6, 7, 21, 22, 24, 32, 37, 38)
+
+# Unit lookup cache
+$Script:UnitLookup = $null
+
+function Get-UnitLookup {
+    if ($Script:UnitLookup) { return $Script:UnitLookup }
+
+    $Script:UnitLookup = @{}
+    $jsonRaw = $null
+
+    # Priority 1: Embedded JSON (release mode — single .ps1)
+    if ($Script:EmbeddedUnitsJson) {
+        $jsonRaw = $Script:EmbeddedUnitsJson
+    } else {
+        # Priority 2: External file (dev mode — modules folder)
+        $jsonPath = Join-Path $PSScriptRoot "..\data\units.json"
+        if (Test-Path $jsonPath) {
+            $jsonRaw = Get-Content $jsonPath -Raw -Encoding UTF8
+        }
+    }
+
+    if ($jsonRaw) {
+        try {
+            $units = $jsonRaw | ConvertFrom-Json
+            foreach ($u in $units) {
+                if ($u.displayName -and $u.uneceCode) {
+                    $Script:UnitLookup[$u.displayName] = $u.uneceCode
+                }
+            }
+        } catch {}
+    }
+    return $Script:UnitLookup
+}
+
+function Resolve-EwonUnit {
+    param([string]$Unite)
+
+    if (-not $Unite) { return @{ Unit = ""; UseCustomUnit = 0 } }
+
+    $lookup = Get-UnitLookup
+    $code = $lookup[$Unite]
+    if ($code) {
+        return @{ Unit = $code; UseCustomUnit = 0 }
+    }
+    return @{ Unit = $Unite; UseCustomUnit = 1 }
+}
+
+function Get-EwonS7Address {
+    param(
+        [int]$DbNumber,
+        [string]$Offset,
+        [string]$DataType,
+        [string]$IpAddress,
+        [string]$Tsap
+    )
+
+    if (-not $Offset) { return "" }
+
+    # Parse offset "545.2" → byte=545, bit=2
+    $parts = $Offset.Split('.')
+    $byteOffset = [int]$parts[0]
+    $bitNumber = if ($parts.Count -gt 1) { [int]$parts[1] } else { 0 }
+
+    # Clean datatype (remove quotes from UDT names)
+    $dt = $DataType.Trim('"')
+    $suffix = $Script:S7_EWON_FORMAT[$dt]
+    if (-not $suffix) { $suffix = "W" }
+
+    $address = "DB${DbNumber}${suffix}${byteOffset}"
+
+    # Bool: append #bit
+    if ($dt -eq "Bool") {
+        $address += "#${bitNumber}"
+    }
+
+    # Communication params: ,ISOTCP,{ip},{tsap}
+    if ($IpAddress) {
+        $address += ",ISOTCP,${IpAddress}"
+    }
+    if ($Tsap) {
+        $address += ",${Tsap}"
+    }
+
+    return $address
+}
+
+function Format-EwonStr {
+    param([string]$Value)
+    if (-not $Value) { return '""' }
+    $escaped = $Value.Replace('"', '""')
+    return "`"$escaped`""
+}
+
+function Format-EwonFloat {
+    param($Value)
+    if ($null -eq $Value) { return "" }
+    return ([double]$Value).ToString("F6")
+}
+
+function Write-VarLstHeader {
+    param([System.IO.StreamWriter]$Writer)
+    $header = ($Script:VAR_LST_COLUMNS | ForEach-Object { "`"$($_.N)`"" }) -join ";"
+    $Writer.Write("$header`r`n")
+}
+
+function Write-VarLstMemberRow {
+    param(
+        [System.IO.StreamWriter]$Writer,
+        [hashtable]$Member,
+        [hashtable]$PlcInfo,
+        [hashtable]$EwonConfig
+    )
+
+    $dt = $Member.DataType.Trim('"')
+    $ewonType = $Script:EWON_TYPE_MAP[$dt]
+    if ($null -eq $ewonType) { $ewonType = 0 }
+
+    # Name: {repere}.{memberPath}
+    $tagName = if ($EwonConfig.Repere) { "$($EwonConfig.Repere).$($Member.Name)" } else { $Member.Name }
+
+    # Address
+    $address = Get-EwonS7Address -DbNumber $Member.DbNumber -Offset $Member.Offset -DataType $dt -IpAddress $PlcInfo.IpAddress -Tsap $PlcInfo.Tsap
+
+    # Unit resolution (Member may not have a Unit key)
+    $memberUnit = if ($Member.ContainsKey('Unit')) { $Member.Unit } else { "" }
+    $unitInfo = Resolve-EwonUnit -Unite $memberUnit
+
+    # Build 62-column values array (matching VAR_LST_COLUMNS order)
+    $vals = @(
+        ""                                          #  0 Id (auto)
+        (Format-EwonStr $tagName)                   #  1 Name
+        (Format-EwonStr $Member.Comment)            #  2 Description
+        (Format-EwonStr "S7300")                    #  3 ServerName
+        (Format-EwonStr $EwonConfig.Topic)          #  4 TopicName
+        (Format-EwonStr $address)                   #  5 Address
+        (Format-EwonFloat 1)                        #  6 Coef
+        (Format-EwonFloat 0)                        #  7 Offset (scaling)
+        "1"                                         #  8 LogEnabled
+        "0"                                         #  9 AlEnabled
+        "0"                                         # 10 AlBool
+        "0"                                         # 11 MemTag
+        "0"                                         # 12 MbsTcpEnabled
+        "0"                                         # 13 MbsTcpFloat
+        "0"                                         # 14 SnmpEnabled
+        "0"                                         # 15 RTLogEnabled
+        "0"                                         # 16 AlAutoAck
+        "0"                                         # 17 ForceRO
+        "1"                                         # 18 SnmpOID
+        "0"                                         # 19 AutoType
+        '""'                                        # 20 AlHint
+        (Format-EwonFloat 0)                        # 21 AlHigh
+        (Format-EwonFloat 0)                        # 22 AlLow
+        "0"                                         # 23 AlTimeDB
+        (Format-EwonFloat 0)                        # 24 AlLevelDB
+        "0"                                         # 25 IVGroupA
+        "0"                                         # 26 IVGroupB
+        "0"                                         # 27 IVGroupC
+        "0"                                         # 28 IVGroupD
+        "$($EwonConfig.PageId)"                     # 29 PageId
+        "600"                                       # 30 RTLogWindow
+        "10"                                        # 31 RTLogTimer
+        (Format-EwonFloat (-1))                     # 32 LogDB
+        "60"                                        # 33 LogTimer
+        ""                                          # 34 AlLoLo
+        ""                                          # 35 AlHiHi
+        "1"                                         # 36 MbsTcpRegister
+        (Format-EwonFloat 1)                        # 37 MbsTcpCoef
+        (Format-EwonFloat 0)                        # 38 MbsTcpOffset
+        ""                                          # 39 EEN
+        '""'                                        # 40 ETO
+        '""'                                        # 41 ECC
+        '""'                                        # 42 ESU
+        '""'                                        # 43 EAT
+        ""                                          # 44 ESH
+        ""                                          # 45 SEN
+        '""'                                        # 46 STO
+        '""'                                        # 47 SSU
+        ""                                          # 48 TEN
+        '""'                                        # 49 TSU
+        ""                                          # 50 FEN
+        '""'                                        # 51 FFN
+        '""'                                        # 52 FCO
+        "0"                                         # 53 KPI
+        "$($unitInfo.UseCustomUnit)"                # 54 UseCustomUnit
+        "$ewonType"                                 # 55 Type
+        (Format-EwonStr $unitInfo.Unit)             # 56 Unit
+        "0"                                         # 57 AlStat
+        '""'                                        # 58 ChangeTime
+        "0"                                         # 59 TagValue
+        "65472"                                     # 60 TagQuality
+        "0"                                         # 61 AlType
+    )
+
+    $Writer.Write(($vals -join ";") + "`r`n")
+}
+
 # =================== MAIN EXPORT ORCHESTRATION ===================
 
 function Invoke-TableExport {
     param(
         [array]$SelectedBlocks,
         [string]$OutputFolder,
+        [string]$Format = "CSV",
+        [hashtable]$EwonConfig = $null,
         [scriptblock]$OnProgress
     )
 
@@ -373,11 +732,18 @@ function Invoke-TableExport {
         Files            = @()
     }
 
+    $result.Format = $Format
+
     $state = Get-AppState
     $plcInfoList = $state.PlcDeviceInfoList
 
-    # Create temp folder for XML exports
-    $tempFolder = Join-Path $OutputFolder "_temp_xml"
+    # Load unit lookup for Ewon format
+    if ($Format -eq "EWON") {
+        Get-UnitLookup | Out-Null
+    }
+
+    # Create temp folder for XML exports (in system temp)
+    $tempFolder = Join-Path ([System.IO.Path]::GetTempPath()) "TIA_Export_$([guid]::NewGuid().ToString('N'))"
     New-Item -ItemType Directory -Path $tempFolder -Force | Out-Null
 
     try {
@@ -393,6 +759,7 @@ function Invoke-TableExport {
 
         $totalBlocks = $SelectedBlocks.Count
         $currentBlock = 0
+        $typeCommentCache = @{}  # Cache: TypeName → @{ "member.path" → "comment" }
 
         foreach ($plcIdx in ($blocksByPlc.Keys | Sort-Object)) {
             $plcBlocks = $blocksByPlc[$plcIdx]
@@ -400,21 +767,31 @@ function Invoke-TableExport {
             # Get PLC info
             $plcInfo = $plcInfoList | Where-Object { $_.PlcIndex -eq $plcIdx } | Select-Object -First 1
             if (-not $plcInfo) {
-                $plcInfo = @{ PlcIndex = $plcIdx; Name = "PLC_$plcIdx"; IpAddress = ""; Rack = 0; Slot = 2; Tsap = "3.02" }
+                $plcInfo = @{ PlcIndex = $plcIdx; Name = "PLC_$plcIdx"; IpAddress = ""; Rack = 0; Slot = 2; Tsap = "03.02" }
             }
 
-            # Create CSV file
+            # Create output file
             $safeName = $plcInfo.Name -replace '[\\/:*?"<>|]', '_'
             $timestamp = Get-Date -Format "yyyyMMdd_HHmmss"
-            $csvFileName = "${safeName}_Export_${timestamp}.csv"
-            $csvPath = Join-Path $OutputFolder $csvFileName
 
-            # Open StreamWriter with UTF-8 BOM (for Excel compatibility)
-            $encoding = New-Object System.Text.UTF8Encoding($true)
+            if ($Format -eq "EWON") {
+                $csvFileName = "var_lst_${safeName}.csv"
+                $csvPath = Join-Path $OutputFolder $csvFileName
+                $encoding = [System.Text.Encoding]::GetEncoding("iso-8859-1")
+            } else {
+                $csvFileName = "${safeName}_Export_${timestamp}.csv"
+                $csvPath = Join-Path $OutputFolder $csvFileName
+                $encoding = New-Object System.Text.UTF8Encoding($true)
+            }
+
             $writer = New-Object System.IO.StreamWriter($csvPath, $false, $encoding)
 
             try {
-                Write-CsvHeader -Writer $writer -PlcInfo $plcInfo
+                if ($Format -eq "EWON") {
+                    Write-VarLstHeader -Writer $writer
+                } else {
+                    Write-CsvHeader -Writer $writer -PlcInfo $plcInfo
+                }
 
                 foreach ($dbInfo in $plcBlocks) {
                     $currentBlock++
@@ -441,7 +818,6 @@ function Invoke-TableExport {
 
                         if ($parseResult.IsOptimized) {
                             $result.OptimizedDBs += "DB$($dbInfo.Number)_$($dbInfo.Name)"
-                            # Skip optimized DBs — no offsets available
                             $result.SuccessCount++
                             if ($OnProgress) {
                                 & $OnProgress $currentBlock $totalBlocks $dbInfo.Name
@@ -449,18 +825,74 @@ function Invoke-TableExport {
                             continue
                         }
 
-                        # Write member rows to CSV
-                        foreach ($member in $parseResult.Members) {
-                            Write-CsvMemberRow -Writer $writer -Member $member -IsOptimized $false
+                        # Resolve comments from source types (FB + UDTs)
+                        [xml]$dbXml = Get-Content $xmlPath -Encoding UTF8
+                        $instanceOfName = Get-InstanceOfName -XmlDoc $dbXml
+
+                        # Collect all type names that need comment resolution
+                        $typeNames = @{}
+                        foreach ($m in $parseResult.Members) {
+                            if ([string]::IsNullOrEmpty($m.Comment)) {
+                                $src = if ($m.UdtType) { $m.UdtType } elseif ($instanceOfName) { $instanceOfName } else { $null }
+                                if ($src -and -not $typeNames.ContainsKey($src)) { $typeNames[$src] = @{} }
+                            }
                         }
 
-                        # Keep XML copy for debugging (in _debug subfolder)
-                        $debugFolder = Join-Path $OutputFolder "_debug_xml"
-                        if (-not (Test-Path $debugFolder)) {
-                            New-Item -ItemType Directory -Path $debugFolder -Force | Out-Null
+                        # Export each type and extract comments (cached per type)
+                        foreach ($typeName in @($typeNames.Keys)) {
+                            if (-not $typeCommentCache.ContainsKey($typeName)) {
+                                try {
+                                    $typeObj = $null
+                                    foreach ($plcSw in $state.PlcSoftwareList) {
+                                        $typeObj = Find-BlockByName -BlockGroup $plcSw.BlockGroup -Name $typeName
+                                        if ($typeObj) { break }
+                                        try {
+                                            $typeObj = Find-TypeByName -TypeGroup $plcSw.TypeGroup -Name $typeName
+                                        } catch {}
+                                        if ($typeObj) { break }
+                                    }
+                                    if ($typeObj) {
+                                        $typeXmlPath = Export-BlockToXml -Block $typeObj -TempFolder $tempFolder
+                                        [xml]$typeXml = Get-Content $typeXmlPath -Encoding UTF8
+                                        $typeSections = $typeXml.GetElementsByTagName("Section")
+                                        $tc = @{}
+                                        foreach ($sec in $typeSections) {
+                                            $sc = Get-CommentsFromXml -ParentNode $sec
+                                            foreach ($k in $sc.Keys) { $tc[$k] = $sc[$k] }
+                                        }
+                                        $typeCommentCache[$typeName] = $tc
+                                    } else {
+                                        $typeCommentCache[$typeName] = @{}
+                                    }
+                                } catch {
+                                    $typeCommentCache[$typeName] = @{}
+                                }
+                            }
                         }
-                        $debugCopy = Join-Path $debugFolder (Split-Path $xmlPath -Leaf)
-                        Copy-Item $xmlPath $debugCopy -Force -ErrorAction SilentlyContinue
+
+                        # Inject resolved comments
+                        foreach ($m in $parseResult.Members) {
+                            if ([string]::IsNullOrEmpty($m.Comment)) {
+                                $src = if ($m.UdtType) { $m.UdtType } elseif ($instanceOfName) { $instanceOfName } else { $null }
+                                if ($src -and $typeCommentCache.ContainsKey($src) -and $typeCommentCache[$src].ContainsKey($m.UdtPath)) {
+                                    $m.Comment = $typeCommentCache[$src][$m.UdtPath]
+                                }
+                            }
+                        }
+
+                        # Write member rows
+                        foreach ($member in $parseResult.Members) {
+                            try {
+                                if ($Format -eq "EWON") {
+                                    Write-VarLstMemberRow -Writer $writer -Member $member -PlcInfo $plcInfo -EwonConfig $EwonConfig
+                                } else {
+                                    Write-CsvMemberRow -Writer $writer -Member $member -IsOptimized $false
+                                }
+                            } catch {
+                                $memberName = if ($member -and $member.ContainsKey('Name')) { $member.Name } else { "?" }
+                                $result.Errors += "DB$($dbInfo.Number).$memberName : $($_.Exception.Message) [$($_.InvocationInfo.ScriptLineNumber)]"
+                            }
+                        }
 
                         if ($parseResult.Members.Count -eq 0) {
                             $result.Errors += "DB$($dbInfo.Number)_$($dbInfo.Name): 0 members parsed"
@@ -473,14 +905,15 @@ function Invoke-TableExport {
                         }
 
                     } catch {
-                        $result.Errors += "$($dbInfo.Name): $($_.Exception.Message)"
+                        $result.Errors += "$($dbInfo.Name): $($_.Exception.Message) [line $($_.InvocationInfo.ScriptLineNumber)]"
                         $result.ErrorCount++
                     }
                 }
 
+                $writer.Flush()
                 $result.Files += $csvPath
             } finally {
-                $writer.Close()
+                if ($writer) { $writer.Close() }
             }
         }
     } finally {
@@ -497,7 +930,8 @@ function Invoke-TableExport {
 function Get-ExportSummary {
     param([hashtable]$Result)
 
-    $msg = (T "MsgExportCsvDone") + "`n`n"
+    $doneKey = if ($Result.Format -eq "EWON") { "MsgExportEwonDone" } else { "MsgExportCsvDone" }
+    $msg = (T $doneKey) + "`n`n"
     $msg += "$([char]0x2714) " + ((T "MsgExportSuccess") -f $Result.SuccessCount) + "`n"
 
     if ($Result.ErrorCount -gt 0) {

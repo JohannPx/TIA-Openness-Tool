@@ -81,13 +81,26 @@ function Invoke-TiaScan {
     $processes = [Siemens.Engineering.TiaPortal]::GetProcesses()
 
     foreach ($process in $processes) {
-        $projectName = Get-ProjectNameFromProcess -ProcessId $process.Id
+        # Method 1: TIA Openness API ProjectPath property (most reliable)
+        $projectName = ""
+        try {
+            $projPath = $process.ProjectPath
+            if ($projPath -and $projPath.Exists) {
+                $projectName = [System.IO.Path]::GetFileNameWithoutExtension($projPath.Name)
+            }
+        } catch {}
+
+        # Method 2: Fallback to WMI / window title
+        if ([string]::IsNullOrEmpty($projectName)) {
+            $projectName = Get-ProjectNameFromProcess -ProcessId $process.Id
+        }
+
         $version = Get-TiaVersionFromProcess -ProcessId $process.Id
 
         $displayText = if ([string]::IsNullOrEmpty($projectName)) {
             "TIA Portal - PID: $($process.Id)"
         } else {
-            "TIA Portal - $projectName"
+            "TIA Portal - $projectName (PID: $($process.Id))"
         }
 
         if ($version) { $displayText += " ($version)" }
@@ -154,7 +167,7 @@ function Build-PlcDeviceInfoList {
             IpAddress = ""
             Rack      = 0
             Slot      = 2
-            Tsap      = "3.02"
+            Tsap      = "03.02"
         }
 
         # Try to get device name (navigate up to the Device level)
@@ -192,9 +205,9 @@ function Build-PlcDeviceInfoList {
             if ($null -ne $slot) { $plcInfo.Slot = [int]$slot }
         } catch {}
 
-        # Compute TSAP from Rack/Slot: format "3.XX" where XX = rack*32 + slot in hex
+        # Compute TSAP from Rack/Slot: format "03.XX" where XX = rack*32 + slot in hex
         $tsapByte = ($plcInfo.Rack * 32 + $plcInfo.Slot)
-        $plcInfo.Tsap = "3." + $tsapByte.ToString("X2")
+        $plcInfo.Tsap = "03." + $tsapByte.ToString("X2")
 
         $plcInfoList += $plcInfo
         $idx++

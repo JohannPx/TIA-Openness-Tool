@@ -10,9 +10,12 @@ Multi-version TIA Portal DataBlock Exporter — Application PowerShell + WPF uti
 
 - **Multi-version** — Detecte automatiquement toutes les versions TIA Portal installees (V15 a V20+)
 - **Multi-langue** — Interface en Francais, Anglais, Espagnol et Italien (drapeaux interactifs)
-- **Scan automatique** — Detecte les instances TIA Portal en cours d'execution
+- **Scan automatique** — Detecte les instances TIA Portal en cours d'execution (avec nom du projet)
 - **Connexion directe** — Se connecte a un projet TIA Portal ouvert via l'API Openness
-- **Export DataBlocks** — Genere les fichiers source `.db` (SCL) avec toutes les dependances
+- **Export CSV (Siemens)** — Table d'echange avec colonnes Tag, DB, Offset, Type, Description, Unite, Repere, Coef
+- **Export var_lst (Ewon)** — Fichier 62 colonnes compatible routeur Ewon Flexy (adresses S7, types, unites UNECE)
+- **Expansion des Array** — Les types `Array[lo..hi] of Type` sont eclates en elements individuels avec offsets corrects
+- **Commentaires UDT** — Resolution automatique des commentaires depuis les definitions FB/UDT source
 - **Filtrage** — Affichage avec badges colores (Global / Instance), filtre par type
 
 ## Prerequis
@@ -46,31 +49,53 @@ powershell -Sta -ExecutionPolicy Bypass -File "scripts\TIA-Openness-Tool.ps1"
 ### Workflow
 
 1. **Selectionner la version** TIA Portal dans la sidebar (auto-detectee)
-2. **Scanner** les instances TIA Portal ouvertes
+2. **Scanner** les instances TIA Portal ouvertes (PID + nom du projet affiche)
 3. **Se connecter** a l'instance souhaitee
 4. **Charger** les DataBlocks du projet
 5. **Selectionner** les DBs a exporter (filtrage possible)
-6. **Exporter** → fichiers `.db` generes dans un dossier horodate
+6. **Choisir le format** d'export : CSV (Siemens) ou var_lst (Ewon)
+7. **Exporter** → fichier genere dans le dossier choisi
 
-### Format de sortie
+### Formats de sortie
 
-Les fichiers `.db` exportes sont au format SCL (Structured Control Language) :
+#### CSV (Siemens — Table d'Echange)
+
+Export UTF-8 avec BOM, separateur `;`. En-tete PLC (nom, IP, TSAP) suivi des colonnes :
 
 ```
-DATA_BLOCK "DB_Example"
-{ S7_Optimized_Access := 'TRUE' }
-VERSION : 0.1
-   STRUCT
-      Variable1 : Bool;
-      Variable2 : Int;
-   END_STRUCT;
-
-BEGIN
-   Variable1 := FALSE;
-   Variable2 := 0;
-
-END_DATA_BLOCK
+Tag;DB;Offset;Type;Description;Unite;Repere;Coef
+Env.Moteur1.Mode;1;0.0;Int;Mode (0=Arret/1=Auto/2=Manu);;;
+Env.Moteur1.Etat;1;2.0;Int;Etat moteur;;;
 ```
+
+#### var_lst (Ewon Flexy)
+
+Export Latin-1 (ISO-8859-1), separateur `;`, 62 colonnes entre guillemets. Compatible import direct Ewon.
+
+Configuration Ewon dans l'interface :
+- **Repere** — Prefixe variable (ex: `i30`)
+- **Topic** — Canal de communication : A, B ou C
+- **Page** — Page Ewon : 1 a 11
+
+Adresses S7 generees automatiquement : `DB1F2,ISOTCP,192.168.1.100,03.02`
+
+### Expansion des Array
+
+Les types `Array[lo..hi] of BaseType` sont automatiquement eclates :
+
+```
+Consigne_Temp[1];1;120.0;Real;;;
+Consigne_Temp[2];1;124.0;Real;;;
+Consigne_Temp[3];1;128.0;Real;;;
+...
+```
+
+Chaque element recoit son propre offset calcule selon la taille du type de base.
+
+### Resolution des commentaires
+
+Pour les DB d'instance, les commentaires ne sont pas dans le XML du DB mais dans les definitions FB/UDT source.
+L'outil exporte automatiquement les types references (FB + UDT) et injecte leurs commentaires dans l'export.
 
 ## Architecture
 
@@ -84,22 +109,26 @@ scripts/
     TiaConnection.ps1           # Scan, connexion, deconnexion TIA Portal
     TiaDataBlocks.ps1           # Enumeration recursive des DataBlocks
     TiaExport.ps1               # Export GenerateSource (.db)
+    TiaExportTable.ps1          # Export CSV (Siemens) + var_lst (Ewon)
     UIHelpers.ps1               # Composants WPF reutilisables
     UI.ps1                      # XAML, initialisation fenetre, evenements
+  data/
+    units.json                  # Table de correspondance unites → codes UNECE
 ```
 
 ### Modules
 
 | Module | Responsabilite |
 |--------|---------------|
-| **AppState** | Source unique de verite (etat connexion, blocs, config) |
+| **AppState** | Source unique de verite (etat connexion, blocs, config export, config Ewon) |
 | **Localization** | 4 langues, fonction `T()` avec fallback FR |
 | **TiaVersions** | Scan filesystem pour DLL Siemens, chargement dynamique |
-| **TiaConnection** | API Openness : scan process, attach, enumeration PLC |
-| **TiaDataBlocks** | Parcours recursif des groupes de blocs |
+| **TiaConnection** | API Openness : scan process (avec nom projet), attach, enumeration PLC |
+| **TiaDataBlocks** | Parcours recursif des groupes de blocs + recherche par nom/numero |
 | **TiaExport** | `GenerateSource()` avec dependances, nommage `DB{N}_{Nom}.db` |
+| **TiaExportTable** | Export CSV table + var_lst Ewon (parsing XML, offsets S7, expansion Array, commentaires UDT) |
 | **UIHelpers** | Badges colores, items de liste, bannieres de statut |
-| **UI** | XAML WPF, drapeaux langues, navigation sidebar, evenements |
+| **UI** | XAML WPF, drapeaux langues, selecteur format, config Ewon, evenements |
 
 ## Versions TIA Portal supportees
 

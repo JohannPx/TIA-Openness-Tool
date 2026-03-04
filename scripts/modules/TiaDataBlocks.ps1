@@ -115,3 +115,40 @@ function Find-BlockByNumber {
 
     return $null
 }
+
+function Find-BlockByName {
+    param(
+        [object]$BlockGroup,
+        [string]$Name
+    )
+
+    foreach ($block in $BlockGroup.Blocks) {
+        if ($block.Name -eq $Name) { return $block }
+    }
+
+    foreach ($subGroup in $BlockGroup.Groups) {
+        $found = Find-BlockByName -BlockGroup $subGroup -Name $Name
+        if ($found) { return $found }
+    }
+
+    return $null
+}
+
+function Find-TypeByName {
+    # Search UDT types in PlcSoftware.TypeGroup (PlcTypeSystemGroup)
+    param(
+        [object]$TypeGroup,
+        [string]$Name
+    )
+
+    foreach ($t in $TypeGroup.Types) {
+        if ($t.Name -eq $Name) { return $t }
+    }
+
+    foreach ($subGroup in $TypeGroup.Groups) {
+        $found = Find-TypeByName -TypeGroup $subGroup -Name $Name
+        if ($found) { return $found }
+    }
+
+    return $null
+}

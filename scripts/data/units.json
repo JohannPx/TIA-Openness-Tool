@@ -1,0 +1,7752 @@
+[
+  {
+    "displayName": "'",
+    "uneceCode": "D61",
+    "description": "minute [unit of angle]"
+  },
+  {
+    "displayName": "\"",
+    "uneceCode": "D62",
+    "description": "second [unit of angle]"
+  },
+  {
+    "displayName": "()",
+    "uneceCode": "NIL",
+    "description": "nil"
+  },
+  {
+    "displayName": "(Btuth/°R)/lb",
+    "uneceCode": "N64",
+    "description": "British thermal unit (thermochemical) per pound degree Rankine"
+  },
+  {
+    "displayName": "(cm/s)/bar",
+    "uneceCode": "J85",
+    "description": "centimetre per second bar"
+  },
+  {
+    "displayName": "(cm/s)/K",
+    "uneceCode": "J84",
+    "description": "centimetre per second kelvin"
+  },
+  {
+    "displayName": "(ft/s)/°F",
+    "uneceCode": "K18",
+    "description": "foot per second degree Fahrenheit"
+  },
+  {
+    "displayName": "(ft/s)/psi",
+    "uneceCode": "K19",
+    "description": "foot per second psi"
+  },
+  {
+    "displayName": "(in/s)/°F",
+    "uneceCode": "K47",
+    "description": "inch per second degree Fahrenheit"
+  },
+  {
+    "displayName": "(in/s)/psi",
+    "uneceCode": "K48",
+    "description": "inch per second psi"
+  },
+  {
+    "displayName": "(kcalIT/K)/g",
+    "uneceCode": "N65",
+    "description": "kilocalorie (international table) per gram kelvin"
+  },
+  {
+    "displayName": "(kg/dm³)/bar",
+    "uneceCode": "H55",
+    "description": "kilogram per cubic decimetre bar"
+  },
+  {
+    "displayName": "(kg/dm³)/K",
+    "uneceCode": "H54",
+    "description": "kilogram per cubic decimetre kelvin"
+  },
+  {
+    "displayName": "(kg/m³)/Pa",
+    "uneceCode": "M73",
+    "description": "kilogram per cubic metre pascal"
+  },
+  {
+    "displayName": "(kg/s)/Pa",
+    "uneceCode": "M87",
+    "description": "kilogram per second pascal"
+  },
+  {
+    "displayName": "(kmol/m³)/bar",
+    "uneceCode": "K60",
+    "description": "kilomole per cubic metre bar"
+  },
+  {
+    "displayName": "(kmol/m³)/K",
+    "uneceCode": "K59",
+    "description": "kilomole per cubic metre kelvin"
+  },
+  {
+    "displayName": "(lb/ft³)/°F",
+    "uneceCode": "K69",
+    "description": "pound (avoirdupois) per cubic foot degree Fahrenheit"
+  },
+  {
+    "displayName": "(lb/ft³)/psi",
+    "uneceCode": "K70",
+    "description": "pound (avoirdupois) per cubic foot psi"
+  },
+  {
+    "displayName": "(lb/h)/°F",
+    "uneceCode": "K73",
+    "description": "pound (avoirdupois) per hour degree Fahrenheit"
+  },
+  {
+    "displayName": "(lb/h)/psi",
+    "uneceCode": "K74",
+    "description": "pound (avoirdupois) per hour psi"
+  },
+  {
+    "displayName": "(lb/in³)/°F",
+    "uneceCode": "K75",
+    "description": "pound (avoirdupois) per cubic inch degree Fahrenheit"
+  },
+  {
+    "displayName": "(lb/in³)/psi",
+    "uneceCode": "K76",
+    "description": "pound (avoirdupois) per cubic inch psi"
+  },
+  {
+    "displayName": "(lb/min)/psi",
+    "uneceCode": "K80",
+    "description": "pound (avoirdupois) per minute psi"
+  },
+  {
+    "displayName": "(lb/s)/°F",
+    "uneceCode": "K82",
+    "description": "pound (avoirdupois) per second degree Fahrenheit"
+  },
+  {
+    "displayName": "(lb/s)/psi",
+    "uneceCode": "K83",
+    "description": "pound (avoirdupois) per second psi"
+  },
+  {
+    "displayName": "(m/s)/bar",
+    "uneceCode": "L13",
+    "description": "metre per second bar"
+  },
+  {
+    "displayName": "(m/s)/K",
+    "uneceCode": "L12",
+    "description": "metre per second kelvin"
+  },
+  {
+    "displayName": "(m/s)/Pa",
+    "uneceCode": "M59",
+    "description": "metre per second pascal"
+  },
+  {
+    "displayName": "(m²/s)/Pa",
+    "uneceCode": "M82",
+    "description": "square metre per second pascal"
+  },
+  {
+    "displayName": "(m³/s)/m²",
+    "uneceCode": "P87",
+    "description": "cubic metre per second square metre"
+  },
+  {
+    "displayName": "(m³/s)/Pa",
+    "uneceCode": "N45",
+    "description": "cubic metre per second pascal"
+  },
+  {
+    "displayName": "(mg/m³)/bar",
+    "uneceCode": "L18",
+    "description": "milligram per cubic metre bar"
+  },
+  {
+    "displayName": "(mg/m³)/K",
+    "uneceCode": "L17",
+    "description": "milligram per cubic metre kelvin"
+  },
+  {
+    "displayName": "(ml/min)/cm²",
+    "uneceCode": "M22",
+    "description": "millilitre per square centimetre minute"
+  },
+  {
+    "displayName": "(mol/kg)/bar",
+    "uneceCode": "L25",
+    "description": "mole per kilogram bar"
+  },
+  {
+    "displayName": "(mol/kg)/K",
+    "uneceCode": "L24",
+    "description": "mole per kilogram kelvin"
+  },
+  {
+    "displayName": "(mol/kg)/Pa",
+    "uneceCode": "P51",
+    "description": "mol per kilogram pascal"
+  },
+  {
+    "displayName": "(mol/l)/bar",
+    "uneceCode": "L27",
+    "description": "mole per litre bar"
+  },
+  {
+    "displayName": "(mol/l)/K",
+    "uneceCode": "L26",
+    "description": "mole per litre kelvin"
+  },
+  {
+    "displayName": "(mol/m³)/bar",
+    "uneceCode": "L29",
+    "description": "mole per cubic metre bar"
+  },
+  {
+    "displayName": "(mol/m³)/K",
+    "uneceCode": "L28",
+    "description": "mole per cubic metre kelvin"
+  },
+  {
+    "displayName": "(mol/m³)/Pa",
+    "uneceCode": "P52",
+    "description": "mol per cubic metre pascal"
+  },
+  {
+    "displayName": "(mol/m³)∑νB",
+    "uneceCode": "P99",
+    "description": "mole per cubiv metre to the power sum of stoichiometric numbers"
+  },
+  {
+    "displayName": "(N/m²)·s",
+    "uneceCode": "N36",
+    "description": "newton second per square metre"
+  },
+  {
+    "displayName": "(pdl/ft²)·s",
+    "uneceCode": "N34",
+    "description": "poundal second per square foot"
+  },
+  {
+    "displayName": "(pdl/in²)·s",
+    "uneceCode": "N42",
+    "description": "poundal second per square inch"
+  },
+  {
+    "displayName": "(t/d)/bar",
+    "uneceCode": "L73",
+    "description": "tonne per day bar"
+  },
+  {
+    "displayName": "(t/d)/K",
+    "uneceCode": "L72",
+    "description": "tonne per day kelvin"
+  },
+  {
+    "displayName": "(t/h)/bar",
+    "uneceCode": "L75",
+    "description": "tonne per hour bar"
+  },
+  {
+    "displayName": "(t/h)/K",
+    "uneceCode": "L74",
+    "description": "tonne per hour kelvin"
+  },
+  {
+    "displayName": "(t/m³)/bar",
+    "uneceCode": "L77",
+    "description": "tonne per cubic metre bar"
+  },
+  {
+    "displayName": "(t/m³)/K",
+    "uneceCode": "L76",
+    "description": "tonne per cubic metre kelvin"
+  },
+  {
+    "displayName": "(t/min)/bar",
+    "uneceCode": "L80",
+    "description": "tonne per minute bar"
+  },
+  {
+    "displayName": "(t/min)/K",
+    "uneceCode": "L79",
+    "description": "tonne per minute kelvin"
+  },
+  {
+    "displayName": "(t/s)/bar",
+    "uneceCode": "L83",
+    "description": "tonne per second bar"
+  },
+  {
+    "displayName": "(t/s)/K",
+    "uneceCode": "L82",
+    "description": "tonne per second kelvin"
+  },
+  {
+    "displayName": "(ton (US)/h)/psi",
+    "uneceCode": "L90",
+    "description": "ton short per hour psi"
+  },
+  {
+    "displayName": "(US) shipping ton",
+    "uneceCode": "L86",
+    "description": "ton (US shipping)"
+  },
+  {
+    "displayName": "(µg/m³)/bar",
+    "uneceCode": "J35",
+    "description": "microgram per cubic metre bar"
+  },
+  {
+    "displayName": "(µg/m³)/K",
+    "uneceCode": "J34",
+    "description": "microgram per cubic metre kelvin"
+  },
+  {
+    "displayName": "%",
+    "uneceCode": "P1",
+    "description": "percent"
+  },
+  {
+    "displayName": "%/°",
+    "uneceCode": "H90",
+    "description": "percent per degree"
+  },
+  {
+    "displayName": "%/°C",
+    "uneceCode": "M25",
+    "description": "percent per degree Celsius"
+  },
+  {
+    "displayName": "%/100",
+    "uneceCode": "H93",
+    "description": "percent per hundred"
+  },
+  {
+    "displayName": "%/1000",
+    "uneceCode": "H94",
+    "description": "percent per thousand"
+  },
+  {
+    "displayName": "%/10000",
+    "uneceCode": "H91",
+    "description": "percent per ten thousand"
+  },
+  {
+    "displayName": "%/100000",
+    "uneceCode": "H92",
+    "description": "percent per one hundred thousand"
+  },
+  {
+    "displayName": "%/bar",
+    "uneceCode": "H96",
+    "description": "percent per bar"
+  },
+  {
+    "displayName": "%/daK",
+    "uneceCode": "H73",
+    "description": "percent per decakelvin"
+  },
+  {
+    "displayName": "%/hbar",
+    "uneceCode": "H72",
+    "description": "percent per hectobar"
+  },
+  {
+    "displayName": "%/in",
+    "uneceCode": "H98",
+    "description": "percent per inch"
+  },
+  {
+    "displayName": "%/K",
+    "uneceCode": "H25",
+    "description": "percent per kelvin"
+  },
+  {
+    "displayName": "%/m",
+    "uneceCode": "H99",
+    "description": "percent per metre"
+  },
+  {
+    "displayName": "%/mm",
+    "uneceCode": "J10",
+    "description": "percent per millimetre"
+  },
+  {
+    "displayName": "%/mo",
+    "uneceCode": "H71",
+    "description": "percent per month"
+  },
+  {
+    "displayName": "%/V",
+    "uneceCode": "H95",
+    "description": "percent per volt"
+  },
+  {
+    "displayName": "%/Ω",
+    "uneceCode": "H89",
+    "description": "percent per ohm"
+  },
+  {
+    "displayName": "%Hr",
+    "uneceCode": "P1",
+    "description": "percent"
+  },
+  {
+    "displayName": "‰",
+    "uneceCode": "NX",
+    "description": "part per thousand"
+  },
+  {
+    "displayName": "‰/psi",
+    "uneceCode": "J12",
+    "description": "per mille per psi"
+  },
+  {
+    "displayName": "°",
+    "uneceCode": "DD",
+    "description": "degree [unit of angle]"
+  },
+  {
+    "displayName": "°/m",
+    "uneceCode": "H27",
+    "description": "degree per metre"
+  },
+  {
+    "displayName": "°/s",
+    "uneceCode": "E96",
+    "description": "degree per second"
+  },
+  {
+    "displayName": "°/s²",
+    "uneceCode": "M45",
+    "description": "degree [unit of angle] per second squared"
+  },
+  {
+    "displayName": "°API",
+    "uneceCode": "J13",
+    "description": "degree API"
+  },
+  {
+    "displayName": "°Balling",
+    "uneceCode": "J17",
+    "description": "degree Balling"
+  },
+  {
+    "displayName": "°Bé",
+    "uneceCode": "J14",
+    "description": "degree Baume (origin scale)"
+  },
+  {
+    "displayName": "°Bé (US heavy)",
+    "uneceCode": "J15",
+    "description": "degree Baume (US heavy)"
+  },
+  {
+    "displayName": "°Bé (US light)",
+    "uneceCode": "J16",
+    "description": "degree Baume (US light)"
+  },
+  {
+    "displayName": "°Bx",
+    "uneceCode": "J18",
+    "description": "degree Brix"
+  },
+  {
+    "displayName": "°C",
+    "uneceCode": "CEL",
+    "description": "degree Celsius"
+  },
+  {
+    "displayName": "°C/bar",
+    "uneceCode": "F60",
+    "description": "degree Celsius per bar"
+  },
+  {
+    "displayName": "°C/h",
+    "uneceCode": "H12",
+    "description": "degree Celsius per hour"
+  },
+  {
+    "displayName": "°C/K",
+    "uneceCode": "E98",
+    "description": "degree Celsius per kelvin"
+  },
+  {
+    "displayName": "°C/min",
+    "uneceCode": "H13",
+    "description": "degree Celsius per minute"
+  },
+  {
+    "displayName": "°C/s",
+    "uneceCode": "H14",
+    "description": "degree Celsius per second"
+  },
+  {
+    "displayName": "°Csat",
+    "uneceCode": "CEL",
+    "description": "degree Celsius"
+  },
+  {
+    "displayName": "°F",
+    "uneceCode": "FAH",
+    "description": "degree Fahrenheit"
+  },
+  {
+    "displayName": "°F·h·ft²/BtuIT",
+    "uneceCode": "J22",
+    "description": "degree Fahrenheit hour square foot per British thermal unit (international table)"
+  },
+  {
+    "displayName": "°F·h·ft²/Btuth",
+    "uneceCode": "J19",
+    "description": "degree Fahrenheit hour square foot per British thermal unit (thermochemical)"
+  },
+  {
+    "displayName": "°F/bar",
+    "uneceCode": "J21",
+    "description": "degree Fahrenheit per bar"
+  },
+  {
+    "displayName": "°F/h",
+    "uneceCode": "J23",
+    "description": "degree Fahrenheit per hour"
+  },
+  {
+    "displayName": "°F/K",
+    "uneceCode": "J20",
+    "description": "degree Fahrenheit per kelvin"
+  },
+  {
+    "displayName": "°F/min",
+    "uneceCode": "J24",
+    "description": "degree Fahrenheit per minute"
+  },
+  {
+    "displayName": "°F/s",
+    "uneceCode": "J25",
+    "description": "degree Fahrenheit per second"
+  },
+  {
+    "displayName": "°Oechsle",
+    "uneceCode": "J27",
+    "description": "degree Oechsle"
+  },
+  {
+    "displayName": "°P",
+    "uneceCode": "PLA",
+    "description": "degree Plato"
+  },
+  {
+    "displayName": "°R",
+    "uneceCode": "A48",
+    "description": "degree Rankine"
+  },
+  {
+    "displayName": "°R/h",
+    "uneceCode": "J28",
+    "description": "degree Rankine per hour"
+  },
+  {
+    "displayName": "°R/min",
+    "uneceCode": "J29",
+    "description": "degree Rankine per minute"
+  },
+  {
+    "displayName": "°R/s",
+    "uneceCode": "J30",
+    "description": "degree Rankine per second"
+  },
+  {
+    "displayName": "°Tw",
+    "uneceCode": "J31",
+    "description": "degree Twaddell"
+  },
+  {
+    "displayName": "1",
+    "uneceCode": "C62",
+    "description": "one"
+  },
+  {
+    "displayName": "1/(Hz·rad·m³)",
+    "uneceCode": "Q22",
+    "description": "second per radian cubic metre"
+  },
+  {
+    "displayName": "1/(V·A·s)",
+    "uneceCode": "M30",
+    "description": "reciprocal volt - ampere reciprocal second"
+  },
+  {
+    "displayName": "1/°F",
+    "uneceCode": "J26",
+    "description": "reciprocal degree Fahrenheit"
+  },
+  {
+    "displayName": "1/bar",
+    "uneceCode": "F58",
+    "description": "reciprocal bar"
+  },
+  {
+    "displayName": "1/ft³",
+    "uneceCode": "K20",
+    "description": "reciprocal cubic foot"
+  },
+  {
+    "displayName": "1/h",
+    "uneceCode": "H10",
+    "description": "reciprocal hour"
+  },
+  {
+    "displayName": "1/in",
+    "uneceCode": "Q24",
+    "description": "reciprocal inch"
+  },
+  {
+    "displayName": "1/in²",
+    "uneceCode": "P78",
+    "description": "reciprocal square inch"
+  },
+  {
+    "displayName": "1/in³",
+    "uneceCode": "K49",
+    "description": "reciprocal cubic inch"
+  },
+  {
+    "displayName": "1/J",
+    "uneceCode": "N91",
+    "description": "reciprocal joule"
+  },
+  {
+    "displayName": "1/kVAh",
+    "uneceCode": "M21",
+    "description": "reciprocal kilovolt - ampere reciprocal hour"
+  },
+  {
+    "displayName": "1/l",
+    "uneceCode": "K63",
+    "description": "reciprocal litre"
+  },
+  {
+    "displayName": "1/MK",
+    "uneceCode": "M20",
+    "description": "reciprocal megakelvin or megakelvin to the power minus one"
+  },
+  {
+    "displayName": "1/mm³",
+    "uneceCode": "L20",
+    "description": "reciprocal cubic millimetre"
+  },
+  {
+    "displayName": "1/mo",
+    "uneceCode": "H11",
+    "description": "reciprocal month"
+  },
+  {
+    "displayName": "1/psi",
+    "uneceCode": "K93",
+    "description": "reciprocal psi"
+  },
+  {
+    "displayName": "1/rad",
+    "uneceCode": "P97",
+    "description": "reciprocal radian"
+  },
+  {
+    "displayName": "1/V",
+    "uneceCode": "P96",
+    "description": "reciprocal volt"
+  },
+  {
+    "displayName": "1/Wb",
+    "uneceCode": "Q23",
+    "description": "weber to the power minus one"
+  },
+  {
+    "displayName": "1/wk",
+    "uneceCode": "H85",
+    "description": "reciprocal week"
+  },
+  {
+    "displayName": "1/y",
+    "uneceCode": "H09",
+    "description": "reciprocal year"
+  },
+  {
+    "displayName": "1/yd³",
+    "uneceCode": "M10",
+    "description": "reciprocal cubic yard"
+  },
+  {
+    "displayName": "43831",
+    "uneceCode": "Q26",
+    "description": "one per one"
+  },
+  {
+    "displayName": "a",
+    "uneceCode": "ARE",
+    "description": "are"
+  },
+  {
+    "displayName": "A",
+    "uneceCode": "AMP",
+    "description": "ampere"
+  },
+  {
+    "displayName": "Å",
+    "uneceCode": "A11",
+    "description": "angstrom"
+  },
+  {
+    "displayName": "A·h",
+    "uneceCode": "AMH",
+    "description": "ampere hour"
+  },
+  {
+    "displayName": "A·m²",
+    "uneceCode": "A5",
+    "description": "ampere square metre"
+  },
+  {
+    "displayName": "A·m²/(J·s)",
+    "uneceCode": "A10",
+    "description": "ampere square metre per joule second"
+  },
+  {
+    "displayName": "A·min",
+    "uneceCode": "N95",
+    "description": "ampere minute"
+  },
+  {
+    "displayName": "A·s",
+    "uneceCode": "A8",
+    "description": "ampere second"
+  },
+  {
+    "displayName": "A/(m²·K²)",
+    "uneceCode": "A6",
+    "description": "ampere per square metre kelvin squared"
+  },
+  {
+    "displayName": "A/cm",
+    "uneceCode": "A2",
+    "description": "ampere per centimetre"
+  },
+  {
+    "displayName": "A/cm²",
+    "uneceCode": "A4",
+    "description": "ampere per square centimetre"
+  },
+  {
+    "displayName": "A/kg",
+    "uneceCode": "H31",
+    "description": "ampere per kilogram"
+  },
+  {
+    "displayName": "A/m",
+    "uneceCode": "AE",
+    "description": "ampere per metre"
+  },
+  {
+    "displayName": "A/m²",
+    "uneceCode": "A41",
+    "description": "ampere per square metre"
+  },
+  {
+    "displayName": "A/mm",
+    "uneceCode": "A3",
+    "description": "ampere per millimetre"
+  },
+  {
+    "displayName": "A/mm²",
+    "uneceCode": "A7",
+    "description": "ampere per square millimetre"
+  },
+  {
+    "displayName": "A/Pa",
+    "uneceCode": "N93",
+    "description": "ampere per pascal"
+  },
+  {
+    "displayName": "Å⁻¹",
+    "uneceCode": "C85",
+    "description": "reciprocal angstrom"
+  },
+  {
+    "displayName": "A²·s",
+    "uneceCode": "H32",
+    "description": "ampere squared second"
+  },
+  {
+    "displayName": "acre",
+    "uneceCode": "ACR",
+    "description": "acre"
+  },
+  {
+    "displayName": "acre-ft (US survey)",
+    "uneceCode": "M67",
+    "description": "acre-foot (based on U.S. survey foot)"
+  },
+  {
+    "displayName": "aF",
+    "uneceCode": "H48",
+    "description": "attofarad"
+  },
+  {
+    "displayName": "aJ",
+    "uneceCode": "A13",
+    "description": "attojoule"
+  },
+  {
+    "displayName": "at",
+    "uneceCode": "ATT",
+    "description": "technical atmosphere"
+  },
+  {
+    "displayName": "at/m",
+    "uneceCode": "P84",
+    "description": "technical atmosphere per metre"
+  },
+  {
+    "displayName": "atm",
+    "uneceCode": "ATM",
+    "description": "standard atmosphere"
+  },
+  {
+    "displayName": "Atm/m",
+    "uneceCode": "P83",
+    "description": "standard atmosphere per metre"
+  },
+  {
+    "displayName": "AWG",
+    "uneceCode": "AWG",
+    "description": "american wire gauge"
+  },
+  {
+    "displayName": "b",
+    "uneceCode": "A14",
+    "description": "barn"
+  },
+  {
+    "displayName": "B",
+    "uneceCode": "M72",
+    "description": "bel"
+  },
+  {
+    "displayName": "b/(sr·eV)",
+    "uneceCode": "A16",
+    "description": "barn per steradian electronvolt"
+  },
+  {
+    "displayName": "b/eV",
+    "uneceCode": "A15",
+    "description": "barn per electronvolt"
+  },
+  {
+    "displayName": "B/m",
+    "uneceCode": "P43",
+    "description": "bel per metre"
+  },
+  {
+    "displayName": "b/sr",
+    "uneceCode": "A17",
+    "description": "barn per steradian"
+  },
+  {
+    "displayName": "bar",
+    "uneceCode": "BAR",
+    "description": "bar [unit of pressure]"
+  },
+  {
+    "displayName": "bar·l/s",
+    "uneceCode": "F91",
+    "description": "bar litre per second"
+  },
+  {
+    "displayName": "bar·m³/s",
+    "uneceCode": "F92",
+    "description": "bar cubic metre per second"
+  },
+  {
+    "displayName": "bar/bar",
+    "uneceCode": "J56",
+    "description": "bar per bar"
+  },
+  {
+    "displayName": "bar/K",
+    "uneceCode": "F81",
+    "description": "bar per kelvin"
+  },
+  {
+    "displayName": "barrel (US)",
+    "uneceCode": "BLL",
+    "description": "barrel (US)"
+  },
+  {
+    "displayName": "barrel (US)/d",
+    "uneceCode": "B1",
+    "description": "barrel (US) per day"
+  },
+  {
+    "displayName": "barrel (US)/min",
+    "uneceCode": "5A",
+    "description": "barrel (US) per minute"
+  },
+  {
+    "displayName": "bbl (UK liq.)",
+    "uneceCode": "J57",
+    "description": "barrel (UK petroleum)"
+  },
+  {
+    "displayName": "bbl (UK liq.)/d",
+    "uneceCode": "J59",
+    "description": "barrel (UK petroleum) per day"
+  },
+  {
+    "displayName": "bbl (UK liq.)/h",
+    "uneceCode": "J60",
+    "description": "barrel (UK petroleum) per hour"
+  },
+  {
+    "displayName": "bbl (UK liq.)/min",
+    "uneceCode": "J58",
+    "description": "barrel (UK petroleum) per minute"
+  },
+  {
+    "displayName": "bbl (UK liq.)/s",
+    "uneceCode": "J61",
+    "description": "barrel (UK petroleum) per second"
+  },
+  {
+    "displayName": "bbl (US)",
+    "uneceCode": "BLD",
+    "description": "dry barrel (US)"
+  },
+  {
+    "displayName": "bbl (US)/h",
+    "uneceCode": "J62",
+    "description": "barrel (US petroleum) per hour"
+  },
+  {
+    "displayName": "bbl (US)/s",
+    "uneceCode": "J63",
+    "description": "barrel (US petroleum) per second"
+  },
+  {
+    "displayName": "Bd",
+    "uneceCode": "J38",
+    "description": "baud"
+  },
+  {
+    "displayName": "Bft",
+    "uneceCode": "M19",
+    "description": "Beaufort"
+  },
+  {
+    "displayName": "BHP",
+    "uneceCode": "BHP",
+    "description": "brake horse power"
+  },
+  {
+    "displayName": "Bi",
+    "uneceCode": "N96",
+    "description": "biot"
+  },
+  {
+    "displayName": "bit",
+    "uneceCode": "A99",
+    "description": "bit"
+  },
+  {
+    "displayName": "bit/m",
+    "uneceCode": "E88",
+    "description": "bit per metre"
+  },
+  {
+    "displayName": "bit/m²",
+    "uneceCode": "E89",
+    "description": "bit per square metre"
+  },
+  {
+    "displayName": "bit/m³",
+    "uneceCode": "F01",
+    "description": "bit per cubic metre"
+  },
+  {
+    "displayName": "bit/s",
+    "uneceCode": "B10",
+    "description": "bit per second"
+  },
+  {
+    "displayName": "boiler hp",
+    "uneceCode": "K42",
+    "description": "horsepower (boiler)"
+  },
+  {
+    "displayName": "bp",
+    "uneceCode": "H82",
+    "description": "big point"
+  },
+  {
+    "displayName": "BPM",
+    "uneceCode": "BPM",
+    "description": "beats per minute"
+  },
+  {
+    "displayName": "Bq",
+    "uneceCode": "BQL",
+    "description": "becquerel"
+  },
+  {
+    "displayName": "Bq/kg",
+    "uneceCode": "A18",
+    "description": "becquerel per kilogram"
+  },
+  {
+    "displayName": "Bq/m³",
+    "uneceCode": "A19",
+    "description": "becquerel per cubic metre"
+  },
+  {
+    "displayName": "British shipping ton",
+    "uneceCode": "L84",
+    "description": "ton (UK shipping)"
+  },
+  {
+    "displayName": "Btu",
+    "uneceCode": "J39",
+    "description": "British thermal unit (mean)"
+  },
+  {
+    "displayName": "Btu (39 ºF)",
+    "uneceCode": "N66",
+    "description": "British thermal unit (39 ºF)"
+  },
+  {
+    "displayName": "Btu (59 ºF)",
+    "uneceCode": "N67",
+    "description": "British thermal unit (59 ºF)"
+  },
+  {
+    "displayName": "Btu (60 ºF)",
+    "uneceCode": "N68",
+    "description": "British thermal unit (60 ºF)"
+  },
+  {
+    "displayName": "Btu/IT(lb·°R)",
+    "uneceCode": "A21",
+    "description": "British thermal unit (international table) per pound degree Rankine"
+  },
+  {
+    "displayName": "BtuIT",
+    "uneceCode": "BTU",
+    "description": "British thermal unit (international table)"
+  },
+  {
+    "displayName": "BtuIT·ft/(h·ft²·°F)",
+    "uneceCode": "J40",
+    "description": "British thermal unit (international table) foot per hour square foot degree Fahrenheit"
+  },
+  {
+    "displayName": "BtuIT·in/(h·ft²·°F)",
+    "uneceCode": "J41",
+    "description": "British thermal unit (international table) inch per hour square foot degree Fahrenheit"
+  },
+  {
+    "displayName": "BtuIT·in/(s·ft²·°F)",
+    "uneceCode": "J42",
+    "description": "British thermal unit (international table) inch per second square foot degree Fahrenheit"
+  },
+  {
+    "displayName": "BtuIT/(ft²·h)",
+    "uneceCode": "N50",
+    "description": "British thermal unit (international table) per square foot hour"
+  },
+  {
+    "displayName": "BtuIT/(ft²·s)",
+    "uneceCode": "N53",
+    "description": "British thermal unit (international table) per square foot second"
+  },
+  {
+    "displayName": "BtuIT/(h·ft²·°R)",
+    "uneceCode": "A23",
+    "description": "British thermal unit (international table) per hour square foot degree Rankine"
+  },
+  {
+    "displayName": "BtuIT/(h·ft²·ºF)",
+    "uneceCode": "N74",
+    "description": "British thermal unit (international table) per hour square foot degree Fahrenheit"
+  },
+  {
+    "displayName": "BtuIT/(in²·s)",
+    "uneceCode": "N55",
+    "description": "British thermal unit (international table) per square inch second"
+  },
+  {
+    "displayName": "BtuIT/(lb·°F)",
+    "uneceCode": "J43",
+    "description": "British thermal unit (international table) per pound degree Fahrenheit"
+  },
+  {
+    "displayName": "BtuIT/(s·ft·°R)",
+    "uneceCode": "A22",
+    "description": "British thermal unit (international table) per second foot degree Rankine"
+  },
+  {
+    "displayName": "BtuIT/(s·ft²·°R)",
+    "uneceCode": "A20",
+    "description": "British thermal unit (international table) per second square foot degree Rankine"
+  },
+  {
+    "displayName": "BtuIT/(s·ft²·ºF)",
+    "uneceCode": "N76",
+    "description": "British thermal unit (international table) per second square foot degree Fahrenheit"
+  },
+  {
+    "displayName": "BtuIT/ft²",
+    "uneceCode": "P37",
+    "description": "British thermal unit (international table) per square foot"
+  },
+  {
+    "displayName": "BtuIT/ft³",
+    "uneceCode": "N58",
+    "description": "British thermal unit (international table) per cubic foot"
+  },
+  {
+    "displayName": "BtuIT/h",
+    "uneceCode": "2I",
+    "description": "British thermal unit (international table) per hour"
+  },
+  {
+    "displayName": "BtuIT/h",
+    "uneceCode": "E16",
+    "description": "million Btu(IT) per hour"
+  },
+  {
+    "displayName": "BtuIT/lb",
+    "uneceCode": "AZ",
+    "description": "British thermal unit (international table) per pound"
+  },
+  {
+    "displayName": "BtuIT/min",
+    "uneceCode": "J44",
+    "description": "British thermal unit (international table) per minute"
+  },
+  {
+    "displayName": "BtuIT/ºF",
+    "uneceCode": "N60",
+    "description": "British thermal unit (international table) per degree Fahrenheit"
+  },
+  {
+    "displayName": "BtuIT/ºR",
+    "uneceCode": "N62",
+    "description": "British thermal unit (international table) per degree Rankine"
+  },
+  {
+    "displayName": "BtuIT/s",
+    "uneceCode": "J45",
+    "description": "British thermal unit (international table) per second"
+  },
+  {
+    "displayName": "Btuth·ft/(h·ft²·°F)",
+    "uneceCode": "J46",
+    "description": "British thermal unit (thermochemical) foot per hour square foot degree Fahrenheit"
+  },
+  {
+    "displayName": "Btuth·in/(h·ft²·°F)",
+    "uneceCode": "J48",
+    "description": "British thermal unit (thermochemical) inch per hour square foot degree Fahrenheit"
+  },
+  {
+    "displayName": "Btuth·in/(s·ft²·°F)",
+    "uneceCode": "J49",
+    "description": "British thermal unit (thermochemical) inch per second square foot degree Fahrenheit"
+  },
+  {
+    "displayName": "Btuth/(ft²·h)",
+    "uneceCode": "N51",
+    "description": "British thermal unit (thermochemical) per square foot hour"
+  },
+  {
+    "displayName": "Btuth/(ft²·min)",
+    "uneceCode": "N52",
+    "description": "British thermal unit (thermochemical) per square foot minute"
+  },
+  {
+    "displayName": "Btuth/(ft²·s)",
+    "uneceCode": "N54",
+    "description": "British thermal unit (thermochemical) per square foot second"
+  },
+  {
+    "displayName": "Btuth/(h·ft²·ºF)",
+    "uneceCode": "N75",
+    "description": "British thermal unit (thermochemical) per hour square foot degree Fahrenheit"
+  },
+  {
+    "displayName": "Btuth/(lb·°F)",
+    "uneceCode": "J50",
+    "description": "British thermal unit (thermochemical) per pound degree Fahrenheit"
+  },
+  {
+    "displayName": "Btuth/(s·ft²·ºF)",
+    "uneceCode": "N77",
+    "description": "British thermal unit (thermochemical) per second square foot degree Fahrenheit"
+  },
+  {
+    "displayName": "Btuth/ft²",
+    "uneceCode": "P38",
+    "description": "British thermal unit (thermochemical) per square foot"
+  },
+  {
+    "displayName": "Btuth/ft³",
+    "uneceCode": "N59",
+    "description": "British thermal unit (thermochemical) per cubic foot"
+  },
+  {
+    "displayName": "Btuth/h",
+    "uneceCode": "J47",
+    "description": "British thermal unit (thermochemical) per hour"
+  },
+  {
+    "displayName": "Btuth/lb",
+    "uneceCode": "N73",
+    "description": "British thermal unit (thermochemical) per pound"
+  },
+  {
+    "displayName": "Btuth/min",
+    "uneceCode": "J51",
+    "description": "British thermal unit (thermochemical) per minute"
+  },
+  {
+    "displayName": "Btuth/ºF",
+    "uneceCode": "N61",
+    "description": "British thermal unit (thermochemical) per degree Fahrenheit"
+  },
+  {
+    "displayName": "Btuth/ºR",
+    "uneceCode": "N63",
+    "description": "British thermal unit (thermochemical) per degree Rankine"
+  },
+  {
+    "displayName": "Btuth/s",
+    "uneceCode": "J52",
+    "description": "British thermal unit (thermochemical) per second"
+  },
+  {
+    "displayName": "bu (UK)/d",
+    "uneceCode": "J64",
+    "description": "bushel (UK) per day"
+  },
+  {
+    "displayName": "bu (UK)/h",
+    "uneceCode": "J65",
+    "description": "bushel (UK) per hour"
+  },
+  {
+    "displayName": "bu (UK)/min",
+    "uneceCode": "J66",
+    "description": "bushel (UK) per minute"
+  },
+  {
+    "displayName": "bu (UK)/s",
+    "uneceCode": "J67",
+    "description": "bushel (UK) per second"
+  },
+  {
+    "displayName": "bu (US dry)/d",
+    "uneceCode": "J68",
+    "description": "bushel (US dry) per day"
+  },
+  {
+    "displayName": "bu (US dry)/h",
+    "uneceCode": "J69",
+    "description": "bushel (US dry) per hour"
+  },
+  {
+    "displayName": "bu (US dry)/min",
+    "uneceCode": "J70",
+    "description": "bushel (US dry) per minute"
+  },
+  {
+    "displayName": "bu (US dry)/s",
+    "uneceCode": "J71",
+    "description": "bushel (US dry) per second"
+  },
+  {
+    "displayName": "bu (US)",
+    "uneceCode": "BUA",
+    "description": "bushel (US)"
+  },
+  {
+    "displayName": "bushel (UK)",
+    "uneceCode": "BUI",
+    "description": "bushel (UK)"
+  },
+  {
+    "displayName": "byte",
+    "uneceCode": "AD",
+    "description": "byte"
+  },
+  {
+    "displayName": "byte/s",
+    "uneceCode": "P93",
+    "description": "byte per second"
+  },
+  {
+    "displayName": "C",
+    "uneceCode": "COU",
+    "description": "coulomb"
+  },
+  {
+    "displayName": "C·m",
+    "uneceCode": "A26",
+    "description": "coulomb metre"
+  },
+  {
+    "displayName": "C·m²/kg",
+    "uneceCode": "J53",
+    "description": "coulomb square metre per kilogram"
+  },
+  {
+    "displayName": "C·m²/V",
+    "uneceCode": "A27",
+    "description": "coulomb metre squared per volt"
+  },
+  {
+    "displayName": "C/(kg·s)",
+    "uneceCode": "A31",
+    "description": "coulomb per kilogram second"
+  },
+  {
+    "displayName": "C/cm²",
+    "uneceCode": "A33",
+    "description": "coulomb per square centimetre"
+  },
+  {
+    "displayName": "C/cm³",
+    "uneceCode": "A28",
+    "description": "coulomb per cubic centimetre"
+  },
+  {
+    "displayName": "C/kg",
+    "uneceCode": "CKG",
+    "description": "coulomb per kilogram"
+  },
+  {
+    "displayName": "C/m",
+    "uneceCode": "P10",
+    "description": "coulomb per metre"
+  },
+  {
+    "displayName": "C/m²",
+    "uneceCode": "A34",
+    "description": "coulomb per square metre"
+  },
+  {
+    "displayName": "C/m³",
+    "uneceCode": "A29",
+    "description": "coulomb per cubic metre"
+  },
+  {
+    "displayName": "C/mm²",
+    "uneceCode": "A35",
+    "description": "coulomb per square millimetre"
+  },
+  {
+    "displayName": "C/mm³",
+    "uneceCode": "A30",
+    "description": "coulomb per cubic millimetre"
+  },
+  {
+    "displayName": "C/mol",
+    "uneceCode": "A32",
+    "description": "coulomb per mole"
+  },
+  {
+    "displayName": "C°",
+    "uneceCode": "CEL",
+    "description": "degree Celsius"
+  },
+  {
+    "displayName": "cal",
+    "uneceCode": "J75",
+    "description": "calorie (mean)"
+  },
+  {
+    "displayName": "cal₁₅",
+    "uneceCode": "A1",
+    "description": "15 °C calorie"
+  },
+  {
+    "displayName": "cal₂₀",
+    "uneceCode": "N69",
+    "description": "calorie (20 ºC)"
+  },
+  {
+    "displayName": "calIT",
+    "uneceCode": "D70",
+    "description": "calorie (international table)"
+  },
+  {
+    "displayName": "calIT/(g·°C)",
+    "uneceCode": "J76",
+    "description": "calorie (international table) per gram degree Celsius"
+  },
+  {
+    "displayName": "calIT/(g·K)",
+    "uneceCode": "D76",
+    "description": "calorie (international table) per gram kelvin"
+  },
+  {
+    "displayName": "calIT/(s·cm·K)",
+    "uneceCode": "D71",
+    "description": "calorie (international table) per second centimetre kelvin"
+  },
+  {
+    "displayName": "calIT/(s·cm²·K)",
+    "uneceCode": "D72",
+    "description": "calorie (international table) per second square centimetre kelvin"
+  },
+  {
+    "displayName": "calIT/g",
+    "uneceCode": "D75",
+    "description": "calorie (international table) per gram"
+  },
+  {
+    "displayName": "calth",
+    "uneceCode": "D35",
+    "description": "calorie (thermochemical)"
+  },
+  {
+    "displayName": "calth/(cm·s·°C)",
+    "uneceCode": "J78",
+    "description": "calorie (thermochemical) per centimetre second degree Celsius"
+  },
+  {
+    "displayName": "calth/(cm²·min)",
+    "uneceCode": "N56",
+    "description": "calorie (thermochemical) per square centimetre minute"
+  },
+  {
+    "displayName": "calth/(cm²·s)",
+    "uneceCode": "N57",
+    "description": "calorie (thermochemical) per square centimetre second"
+  },
+  {
+    "displayName": "calth/(g·°C)",
+    "uneceCode": "J79",
+    "description": "calorie (thermochemical) per gram degree Celsius"
+  },
+  {
+    "displayName": "calth/(g·K)",
+    "uneceCode": "D37",
+    "description": "calorie (thermochemical) per gram kelvin"
+  },
+  {
+    "displayName": "calth/(s·cm·K)",
+    "uneceCode": "D38",
+    "description": "calorie (thermochemical) per second centimetre kelvin"
+  },
+  {
+    "displayName": "calth/(s·cm²·K)",
+    "uneceCode": "D39",
+    "description": "calorie (thermochemical) per second square centimetre kelvin"
+  },
+  {
+    "displayName": "calth/cm²",
+    "uneceCode": "P39",
+    "description": "calorie (thermochemical) per square centimetre"
+  },
+  {
+    "displayName": "calth/g",
+    "uneceCode": "B36",
+    "description": "calorie (thermochemical) per gram"
+  },
+  {
+    "displayName": "calth/min",
+    "uneceCode": "J81",
+    "description": "calorie (thermochemical) per minute"
+  },
+  {
+    "displayName": "calth/s",
+    "uneceCode": "J82",
+    "description": "calorie (thermochemical) per second"
+  },
+  {
+    "displayName": "cd",
+    "uneceCode": "CDL",
+    "description": "candela"
+  },
+  {
+    "displayName": "cd/ft²",
+    "uneceCode": "P32",
+    "description": "candela per square foot"
+  },
+  {
+    "displayName": "cd/in²",
+    "uneceCode": "P28",
+    "description": "candela per square inch"
+  },
+  {
+    "displayName": "cd/m²",
+    "uneceCode": "A24",
+    "description": "candela per square metre"
+  },
+  {
+    "displayName": "cg",
+    "uneceCode": "CGM",
+    "description": "centigram"
+  },
+  {
+    "displayName": "ch (UK)",
+    "uneceCode": "X1",
+    "description": "Gunter's chain"
+  },
+  {
+    "displayName": "ch (US survey)",
+    "uneceCode": "M49",
+    "description": "chain (based on U.S. survey foot)"
+  },
+  {
+    "displayName": "Ci",
+    "uneceCode": "CUR",
+    "description": "curie"
+  },
+  {
+    "displayName": "Ci/kg",
+    "uneceCode": "A42",
+    "description": "curie per kilogram"
+  },
+  {
+    "displayName": "cl",
+    "uneceCode": "CLT",
+    "description": "centilitre"
+  },
+  {
+    "displayName": "clo",
+    "uneceCode": "J83",
+    "description": "clo"
+  },
+  {
+    "displayName": "cm",
+    "uneceCode": "CMT",
+    "description": "centimetre"
+  },
+  {
+    "displayName": "cm H₂O",
+    "uneceCode": "H78",
+    "description": "conventional centimetre of water"
+  },
+  {
+    "displayName": "cm Hg",
+    "uneceCode": "J89",
+    "description": "centimetre of mercury"
+  },
+  {
+    "displayName": "cm/bar",
+    "uneceCode": "G04",
+    "description": "centimetre per bar"
+  },
+  {
+    "displayName": "cm/h",
+    "uneceCode": "H49",
+    "description": "centimetre per hour"
+  },
+  {
+    "displayName": "cm/K",
+    "uneceCode": "F51",
+    "description": "centimetre per kelvin"
+  },
+  {
+    "displayName": "cm/s",
+    "uneceCode": "2M",
+    "description": "centimetre per second"
+  },
+  {
+    "displayName": "cm/s²",
+    "uneceCode": "M39",
+    "description": "centimetre per second squared"
+  },
+  {
+    "displayName": "cm⁻¹",
+    "uneceCode": "E90",
+    "description": "reciprocal centimetre"
+  },
+  {
+    "displayName": "cm⁻³",
+    "uneceCode": "H50",
+    "description": "reciprocal cubic centimetre"
+  },
+  {
+    "displayName": "cm²",
+    "uneceCode": "CMK",
+    "description": "square centimetre"
+  },
+  {
+    "displayName": "cm²/(sr·erg)",
+    "uneceCode": "D17",
+    "description": "square centimetre per steradian erg"
+  },
+  {
+    "displayName": "cm²/erg",
+    "uneceCode": "D16",
+    "description": "square centimetre per erg"
+  },
+  {
+    "displayName": "cm²/g",
+    "uneceCode": "H15",
+    "description": "square centimetre per gram"
+  },
+  {
+    "displayName": "cm²/s",
+    "uneceCode": "M81",
+    "description": "square centimetre per second"
+  },
+  {
+    "displayName": "cm³",
+    "uneceCode": "CMQ",
+    "description": "cubic centimetre"
+  },
+  {
+    "displayName": "cm³/(d·bar)",
+    "uneceCode": "G78",
+    "description": "cubic centimetre per day bar"
+  },
+  {
+    "displayName": "cm³/(d·K)",
+    "uneceCode": "G61",
+    "description": "cubic centimetre per day kelvin"
+  },
+  {
+    "displayName": "cm³/(h·bar)",
+    "uneceCode": "G79",
+    "description": "cubic centimetre per hour bar"
+  },
+  {
+    "displayName": "cm³/(h·K)",
+    "uneceCode": "G62",
+    "description": "cubic centimetre per hour kelvin"
+  },
+  {
+    "displayName": "cm³/(min·bar)",
+    "uneceCode": "G80",
+    "description": "cubic centimetre per minute bar"
+  },
+  {
+    "displayName": "cm³/(min·K)",
+    "uneceCode": "G63",
+    "description": "cubic centimetre per minute kelvin"
+  },
+  {
+    "displayName": "cm³/(s·bar)",
+    "uneceCode": "G81",
+    "description": "cubic centimetre per second bar"
+  },
+  {
+    "displayName": "cm³/(s·K)",
+    "uneceCode": "G64",
+    "description": "cubic centimetre per second kelvin"
+  },
+  {
+    "displayName": "cm³/bar",
+    "uneceCode": "G94",
+    "description": "cubic centimetre per bar"
+  },
+  {
+    "displayName": "cm³/d",
+    "uneceCode": "G47",
+    "description": "cubic centimetre per day"
+  },
+  {
+    "displayName": "cm³/h",
+    "uneceCode": "G48",
+    "description": "cubic centimetre per hour"
+  },
+  {
+    "displayName": "cm³/K",
+    "uneceCode": "G27",
+    "description": "cubic centimetre per kelvin"
+  },
+  {
+    "displayName": "cm³/m³",
+    "uneceCode": "J87",
+    "description": "cubic centimetre per cubic metre"
+  },
+  {
+    "displayName": "cm³/min",
+    "uneceCode": "G49",
+    "description": "cubic centimetre per minute"
+  },
+  {
+    "displayName": "cm³/mol",
+    "uneceCode": "A36",
+    "description": "cubic centimetre per mole"
+  },
+  {
+    "displayName": "cm³/s",
+    "uneceCode": "2J",
+    "description": "cubic centimetre per second"
+  },
+  {
+    "displayName": "cmH₂O (4 °C)",
+    "uneceCode": "N14",
+    "description": "centimetre of water (4 ºC)"
+  },
+  {
+    "displayName": "cmHg (0 ºC)",
+    "uneceCode": "N13",
+    "description": "centimetre of mercury (0 ºC)"
+  },
+  {
+    "displayName": "cmil",
+    "uneceCode": "M47",
+    "description": "circular mil"
+  },
+  {
+    "displayName": "cN·m",
+    "uneceCode": "J72",
+    "description": "centinewton metre"
+  },
+  {
+    "displayName": "cord",
+    "uneceCode": "M68",
+    "description": "cord (128 ft3)"
+  },
+  {
+    "displayName": "cP",
+    "uneceCode": "C7",
+    "description": "centipoise"
+  },
+  {
+    "displayName": "cP/bar",
+    "uneceCode": "J74",
+    "description": "centipoise per bar"
+  },
+  {
+    "displayName": "cP/K",
+    "uneceCode": "J73",
+    "description": "centipoise per kelvin"
+  },
+  {
+    "displayName": "cSt",
+    "uneceCode": "4C",
+    "description": "centistokes"
+  },
+  {
+    "displayName": "cup (US)",
+    "uneceCode": "G21",
+    "description": "cup [unit of volume]"
+  },
+  {
+    "displayName": "CV",
+    "uneceCode": "A25",
+    "description": "cheval vapeur"
+  },
+  {
+    "displayName": "cwt (UK)",
+    "uneceCode": "CWI",
+    "description": "hundred weight (UK)"
+  },
+  {
+    "displayName": "cwt (US)",
+    "uneceCode": "CWA",
+    "description": "hundred pound (cwt) / hundred weight (US)"
+  },
+  {
+    "displayName": "d",
+    "uneceCode": "DAY",
+    "description": "day"
+  },
+  {
+    "displayName": "d⁻¹",
+    "uneceCode": "E91",
+    "description": "reciprocal day"
+  },
+  {
+    "displayName": "daa",
+    "uneceCode": "DAA",
+    "description": "decare"
+  },
+  {
+    "displayName": "dag",
+    "uneceCode": "DJ",
+    "description": "decagram"
+  },
+  {
+    "displayName": "dal",
+    "uneceCode": "A44",
+    "description": "decalitre"
+  },
+  {
+    "displayName": "dam",
+    "uneceCode": "A45",
+    "description": "decametre"
+  },
+  {
+    "displayName": "dam²",
+    "uneceCode": "H16",
+    "description": "square decametre"
+  },
+  {
+    "displayName": "dam³",
+    "uneceCode": "DMA",
+    "description": "cubic decametre"
+  },
+  {
+    "displayName": "daPa",
+    "uneceCode": "H75",
+    "description": "decapascal"
+  },
+  {
+    "displayName": "dB",
+    "uneceCode": "2N",
+    "description": "decibel"
+  },
+  {
+    "displayName": "dB/km",
+    "uneceCode": "H51",
+    "description": "decibel per kilometre"
+  },
+  {
+    "displayName": "dB/m",
+    "uneceCode": "H52",
+    "description": "decibel per metre"
+  },
+  {
+    "displayName": "dec",
+    "uneceCode": "P41",
+    "description": "decade (logarithmic)"
+  },
+  {
+    "displayName": "deg da",
+    "uneceCode": "E10",
+    "description": "degree day"
+  },
+  {
+    "displayName": "den",
+    "uneceCode": "M83",
+    "description": "denier"
+  },
+  {
+    "displayName": "den (g/9 km)",
+    "uneceCode": "A49",
+    "description": "denier"
+  },
+  {
+    "displayName": "dg",
+    "uneceCode": "DG",
+    "description": "decigram"
+  },
+  {
+    "displayName": "dl",
+    "uneceCode": "DLT",
+    "description": "decilitre"
+  },
+  {
+    "displayName": "dl/g",
+    "uneceCode": "22",
+    "description": "decilitre per gram"
+  },
+  {
+    "displayName": "dm",
+    "uneceCode": "DMT",
+    "description": "decimetre"
+  },
+  {
+    "displayName": "dm²",
+    "uneceCode": "DMK",
+    "description": "square decimetre"
+  },
+  {
+    "displayName": "dm³",
+    "uneceCode": "DMQ",
+    "description": "cubic decimetre"
+  },
+  {
+    "displayName": "dm³/d",
+    "uneceCode": "J90",
+    "description": "cubic decimetre per day"
+  },
+  {
+    "displayName": "dm³/h",
+    "uneceCode": "E92",
+    "description": "cubic decimetre per hour"
+  },
+  {
+    "displayName": "dm³/kg",
+    "uneceCode": "N28",
+    "description": "cubic decimetre per kilogram"
+  },
+  {
+    "displayName": "dm³/m³",
+    "uneceCode": "J91",
+    "description": "cubic decimetre per cubic metre"
+  },
+  {
+    "displayName": "dm³/min",
+    "uneceCode": "J92",
+    "description": "cubic decimetre per minute"
+  },
+  {
+    "displayName": "dm³/mol",
+    "uneceCode": "A37",
+    "description": "cubic decimetre per mole"
+  },
+  {
+    "displayName": "dm³/s",
+    "uneceCode": "J93",
+    "description": "cubic decimetre per second"
+  },
+  {
+    "displayName": "dN·m",
+    "uneceCode": "DN",
+    "description": "decinewton metre"
+  },
+  {
+    "displayName": "DOZ",
+    "uneceCode": "DZN",
+    "description": "dozen"
+  },
+  {
+    "displayName": "dpi",
+    "uneceCode": "E39",
+    "description": "dots per inch"
+  },
+  {
+    "displayName": "dpt",
+    "uneceCode": "Q25",
+    "description": "dioptre"
+  },
+  {
+    "displayName": "dry gal (US)",
+    "uneceCode": "GLD",
+    "description": "dry gallon (US)"
+  },
+  {
+    "displayName": "dry pt (US)",
+    "uneceCode": "PTD",
+    "description": "dry pint (US)"
+  },
+  {
+    "displayName": "dry qt (US)",
+    "uneceCode": "QTD",
+    "description": "dry quart (US)"
+  },
+  {
+    "displayName": "dt or dtn",
+    "uneceCode": "DTN",
+    "description": "decitonne"
+  },
+  {
+    "displayName": "dtex (g/10km)",
+    "uneceCode": "A47",
+    "description": "decitex"
+  },
+  {
+    "displayName": "dwt",
+    "uneceCode": "A43",
+    "description": "deadweight tonnage"
+  },
+  {
+    "displayName": "dyn",
+    "uneceCode": "DU",
+    "description": "dyne"
+  },
+  {
+    "displayName": "dyn·cm",
+    "uneceCode": "J94",
+    "description": "dyne centimetre"
+  },
+  {
+    "displayName": "dyn·m",
+    "uneceCode": "M97",
+    "description": "dyne metre"
+  },
+  {
+    "displayName": "dyn·s/cm",
+    "uneceCode": "A51",
+    "description": "dyne second per centimetre"
+  },
+  {
+    "displayName": "dyn·s/cm³",
+    "uneceCode": "A50",
+    "description": "dyne second per cubic centimetre"
+  },
+  {
+    "displayName": "dyn·s/cm⁵",
+    "uneceCode": "A52",
+    "description": "dyne second per centimetre to the fifth power"
+  },
+  {
+    "displayName": "dyn/cm",
+    "uneceCode": "DX",
+    "description": "dyne per centimetre"
+  },
+  {
+    "displayName": "dyn/cm²",
+    "uneceCode": "D9",
+    "description": "dyne per square centimetre"
+  },
+  {
+    "displayName": "E",
+    "uneceCode": "Q11",
+    "description": "erlang"
+  },
+  {
+    "displayName": "Ebit/s",
+    "uneceCode": "E58",
+    "description": "exabit per second"
+  },
+  {
+    "displayName": "Eibit/m",
+    "uneceCode": "E65",
+    "description": "exbibit per metre"
+  },
+  {
+    "displayName": "Eibit/m²",
+    "uneceCode": "E66",
+    "description": "exbibit per square metre"
+  },
+  {
+    "displayName": "Eibit/m³",
+    "uneceCode": "E67",
+    "description": "exbibit per cubic metre"
+  },
+  {
+    "displayName": "Eibyte",
+    "uneceCode": "E59",
+    "description": "exbibyte"
+  },
+  {
+    "displayName": "EJ",
+    "uneceCode": "A68",
+    "description": "exajoule"
+  },
+  {
+    "displayName": "electric hp",
+    "uneceCode": "K43",
+    "description": "horsepower (electric)"
+  },
+  {
+    "displayName": "erg",
+    "uneceCode": "A57",
+    "description": "erg"
+  },
+  {
+    "displayName": "erg·cm²",
+    "uneceCode": "A66",
+    "description": "erg square centimetre"
+  },
+  {
+    "displayName": "erg·cm²/g",
+    "uneceCode": "A67",
+    "description": "erg square centimetre per gram"
+  },
+  {
+    "displayName": "erg/(cm²·s)",
+    "uneceCode": "A65",
+    "description": "erg per square centimetre second"
+  },
+  {
+    "displayName": "erg/(s·cm²)",
+    "uneceCode": "A64",
+    "description": "erg per second square centimetre"
+  },
+  {
+    "displayName": "erg/cm",
+    "uneceCode": "A58",
+    "description": "erg per centimetre"
+  },
+  {
+    "displayName": "erg/cm³",
+    "uneceCode": "A60",
+    "description": "erg per cubic centimetre"
+  },
+  {
+    "displayName": "erg/g",
+    "uneceCode": "A61",
+    "description": "erg per gram"
+  },
+  {
+    "displayName": "erg/g·s",
+    "uneceCode": "A62",
+    "description": "erg per gram second"
+  },
+  {
+    "displayName": "erg/s",
+    "uneceCode": "A63",
+    "description": "erg per second"
+  },
+  {
+    "displayName": "eV",
+    "uneceCode": "A53",
+    "description": "electronvolt"
+  },
+  {
+    "displayName": "eV·m²",
+    "uneceCode": "A55",
+    "description": "electronvolt square metre"
+  },
+  {
+    "displayName": "eV·m²/kg",
+    "uneceCode": "A56",
+    "description": "electronvolt square metre per kilogram"
+  },
+  {
+    "displayName": "eV/m",
+    "uneceCode": "A54",
+    "description": "electronvolt per metre"
+  },
+  {
+    "displayName": "eV⁻¹/m³",
+    "uneceCode": "C88",
+    "description": "reciprocal electron volt per cubic metre"
+  },
+  {
+    "displayName": "F",
+    "uneceCode": "FAR",
+    "description": "farad"
+  },
+  {
+    "displayName": "F/km",
+    "uneceCode": "H33",
+    "description": "farad per kilometre"
+  },
+  {
+    "displayName": "F/m",
+    "uneceCode": "A69",
+    "description": "farad per metre"
+  },
+  {
+    "displayName": "fbm",
+    "uneceCode": "BFT",
+    "description": "board foot"
+  },
+  {
+    "displayName": "Fg",
+    "uneceCode": "H79",
+    "description": "French gauge"
+  },
+  {
+    "displayName": "FIT",
+    "uneceCode": "FIT",
+    "description": "failures in time"
+  },
+  {
+    "displayName": "fJ",
+    "uneceCode": "A70",
+    "description": "femtojoule"
+  },
+  {
+    "displayName": "fl",
+    "uneceCode": "Q32",
+    "description": "femtolitre"
+  },
+  {
+    "displayName": "fl oz (UK)",
+    "uneceCode": "OZI",
+    "description": "fluid ounce (UK)"
+  },
+  {
+    "displayName": "fl oz (UK)/d",
+    "uneceCode": "J95",
+    "description": "ounce (UK fluid) per day"
+  },
+  {
+    "displayName": "fl oz (UK)/h",
+    "uneceCode": "J96",
+    "description": "ounce (UK fluid) per hour"
+  },
+  {
+    "displayName": "fl oz (UK)/min",
+    "uneceCode": "J97",
+    "description": "ounce (UK fluid) per minute"
+  },
+  {
+    "displayName": "fl oz (UK)/s",
+    "uneceCode": "J98",
+    "description": "ounce (UK fluid) per second"
+  },
+  {
+    "displayName": "fl oz (US)",
+    "uneceCode": "OZA",
+    "description": "fluid ounce (US)"
+  },
+  {
+    "displayName": "fl oz (US)/d",
+    "uneceCode": "J99",
+    "description": "ounce (US fluid) per day"
+  },
+  {
+    "displayName": "fl oz (US)/h",
+    "uneceCode": "K10",
+    "description": "ounce (US fluid) per hour"
+  },
+  {
+    "displayName": "fl oz (US)/min",
+    "uneceCode": "K11",
+    "description": "ounce (US fluid) per minute"
+  },
+  {
+    "displayName": "fl oz (US)/s",
+    "uneceCode": "K12",
+    "description": "ounce (US fluid) per second"
+  },
+  {
+    "displayName": "fm",
+    "uneceCode": "A71",
+    "description": "femtometre"
+  },
+  {
+    "displayName": "Fr",
+    "uneceCode": "N94",
+    "description": "franklin"
+  },
+  {
+    "displayName": "ft",
+    "uneceCode": "FOT",
+    "description": "foot"
+  },
+  {
+    "displayName": "ft (US survey)",
+    "uneceCode": "M51",
+    "description": "foot (U.S. survey)"
+  },
+  {
+    "displayName": "ft H₂O",
+    "uneceCode": "K24",
+    "description": "foot of water"
+  },
+  {
+    "displayName": "ft Hg",
+    "uneceCode": "K25",
+    "description": "foot of mercury"
+  },
+  {
+    "displayName": "ft·lbf",
+    "uneceCode": "85",
+    "description": "foot pound-force"
+  },
+  {
+    "displayName": "ft·lbf/h",
+    "uneceCode": "K15",
+    "description": "foot pound-force per hour"
+  },
+  {
+    "displayName": "ft·lbf/min",
+    "uneceCode": "K16",
+    "description": "foot pound-force per minute"
+  },
+  {
+    "displayName": "ft·lbf/s",
+    "uneceCode": "A74",
+    "description": "foot pound-force per second"
+  },
+  {
+    "displayName": "ft·pdl",
+    "uneceCode": "N46",
+    "description": "foot poundal"
+  },
+  {
+    "displayName": "ft/°F",
+    "uneceCode": "K13",
+    "description": "foot per degree Fahrenheit"
+  },
+  {
+    "displayName": "ft/h",
+    "uneceCode": "K14",
+    "description": "foot per hour"
+  },
+  {
+    "displayName": "ft/min",
+    "uneceCode": "FR",
+    "description": "foot per minute"
+  },
+  {
+    "displayName": "ft/psi",
+    "uneceCode": "K17",
+    "description": "foot per psi"
+  },
+  {
+    "displayName": "ft/s",
+    "uneceCode": "FS",
+    "description": "foot per second"
+  },
+  {
+    "displayName": "ft/s²",
+    "uneceCode": "A73",
+    "description": "foot per second squared"
+  },
+  {
+    "displayName": "ft²",
+    "uneceCode": "FTK",
+    "description": "square foot"
+  },
+  {
+    "displayName": "ft²/h",
+    "uneceCode": "M79",
+    "description": "square foot per hour"
+  },
+  {
+    "displayName": "ft²/s",
+    "uneceCode": "S3",
+    "description": "square foot per second"
+  },
+  {
+    "displayName": "ft³",
+    "uneceCode": "FTQ",
+    "description": "cubic foot"
+  },
+  {
+    "displayName": "ft³/°F",
+    "uneceCode": "K21",
+    "description": "cubic foot per degree Fahrenheit"
+  },
+  {
+    "displayName": "ft³/d",
+    "uneceCode": "K22",
+    "description": "cubic foot per day"
+  },
+  {
+    "displayName": "ft³/h",
+    "uneceCode": "2K",
+    "description": "cubic foot per hour"
+  },
+  {
+    "displayName": "ft³/lb",
+    "uneceCode": "N29",
+    "description": "cubic foot per pound"
+  },
+  {
+    "displayName": "ft³/min",
+    "uneceCode": "2L",
+    "description": "cubic foot per minute"
+  },
+  {
+    "displayName": "ft³/psi",
+    "uneceCode": "K23",
+    "description": "cubic foot per psi"
+  },
+  {
+    "displayName": "ft³/s",
+    "uneceCode": "E17",
+    "description": "cubic foot per second"
+  },
+  {
+    "displayName": "ft⁴",
+    "uneceCode": "N27",
+    "description": "foot to the fourth power"
+  },
+  {
+    "displayName": "ftc",
+    "uneceCode": "P27",
+    "description": "footcandle"
+  },
+  {
+    "displayName": "fth",
+    "uneceCode": "AK",
+    "description": "fathom"
+  },
+  {
+    "displayName": "ftH₂O (39,2 ºF)",
+    "uneceCode": "N15",
+    "description": "foot of water (39.2 ºF)"
+  },
+  {
+    "displayName": "ftL",
+    "uneceCode": "P29",
+    "description": "footlambert"
+  },
+  {
+    "displayName": "fur",
+    "uneceCode": "M50",
+    "description": "furlong"
+  },
+  {
+    "displayName": "g",
+    "uneceCode": "GRM",
+    "description": "gram"
+  },
+  {
+    "displayName": "g·(cm/s)",
+    "uneceCode": "M99",
+    "description": "gram centimetre per second"
+  },
+  {
+    "displayName": "g·mm",
+    "uneceCode": "H84",
+    "description": "gram millimetre"
+  },
+  {
+    "displayName": "g/(cm·s)",
+    "uneceCode": "N41",
+    "description": "gram per centimetre second"
+  },
+  {
+    "displayName": "g/(cm³·bar)",
+    "uneceCode": "G11",
+    "description": "gram per cubic centimetre bar"
+  },
+  {
+    "displayName": "g/(cm³·K)",
+    "uneceCode": "G33",
+    "description": "gram per cubic centimetre kelvin"
+  },
+  {
+    "displayName": "g/(d·bar)",
+    "uneceCode": "F62",
+    "description": "gram per day bar"
+  },
+  {
+    "displayName": "g/(d·K)",
+    "uneceCode": "F35",
+    "description": "gram per day kelvin"
+  },
+  {
+    "displayName": "g/(dm³·bar)",
+    "uneceCode": "G12",
+    "description": "gram per cubic decimetre bar"
+  },
+  {
+    "displayName": "g/(dm³·K)",
+    "uneceCode": "G34",
+    "description": "gram per cubic decimetre kelvin"
+  },
+  {
+    "displayName": "g/(h·bar)",
+    "uneceCode": "F63",
+    "description": "gram per hour bar"
+  },
+  {
+    "displayName": "g/(h·K)",
+    "uneceCode": "F36",
+    "description": "gram per hour kelvin"
+  },
+  {
+    "displayName": "g/(l·bar)",
+    "uneceCode": "G13",
+    "description": "gram per litre bar"
+  },
+  {
+    "displayName": "g/(l·K)",
+    "uneceCode": "G35",
+    "description": "gram per litre kelvin"
+  },
+  {
+    "displayName": "g/(m³·bar)",
+    "uneceCode": "G14",
+    "description": "gram per cubic metre bar"
+  },
+  {
+    "displayName": "g/(m³·K)",
+    "uneceCode": "G36",
+    "description": "gram per cubic metre kelvin"
+  },
+  {
+    "displayName": "g/(min·bar)",
+    "uneceCode": "F64",
+    "description": "gram per minute bar"
+  },
+  {
+    "displayName": "g/(min·K)",
+    "uneceCode": "F37",
+    "description": "gram per minute kelvin"
+  },
+  {
+    "displayName": "g/(ml·bar)",
+    "uneceCode": "G15",
+    "description": "gram per millilitre bar"
+  },
+  {
+    "displayName": "g/(ml·K)",
+    "uneceCode": "G37",
+    "description": "gram per millilitre kelvin"
+  },
+  {
+    "displayName": "g/(s·bar)",
+    "uneceCode": "F65",
+    "description": "gram per second bar"
+  },
+  {
+    "displayName": "g/(s·K)",
+    "uneceCode": "F38",
+    "description": "gram per second kelvin"
+  },
+  {
+    "displayName": "g/bar",
+    "uneceCode": "F74",
+    "description": "gram per bar"
+  },
+  {
+    "displayName": "g/cm²",
+    "uneceCode": "25",
+    "description": "gram per square centimetre"
+  },
+  {
+    "displayName": "g/cm³",
+    "uneceCode": "23",
+    "description": "gram per cubic centimetre"
+  },
+  {
+    "displayName": "g/d",
+    "uneceCode": "F26",
+    "description": "gram per day"
+  },
+  {
+    "displayName": "g/dm³",
+    "uneceCode": "F23",
+    "description": "gram per cubic decimetre"
+  },
+  {
+    "displayName": "g/h",
+    "uneceCode": "F27",
+    "description": "gram per hour"
+  },
+  {
+    "displayName": "g/Hz",
+    "uneceCode": "F25",
+    "description": "gram per hertz"
+  },
+  {
+    "displayName": "g/K",
+    "uneceCode": "F14",
+    "description": "gram per kelvin"
+  },
+  {
+    "displayName": "g/l",
+    "uneceCode": "GL",
+    "description": "gram per litre"
+  },
+  {
+    "displayName": "g/m",
+    "uneceCode": "GF",
+    "description": "gram per metre (gram per 100 centimetres)"
+  },
+  {
+    "displayName": "g/m²",
+    "uneceCode": "GM",
+    "description": "gram per square metre"
+  },
+  {
+    "displayName": "g/m³",
+    "uneceCode": "A93",
+    "description": "gram per cubic metre"
+  },
+  {
+    "displayName": "g/min",
+    "uneceCode": "F28",
+    "description": "gram per minute"
+  },
+  {
+    "displayName": "g/ml",
+    "uneceCode": "GJ",
+    "description": "gram per millilitre"
+  },
+  {
+    "displayName": "g/mm",
+    "uneceCode": "H76",
+    "description": "gram per millimetre"
+  },
+  {
+    "displayName": "g/mm²",
+    "uneceCode": "N24",
+    "description": "gram per square millimetre"
+  },
+  {
+    "displayName": "g/mol",
+    "uneceCode": "A94",
+    "description": "gram per mole"
+  },
+  {
+    "displayName": "g/s",
+    "uneceCode": "F29",
+    "description": "gram per second"
+  },
+  {
+    "displayName": "Gal",
+    "uneceCode": "A76",
+    "description": "gal"
+  },
+  {
+    "displayName": "gal (UK)",
+    "uneceCode": "GLI",
+    "description": "gallon (UK)"
+  },
+  {
+    "displayName": "gal (UK) /min",
+    "uneceCode": "G3",
+    "description": "Imperial gallon per minute"
+  },
+  {
+    "displayName": "gal (UK)/d",
+    "uneceCode": "K26",
+    "description": "gallon (UK) per day"
+  },
+  {
+    "displayName": "gal (UK)/h",
+    "uneceCode": "K27",
+    "description": "gallon (UK) per hour"
+  },
+  {
+    "displayName": "gal (UK)/s",
+    "uneceCode": "K28",
+    "description": "gallon (UK) per second"
+  },
+  {
+    "displayName": "gal (US liq.)/s",
+    "uneceCode": "K30",
+    "description": "gallon (US liquid) per second"
+  },
+  {
+    "displayName": "gal (US)",
+    "uneceCode": "GLL",
+    "description": "gallon (US)"
+  },
+  {
+    "displayName": "gal (US) /min",
+    "uneceCode": "G2",
+    "description": "US gallon per minute"
+  },
+  {
+    "displayName": "gal (US)/d",
+    "uneceCode": "GB",
+    "description": "gallon (US) per day"
+  },
+  {
+    "displayName": "gal/h",
+    "uneceCode": "G50",
+    "description": "gallon (US) per hour"
+  },
+  {
+    "displayName": "Gbit",
+    "uneceCode": "B68",
+    "description": "gigabit"
+  },
+  {
+    "displayName": "Gbit/s",
+    "uneceCode": "B80",
+    "description": "gigabit per second"
+  },
+  {
+    "displayName": "GBq",
+    "uneceCode": "GBQ",
+    "description": "gigabecquerel"
+  },
+  {
+    "displayName": "Gbyte",
+    "uneceCode": "E34",
+    "description": "gigabyte"
+  },
+  {
+    "displayName": "Gbyte/s",
+    "uneceCode": "E68",
+    "description": "gigabyte per second"
+  },
+  {
+    "displayName": "GC/m³",
+    "uneceCode": "A84",
+    "description": "gigacoulomb per cubic metre"
+  },
+  {
+    "displayName": "GeV",
+    "uneceCode": "A85",
+    "description": "gigaelectronvolt"
+  },
+  {
+    "displayName": "gf/cm²",
+    "uneceCode": "K31",
+    "description": "gram-force per square centimetre"
+  },
+  {
+    "displayName": "GHz",
+    "uneceCode": "A86",
+    "description": "gigahertz"
+  },
+  {
+    "displayName": "GHz·m",
+    "uneceCode": "M18",
+    "description": "gigahertz metre"
+  },
+  {
+    "displayName": "Gi",
+    "uneceCode": "N97",
+    "description": "gilbert"
+  },
+  {
+    "displayName": "gi (UK)",
+    "uneceCode": "GII",
+    "description": "gill (UK)"
+  },
+  {
+    "displayName": "gi (UK)/d",
+    "uneceCode": "K32",
+    "description": "gill (UK) per day"
+  },
+  {
+    "displayName": "gi (UK)/h",
+    "uneceCode": "K33",
+    "description": "gill (UK) per hour"
+  },
+  {
+    "displayName": "gi (UK)/min",
+    "uneceCode": "K34",
+    "description": "gill (UK) per minute"
+  },
+  {
+    "displayName": "gi (UK)/s",
+    "uneceCode": "K35",
+    "description": "gill (UK) per second"
+  },
+  {
+    "displayName": "gi (US)",
+    "uneceCode": "GIA",
+    "description": "gill (US)"
+  },
+  {
+    "displayName": "gi (US)/d",
+    "uneceCode": "K36",
+    "description": "gill (US) per day"
+  },
+  {
+    "displayName": "gi (US)/h",
+    "uneceCode": "K37",
+    "description": "gill (US) per hour"
+  },
+  {
+    "displayName": "gi (US)/min",
+    "uneceCode": "K38",
+    "description": "gill (US) per minute"
+  },
+  {
+    "displayName": "gi (US)/s",
+    "uneceCode": "K39",
+    "description": "gill (US) per second"
+  },
+  {
+    "displayName": "gi F/S",
+    "uneceCode": "GFI",
+    "description": "gram of fissile isotope"
+  },
+  {
+    "displayName": "Gibit",
+    "uneceCode": "B30",
+    "description": "gibibit"
+  },
+  {
+    "displayName": "Gibit/m",
+    "uneceCode": "E69",
+    "description": "gibibit per metre"
+  },
+  {
+    "displayName": "Gibit/m²",
+    "uneceCode": "E70",
+    "description": "gibibit per square metre"
+  },
+  {
+    "displayName": "Gibit/m³",
+    "uneceCode": "E71",
+    "description": "gibibit per cubic metre"
+  },
+  {
+    "displayName": "Gibyte",
+    "uneceCode": "E62",
+    "description": "gibibyte"
+  },
+  {
+    "displayName": "GJ",
+    "uneceCode": "GV",
+    "description": "gigajoule"
+  },
+  {
+    "displayName": "gn",
+    "uneceCode": "K40",
+    "description": "standard acceleration of free fall"
+  },
+  {
+    "displayName": "gon",
+    "uneceCode": "A91",
+    "description": "gon"
+  },
+  {
+    "displayName": "GPa",
+    "uneceCode": "A89",
+    "description": "gigapascal"
+  },
+  {
+    "displayName": "gr",
+    "uneceCode": "GRN",
+    "description": "grain"
+  },
+  {
+    "displayName": "gr",
+    "uneceCode": "GRO",
+    "description": "gross"
+  },
+  {
+    "displayName": "gr/gal (US)",
+    "uneceCode": "K41",
+    "description": "grain per gallon (US)"
+  },
+  {
+    "displayName": "Gs",
+    "uneceCode": "76",
+    "description": "gauss"
+  },
+  {
+    "displayName": "GW",
+    "uneceCode": "A90",
+    "description": "gigawatt"
+  },
+  {
+    "displayName": "GWh",
+    "uneceCode": "GWH",
+    "description": "gigawatt hour"
+  },
+  {
+    "displayName": "Gy",
+    "uneceCode": "A95",
+    "description": "gray"
+  },
+  {
+    "displayName": "Gy/h",
+    "uneceCode": "P61",
+    "description": "gray per hour"
+  },
+  {
+    "displayName": "Gy/min",
+    "uneceCode": "P57",
+    "description": "gray per minute"
+  },
+  {
+    "displayName": "Gy/s",
+    "uneceCode": "A96",
+    "description": "gray per second"
+  },
+  {
+    "displayName": "GΩ",
+    "uneceCode": "A87",
+    "description": "gigaohm"
+  },
+  {
+    "displayName": "GΩ·m",
+    "uneceCode": "A88",
+    "description": "gigaohm metre"
+  },
+  {
+    "displayName": "GΩ/m",
+    "uneceCode": "M26",
+    "description": "gigaohm per metre"
+  },
+  {
+    "displayName": "h",
+    "uneceCode": "HUR",
+    "description": "hour"
+  },
+  {
+    "displayName": "H",
+    "uneceCode": "81",
+    "description": "henry"
+  },
+  {
+    "displayName": "H/kΩ",
+    "uneceCode": "H03",
+    "description": "henry per kiloohm"
+  },
+  {
+    "displayName": "H/m",
+    "uneceCode": "A98",
+    "description": "henry per metre"
+  },
+  {
+    "displayName": "H/Ω",
+    "uneceCode": "H04",
+    "description": "henry per ohm"
+  },
+  {
+    "displayName": "H⁻¹",
+    "uneceCode": "C89",
+    "description": "reciprocal henry"
+  },
+  {
+    "displayName": "ha",
+    "uneceCode": "HAR",
+    "description": "hectare"
+  },
+  {
+    "displayName": "Hart",
+    "uneceCode": "Q15",
+    "description": "hartley"
+  },
+  {
+    "displayName": "Hart/s",
+    "uneceCode": "Q18",
+    "description": "hartley per second"
+  },
+  {
+    "displayName": "hbar",
+    "uneceCode": "HBA",
+    "description": "hectobar"
+  },
+  {
+    "displayName": "hg",
+    "uneceCode": "HGM",
+    "description": "hectogram"
+  },
+  {
+    "displayName": "HK",
+    "uneceCode": "P35",
+    "description": "Hefner-Kerze"
+  },
+  {
+    "displayName": "hl",
+    "uneceCode": "HLT",
+    "description": "hectolitre"
+  },
+  {
+    "displayName": "hm",
+    "uneceCode": "HMT",
+    "description": "hectometre"
+  },
+  {
+    "displayName": "hm²",
+    "uneceCode": "H18",
+    "description": "square hectometre"
+  },
+  {
+    "displayName": "hm³",
+    "uneceCode": "H19",
+    "description": "cubic hectometre"
+  },
+  {
+    "displayName": "hPa",
+    "uneceCode": "A97",
+    "description": "hectopascal"
+  },
+  {
+    "displayName": "hPa·l/s",
+    "uneceCode": "F93",
+    "description": "hectopascal litre per second"
+  },
+  {
+    "displayName": "hPa·m³/s",
+    "uneceCode": "F94",
+    "description": "hectopascal cubic metre per second"
+  },
+  {
+    "displayName": "hPa/bar",
+    "uneceCode": "E99",
+    "description": "hectopascal per bar"
+  },
+  {
+    "displayName": "hPa/K",
+    "uneceCode": "F82",
+    "description": "hectopascal per kelvin"
+  },
+  {
+    "displayName": "hPa/m",
+    "uneceCode": "P82",
+    "description": "hectopascal per metre"
+  },
+  {
+    "displayName": "Hz",
+    "uneceCode": "HTZ",
+    "description": "hertz"
+  },
+  {
+    "displayName": "Hz·m",
+    "uneceCode": "H34",
+    "description": "hertz metre"
+  },
+  {
+    "displayName": "IK",
+    "uneceCode": "P36",
+    "description": "international candle"
+  },
+  {
+    "displayName": "in",
+    "uneceCode": "INH",
+    "description": "inch"
+  },
+  {
+    "displayName": "in·lb",
+    "uneceCode": "IA",
+    "description": "inch pound (pound inch)"
+  },
+  {
+    "displayName": "in·pdl",
+    "uneceCode": "N47",
+    "description": "inch poundal"
+  },
+  {
+    "displayName": "in/°F",
+    "uneceCode": "K45",
+    "description": "inch per degree Fahrenheit"
+  },
+  {
+    "displayName": "in/min",
+    "uneceCode": "M63",
+    "description": "inch per minute"
+  },
+  {
+    "displayName": "in/psi",
+    "uneceCode": "K46",
+    "description": "inch per psi"
+  },
+  {
+    "displayName": "in/revolution",
+    "uneceCode": "H57",
+    "description": "inch per two pi radiant"
+  },
+  {
+    "displayName": "in/s",
+    "uneceCode": "IU",
+    "description": "inch per second"
+  },
+  {
+    "displayName": "in/s²",
+    "uneceCode": "IV",
+    "description": "inch per second squared"
+  },
+  {
+    "displayName": "in/y",
+    "uneceCode": "M61",
+    "description": "inch per year"
+  },
+  {
+    "displayName": "in²",
+    "uneceCode": "INK",
+    "description": "square inch"
+  },
+  {
+    "displayName": "in²/s",
+    "uneceCode": "G08",
+    "description": "square inch per second"
+  },
+  {
+    "displayName": "in³",
+    "uneceCode": "INQ",
+    "description": "cubic inch"
+  },
+  {
+    "displayName": "in³/h",
+    "uneceCode": "G56",
+    "description": "cubic inch per hour"
+  },
+  {
+    "displayName": "in³/lb",
+    "uneceCode": "N30",
+    "description": "cubic inch per pound"
+  },
+  {
+    "displayName": "in³/min",
+    "uneceCode": "G57",
+    "description": "cubic inch per minute"
+  },
+  {
+    "displayName": "in³/s",
+    "uneceCode": "G58",
+    "description": "cubic inch per second"
+  },
+  {
+    "displayName": "in⁴",
+    "uneceCode": "D69",
+    "description": "inch to the fourth power"
+  },
+  {
+    "displayName": "inH₂O",
+    "uneceCode": "F78",
+    "description": "inch of water"
+  },
+  {
+    "displayName": "inH₂O (39,2 ºF)",
+    "uneceCode": "N18",
+    "description": "inch of water (39.2 ºF)"
+  },
+  {
+    "displayName": "inH₂O (60 ºF)",
+    "uneceCode": "N19",
+    "description": "inch of water (60 ºF)"
+  },
+  {
+    "displayName": "inHg",
+    "uneceCode": "F79",
+    "description": "inch of mercury"
+  },
+  {
+    "displayName": "inHG (32 ºF)",
+    "uneceCode": "N16",
+    "description": "inch of mercury (32 ºF)"
+  },
+  {
+    "displayName": "inHg (60 ºF)",
+    "uneceCode": "N17",
+    "description": "inch of mercury (60 ºF)"
+  },
+  {
+    "displayName": "J",
+    "uneceCode": "JOU",
+    "description": "joule"
+  },
+  {
+    "displayName": "J·m²",
+    "uneceCode": "D73",
+    "description": "joule square metre"
+  },
+  {
+    "displayName": "J·m²/kg",
+    "uneceCode": "B20",
+    "description": "joule square metre per kilogram"
+  },
+  {
+    "displayName": "J·s",
+    "uneceCode": "B18",
+    "description": "joule second"
+  },
+  {
+    "displayName": "J/(kg·K)",
+    "uneceCode": "B11",
+    "description": "joule per kilogram kelvin"
+  },
+  {
+    "displayName": "J/(mol·K)",
+    "uneceCode": "B16",
+    "description": "joule per mole kelvin"
+  },
+  {
+    "displayName": "J/cm²",
+    "uneceCode": "E43",
+    "description": "joule per square centimetre"
+  },
+  {
+    "displayName": "J/d",
+    "uneceCode": "P17",
+    "description": "joule per day"
+  },
+  {
+    "displayName": "J/g",
+    "uneceCode": "D95",
+    "description": "joule per gram"
+  },
+  {
+    "displayName": "J/h",
+    "uneceCode": "P16",
+    "description": "joule per hour"
+  },
+  {
+    "displayName": "J/K",
+    "uneceCode": "JE",
+    "description": "joule per kelvin"
+  },
+  {
+    "displayName": "J/kg",
+    "uneceCode": "J2",
+    "description": "joule per kilogram"
+  },
+  {
+    "displayName": "J/m",
+    "uneceCode": "B12",
+    "description": "joule per metre"
+  },
+  {
+    "displayName": "J/m²",
+    "uneceCode": "B13",
+    "description": "joule per square metre"
+  },
+  {
+    "displayName": "J/m³",
+    "uneceCode": "B8",
+    "description": "joule per cubic metre"
+  },
+  {
+    "displayName": "J/m⁴",
+    "uneceCode": "B14",
+    "description": "joule per metre to the fourth power"
+  },
+  {
+    "displayName": "J/min",
+    "uneceCode": "P15",
+    "description": "joule per minute"
+  },
+  {
+    "displayName": "J/mol",
+    "uneceCode": "B15",
+    "description": "joule per mole"
+  },
+  {
+    "displayName": "J/s",
+    "uneceCode": "P14",
+    "description": "joule per second"
+  },
+  {
+    "displayName": "J/T",
+    "uneceCode": "Q10",
+    "description": "joule per tesla"
+  },
+  {
+    "displayName": "J⁻¹/m³",
+    "uneceCode": "C90",
+    "description": "reciprocal joule per cubic metre"
+  },
+  {
+    "displayName": "K",
+    "uneceCode": "KEL",
+    "description": "kelvin"
+  },
+  {
+    "displayName": "K·m/W",
+    "uneceCode": "H35",
+    "description": "kelvin metre per watt"
+  },
+  {
+    "displayName": "K/bar",
+    "uneceCode": "F61",
+    "description": "kelvin per bar"
+  },
+  {
+    "displayName": "K/h",
+    "uneceCode": "F10",
+    "description": "kelvin per hour"
+  },
+  {
+    "displayName": "K/K",
+    "uneceCode": "F02",
+    "description": "kelvin per kelvin"
+  },
+  {
+    "displayName": "K/min",
+    "uneceCode": "F11",
+    "description": "kelvin per minute"
+  },
+  {
+    "displayName": "K/Pa",
+    "uneceCode": "N79",
+    "description": "kelvin per pascal"
+  },
+  {
+    "displayName": "K/s",
+    "uneceCode": "F12",
+    "description": "kelvin per second"
+  },
+  {
+    "displayName": "K/W",
+    "uneceCode": "B21",
+    "description": "kelvin per watt"
+  },
+  {
+    "displayName": "K⁻¹",
+    "uneceCode": "C91",
+    "description": "reciprocal kelvin or kelvin to the power minus one"
+  },
+  {
+    "displayName": "kA",
+    "uneceCode": "B22",
+    "description": "kiloampere"
+  },
+  {
+    "displayName": "kA·h",
+    "uneceCode": "TAH",
+    "description": "kiloampere hour (thousand ampere hour)"
+  },
+  {
+    "displayName": "kA/m",
+    "uneceCode": "B24",
+    "description": "kiloampere per metre"
+  },
+  {
+    "displayName": "kA/m²",
+    "uneceCode": "B23",
+    "description": "kiloampere per square metre"
+  },
+  {
+    "displayName": "kat",
+    "uneceCode": "KAT",
+    "description": "katal"
+  },
+  {
+    "displayName": "kbar",
+    "uneceCode": "KBA",
+    "description": "kilobar"
+  },
+  {
+    "displayName": "kBd",
+    "uneceCode": "K50",
+    "description": "kilobaud"
+  },
+  {
+    "displayName": "kbit",
+    "uneceCode": "C37",
+    "description": "kilobit"
+  },
+  {
+    "displayName": "kbit/s",
+    "uneceCode": "C74",
+    "description": "kilobit per second"
+  },
+  {
+    "displayName": "kBq",
+    "uneceCode": "2Q",
+    "description": "kilobecquerel"
+  },
+  {
+    "displayName": "kBq/kg",
+    "uneceCode": "B25",
+    "description": "kilobecquerel per kilogram"
+  },
+  {
+    "displayName": "kbyte",
+    "uneceCode": "2P",
+    "description": "kilobyte"
+  },
+  {
+    "displayName": "kbyte/s",
+    "uneceCode": "P94",
+    "description": "kilobyte per second"
+  },
+  {
+    "displayName": "kC",
+    "uneceCode": "B26",
+    "description": "kilocoulomb"
+  },
+  {
+    "displayName": "kC/m²",
+    "uneceCode": "B28",
+    "description": "kilocoulomb per square metre"
+  },
+  {
+    "displayName": "kC/m³",
+    "uneceCode": "B27",
+    "description": "kilocoulomb per cubic metre"
+  },
+  {
+    "displayName": "kcal",
+    "uneceCode": "K51",
+    "description": "kilocalorie (mean)"
+  },
+  {
+    "displayName": "kcal/(m·h·°C)",
+    "uneceCode": "K52",
+    "description": "kilocalorie (international table) per hour metre degree Celsius"
+  },
+  {
+    "displayName": "kcalIT",
+    "uneceCode": "E14",
+    "description": "kilocalorie (international table)"
+  },
+  {
+    "displayName": "kcalth",
+    "uneceCode": "K53",
+    "description": "kilocalorie (thermochemical)"
+  },
+  {
+    "displayName": "kcalth/h",
+    "uneceCode": "E15",
+    "description": "kilocalorie (thermochemical) per hour"
+  },
+  {
+    "displayName": "kcalth/min",
+    "uneceCode": "K54",
+    "description": "kilocalorie (thermochemical) per minute"
+  },
+  {
+    "displayName": "kcalth/s",
+    "uneceCode": "K55",
+    "description": "kilocalorie (thermochemical) per second"
+  },
+  {
+    "displayName": "kcd",
+    "uneceCode": "P33",
+    "description": "kilocandela"
+  },
+  {
+    "displayName": "kCi",
+    "uneceCode": "2R",
+    "description": "kilocurie"
+  },
+  {
+    "displayName": "keV",
+    "uneceCode": "B29",
+    "description": "kiloelectronvolt"
+  },
+  {
+    "displayName": "kF",
+    "uneceCode": "N90",
+    "description": "kilofarad"
+  },
+  {
+    "displayName": "kft³",
+    "uneceCode": "FC",
+    "description": "thousand cubic foot"
+  },
+  {
+    "displayName": "kg",
+    "uneceCode": "KGM",
+    "description": "kilogram"
+  },
+  {
+    "displayName": "kg 90 % sdt",
+    "uneceCode": "KSD",
+    "description": "kilogram of substance 90 % dry"
+  },
+  {
+    "displayName": "kg C₅ H₁₄ClNO",
+    "uneceCode": "KCC",
+    "description": "kilogram of choline chloride"
+  },
+  {
+    "displayName": "kg H₂O₂",
+    "uneceCode": "KHY",
+    "description": "kilogram of hydrogen peroxide"
+  },
+  {
+    "displayName": "kg K₂O",
+    "uneceCode": "KPO",
+    "description": "kilogram of potassium oxide"
+  },
+  {
+    "displayName": "kg KOH",
+    "uneceCode": "KPH",
+    "description": "kilogram of potassium hydroxide (caustic potash)"
+  },
+  {
+    "displayName": "kg met.am.",
+    "uneceCode": "KMA",
+    "description": "kilogram of methylamine"
+  },
+  {
+    "displayName": "kg N",
+    "uneceCode": "KNI",
+    "description": "kilogram of nitrogen"
+  },
+  {
+    "displayName": "kg NaOH",
+    "uneceCode": "KSH",
+    "description": "kilogram of sodium hydroxide (caustic soda)"
+  },
+  {
+    "displayName": "kg U",
+    "uneceCode": "KUR",
+    "description": "kilogram of uranium"
+  },
+  {
+    "displayName": "kg WO₃",
+    "uneceCode": "KWO",
+    "description": "kilogram of tungsten trioxide"
+  },
+  {
+    "displayName": "kg·(cm/s)",
+    "uneceCode": "M98",
+    "description": "kilogram centimetre per second"
+  },
+  {
+    "displayName": "kg·cm²",
+    "uneceCode": "F18",
+    "description": "kilogram square centimetre"
+  },
+  {
+    "displayName": "kg·m",
+    "uneceCode": "M94",
+    "description": "kilogram metre"
+  },
+  {
+    "displayName": "kg·m/s",
+    "uneceCode": "B31",
+    "description": "kilogram metre per second"
+  },
+  {
+    "displayName": "kg·m/s²",
+    "uneceCode": "M77",
+    "description": "kilogram metre per second squared"
+  },
+  {
+    "displayName": "kg·m²",
+    "uneceCode": "B32",
+    "description": "kilogram metre squared"
+  },
+  {
+    "displayName": "kg·m²/s",
+    "uneceCode": "B33",
+    "description": "kilogram metre squared per second"
+  },
+  {
+    "displayName": "kg·mm²",
+    "uneceCode": "F19",
+    "description": "kilogram square millimetre"
+  },
+  {
+    "displayName": "kg/(cm³·bar)",
+    "uneceCode": "G16",
+    "description": "kilogram per cubic centimetre bar"
+  },
+  {
+    "displayName": "kg/(cm³·K)",
+    "uneceCode": "G38",
+    "description": "kilogram per cubic centimetre kelvin"
+  },
+  {
+    "displayName": "kg/(d·bar)",
+    "uneceCode": "F66",
+    "description": "kilogram per day bar"
+  },
+  {
+    "displayName": "kg/(d·K)",
+    "uneceCode": "F39",
+    "description": "kilogram per day kelvin"
+  },
+  {
+    "displayName": "kg/(h·bar)",
+    "uneceCode": "F67",
+    "description": "kilogram per hour bar"
+  },
+  {
+    "displayName": "kg/(h·K)",
+    "uneceCode": "F40",
+    "description": "kilogram per hour kelvin"
+  },
+  {
+    "displayName": "kg/(l·bar)",
+    "uneceCode": "G17",
+    "description": "kilogram per litre bar"
+  },
+  {
+    "displayName": "kg/(l·K)",
+    "uneceCode": "G39",
+    "description": "kilogram per litre kelvin"
+  },
+  {
+    "displayName": "kg/(m·d)",
+    "uneceCode": "N39",
+    "description": "kilogram per metre day"
+  },
+  {
+    "displayName": "kg/(m·h)",
+    "uneceCode": "N40",
+    "description": "kilogram per metre hour"
+  },
+  {
+    "displayName": "kg/(m·min)",
+    "uneceCode": "N38",
+    "description": "kilogram per metre minute"
+  },
+  {
+    "displayName": "kg/(m·s)",
+    "uneceCode": "N37",
+    "description": "kilogram per metre second"
+  },
+  {
+    "displayName": "kg/(m²·Pa·s)",
+    "uneceCode": "Q28",
+    "description": "kilogram per square metre pascal second"
+  },
+  {
+    "displayName": "kg/(m²·s)",
+    "uneceCode": "H56",
+    "description": "kilogram per square metre second"
+  },
+  {
+    "displayName": "kg/(m³·bar)",
+    "uneceCode": "G18",
+    "description": "kilogram per cubic metre bar"
+  },
+  {
+    "displayName": "kg/(m³·K)",
+    "uneceCode": "G40",
+    "description": "kilogram per cubic metre kelvin"
+  },
+  {
+    "displayName": "kg/(min·bar)",
+    "uneceCode": "F68",
+    "description": "kilogram per minute bar"
+  },
+  {
+    "displayName": "kg/(min·K)",
+    "uneceCode": "F41",
+    "description": "kilogram per minute kelvin"
+  },
+  {
+    "displayName": "kg/(s·bar)",
+    "uneceCode": "F69",
+    "description": "kilogram per second bar"
+  },
+  {
+    "displayName": "kg/(s·K)",
+    "uneceCode": "F42",
+    "description": "kilogram per second kelvin"
+  },
+  {
+    "displayName": "kg/bar",
+    "uneceCode": "H53",
+    "description": "kilogram per bar"
+  },
+  {
+    "displayName": "kg/cm²",
+    "uneceCode": "D5",
+    "description": "kilogram per square centimetre"
+  },
+  {
+    "displayName": "kg/cm³",
+    "uneceCode": "G31",
+    "description": "kilogram per cubic centimetre"
+  },
+  {
+    "displayName": "kg/d",
+    "uneceCode": "F30",
+    "description": "kilogram per day"
+  },
+  {
+    "displayName": "kg/dm³",
+    "uneceCode": "B34",
+    "description": "kilogram per cubic decimetre"
+  },
+  {
+    "displayName": "kg/h",
+    "uneceCode": "E93",
+    "description": "kilogram per hour"
+  },
+  {
+    "displayName": "kg/K",
+    "uneceCode": "F15",
+    "description": "kilogram per kelvin"
+  },
+  {
+    "displayName": "kg/kg",
+    "uneceCode": "M29",
+    "description": "kilogram per kilogram"
+  },
+  {
+    "displayName": "kg/km",
+    "uneceCode": "M31",
+    "description": "kilogram per kilometre"
+  },
+  {
+    "displayName": "kg/kmol",
+    "uneceCode": "F24",
+    "description": "kilogram per kilomol"
+  },
+  {
+    "displayName": "kg/l or kg/L",
+    "uneceCode": "B35",
+    "description": "kilogram per litre"
+  },
+  {
+    "displayName": "kg/m",
+    "uneceCode": "KL",
+    "description": "kilogram per metre"
+  },
+  {
+    "displayName": "kg/m²",
+    "uneceCode": "28",
+    "description": "kilogram per square metre"
+  },
+  {
+    "displayName": "kg/m³",
+    "uneceCode": "KMQ",
+    "description": "kilogram per cubic metre"
+  },
+  {
+    "displayName": "kg/min",
+    "uneceCode": "F31",
+    "description": "kilogram per minute"
+  },
+  {
+    "displayName": "kg/mm",
+    "uneceCode": "KW",
+    "description": "kilogram per millimetre"
+  },
+  {
+    "displayName": "kg/mol",
+    "uneceCode": "D74",
+    "description": "kilogram per mole"
+  },
+  {
+    "displayName": "kg/net eda",
+    "uneceCode": "KDW",
+    "description": "kilogram drained net weight"
+  },
+  {
+    "displayName": "kg/Pa",
+    "uneceCode": "M74",
+    "description": "kilogram per pascal"
+  },
+  {
+    "displayName": "kg/s",
+    "uneceCode": "KGS",
+    "description": "kilogram per second"
+  },
+  {
+    "displayName": "kgf",
+    "uneceCode": "B37",
+    "description": "kilogram-force"
+  },
+  {
+    "displayName": "kgf·m",
+    "uneceCode": "B38",
+    "description": "kilogram-force metre"
+  },
+  {
+    "displayName": "kgf·m/cm²",
+    "uneceCode": "E41",
+    "description": "kilogram-force per square millimetre"
+  },
+  {
+    "displayName": "kgf·m/cm²",
+    "uneceCode": "E44",
+    "description": "kilogram-force metre per square centimetre"
+  },
+  {
+    "displayName": "kgf·m/s",
+    "uneceCode": "B39",
+    "description": "kilogram-force metre per second"
+  },
+  {
+    "displayName": "kgf/cm²",
+    "uneceCode": "E42",
+    "description": "kilogram-force per square centimetre"
+  },
+  {
+    "displayName": "kgf/m²",
+    "uneceCode": "B40",
+    "description": "kilogram-force per square metre"
+  },
+  {
+    "displayName": "kGs",
+    "uneceCode": "78",
+    "description": "kilogauss"
+  },
+  {
+    "displayName": "kH",
+    "uneceCode": "P24",
+    "description": "kilohenry"
+  },
+  {
+    "displayName": "kHz",
+    "uneceCode": "KHZ",
+    "description": "kilohertz"
+  },
+  {
+    "displayName": "kHz·m",
+    "uneceCode": "M17",
+    "description": "kilohertz metre"
+  },
+  {
+    "displayName": "Kibit",
+    "uneceCode": "C21",
+    "description": "kibibit"
+  },
+  {
+    "displayName": "Kibit/m",
+    "uneceCode": "E72",
+    "description": "kibibit per metre"
+  },
+  {
+    "displayName": "Kibit/m²",
+    "uneceCode": "E73",
+    "description": "kibibit per square metre"
+  },
+  {
+    "displayName": "Kibit/m³",
+    "uneceCode": "E74",
+    "description": "kibibit per cubic metre"
+  },
+  {
+    "displayName": "Kibyte",
+    "uneceCode": "E64",
+    "description": "kibibyte"
+  },
+  {
+    "displayName": "kip",
+    "uneceCode": "M75",
+    "description": "kilopound-force"
+  },
+  {
+    "displayName": "kJ",
+    "uneceCode": "KJO",
+    "description": "kilojoule"
+  },
+  {
+    "displayName": "kJ/(kg·K)",
+    "uneceCode": "B43",
+    "description": "kilojoule per kilogram kelvin"
+  },
+  {
+    "displayName": "kJ/d",
+    "uneceCode": "P21",
+    "description": "kilojoule per day"
+  },
+  {
+    "displayName": "kJ/g",
+    "uneceCode": "Q31",
+    "description": "kilojoule per gram"
+  },
+  {
+    "displayName": "kJ/h",
+    "uneceCode": "P20",
+    "description": "kilojoule per hour"
+  },
+  {
+    "displayName": "kJ/K",
+    "uneceCode": "B41",
+    "description": "kilojoule per kelvin"
+  },
+  {
+    "displayName": "kJ/kg",
+    "uneceCode": "B42",
+    "description": "kilojoule per kilogram"
+  },
+  {
+    "displayName": "kJ/min",
+    "uneceCode": "P19",
+    "description": "kilojoule per minute"
+  },
+  {
+    "displayName": "kJ/mol",
+    "uneceCode": "B44",
+    "description": "kilojoule per mole"
+  },
+  {
+    "displayName": "kJ/s",
+    "uneceCode": "P18",
+    "description": "kilojoule per second"
+  },
+  {
+    "displayName": "kl",
+    "uneceCode": "K6",
+    "description": "kilolitre"
+  },
+  {
+    "displayName": "kl/h",
+    "uneceCode": "4X",
+    "description": "kilolitre per hour"
+  },
+  {
+    "displayName": "klb/h",
+    "uneceCode": "M90",
+    "description": "kilopound per hour"
+  },
+  {
+    "displayName": "klbf/in²",
+    "uneceCode": "84",
+    "description": "A unit of pressure defining the number of kilopounds force per square inch.Use kip per square inch (common code N20)."
+  },
+  {
+    "displayName": "klx",
+    "uneceCode": "KLX",
+    "description": "kilolux"
+  },
+  {
+    "displayName": "km",
+    "uneceCode": "KMT",
+    "description": "kilometre"
+  },
+  {
+    "displayName": "km/h",
+    "uneceCode": "KMH",
+    "description": "kilometre per hour"
+  },
+  {
+    "displayName": "km/s",
+    "uneceCode": "M62",
+    "description": "kilometre per second"
+  },
+  {
+    "displayName": "km/s²",
+    "uneceCode": "M38",
+    "description": "kilometre per second squared"
+  },
+  {
+    "displayName": "km²",
+    "uneceCode": "KMK",
+    "description": "square kilometre"
+  },
+  {
+    "displayName": "km³",
+    "uneceCode": "H20",
+    "description": "cubic kilometre"
+  },
+  {
+    "displayName": "km³/d",
+    "uneceCode": "TQD",
+    "description": "thousand cubic metre per day"
+  },
+  {
+    "displayName": "kmol",
+    "uneceCode": "B45",
+    "description": "kilomole"
+  },
+  {
+    "displayName": "kmol/h",
+    "uneceCode": "K58",
+    "description": "kilomole per hour"
+  },
+  {
+    "displayName": "kmol/kg",
+    "uneceCode": "P47",
+    "description": "kilomole per kilogram"
+  },
+  {
+    "displayName": "kmol/m³",
+    "uneceCode": "B46",
+    "description": "kilomole per cubic metre"
+  },
+  {
+    "displayName": "kmol/min",
+    "uneceCode": "K61",
+    "description": "kilomole per minute"
+  },
+  {
+    "displayName": "kmol/s",
+    "uneceCode": "E94",
+    "description": "kilomole per second"
+  },
+  {
+    "displayName": "kn",
+    "uneceCode": "KNT",
+    "description": "knot"
+  },
+  {
+    "displayName": "kN",
+    "uneceCode": "B47",
+    "description": "kilonewton"
+  },
+  {
+    "displayName": "kN·m",
+    "uneceCode": "B48",
+    "description": "kilonewton metre"
+  },
+  {
+    "displayName": "kN/m",
+    "uneceCode": "N31",
+    "description": "kilonewton per metre"
+  },
+  {
+    "displayName": "KN/m2",
+    "uneceCode": "KNM",
+    "description": "kilonewton per square metre"
+  },
+  {
+    "displayName": "kp",
+    "uneceCode": "B51",
+    "description": "kilopond"
+  },
+  {
+    "displayName": "kPa",
+    "uneceCode": "KPA",
+    "description": "kilopascal"
+  },
+  {
+    "displayName": "kPa·m²/g",
+    "uneceCode": "33",
+    "description": "kilopascal square metre per gram"
+  },
+  {
+    "displayName": "kPa/bar",
+    "uneceCode": "F03",
+    "description": "kilopascal per bar"
+  },
+  {
+    "displayName": "kPa/K",
+    "uneceCode": "F83",
+    "description": "kilopascal per kelvin"
+  },
+  {
+    "displayName": "kPa/m",
+    "uneceCode": "P81",
+    "description": "kilopascal per metre"
+  },
+  {
+    "displayName": "kPa/mm",
+    "uneceCode": "34",
+    "description": "kilopascal per millimetre"
+  },
+  {
+    "displayName": "kR",
+    "uneceCode": "KR",
+    "description": "kiloroentgen"
+  },
+  {
+    "displayName": "ks",
+    "uneceCode": "B52",
+    "description": "kilosecond"
+  },
+  {
+    "displayName": "kS",
+    "uneceCode": "B53",
+    "description": "kilosiemens"
+  },
+  {
+    "displayName": "kS/m",
+    "uneceCode": "B54",
+    "description": "kilosiemens per metre"
+  },
+  {
+    "displayName": "ksi",
+    "uneceCode": "N20",
+    "description": "kip per square inch"
+  },
+  {
+    "displayName": "kt",
+    "uneceCode": "KTN",
+    "description": "kilotonne"
+  },
+  {
+    "displayName": "kT",
+    "uneceCode": "P13",
+    "description": "kilotesla"
+  },
+  {
+    "displayName": "kV",
+    "uneceCode": "KVT",
+    "description": "kilovolt"
+  },
+  {
+    "displayName": "kV·A",
+    "uneceCode": "KVA",
+    "description": "kilovolt - ampere"
+  },
+  {
+    "displayName": "kV/m",
+    "uneceCode": "B55",
+    "description": "kilovolt per metre"
+  },
+  {
+    "displayName": "kVAh",
+    "uneceCode": "C79",
+    "description": "kilovolt ampere hour"
+  },
+  {
+    "displayName": "kvar",
+    "uneceCode": "K5",
+    "description": "kilovolt ampere (reactive)"
+  },
+  {
+    "displayName": "kvar",
+    "uneceCode": "KVR",
+    "description": "kilovar"
+  },
+  {
+    "displayName": "kvar·h",
+    "uneceCode": "K3",
+    "description": "kilovolt ampere reactive hour"
+  },
+  {
+    "displayName": "kW",
+    "uneceCode": "KWT",
+    "description": "kilowatt"
+  },
+  {
+    "displayName": "kW·h/h",
+    "uneceCode": "D03",
+    "description": "kilowatt hour per hour"
+  },
+  {
+    "displayName": "kW·h/K",
+    "uneceCode": "E47",
+    "description": "kilowatt hour per kelvin"
+  },
+  {
+    "displayName": "kW·h/m³",
+    "uneceCode": "E46",
+    "description": "kilowatt hour per cubic metre"
+  },
+  {
+    "displayName": "kW/(m·°C)",
+    "uneceCode": "N82",
+    "description": "kilowatt per metre degree Celsius"
+  },
+  {
+    "displayName": "kW/(m·K)",
+    "uneceCode": "N81",
+    "description": "kilowatt per metre kelvin"
+  },
+  {
+    "displayName": "kW/(m²·K)",
+    "uneceCode": "N78",
+    "description": "kilowatt per square metre kelvin"
+  },
+  {
+    "displayName": "kWb",
+    "uneceCode": "P11",
+    "description": "kiloweber"
+  },
+  {
+    "displayName": "kWb/m",
+    "uneceCode": "B56",
+    "description": "kiloweber per metre"
+  },
+  {
+    "displayName": "kWh",
+    "uneceCode": "KWH",
+    "description": "kilowatt hour"
+  },
+  {
+    "displayName": "kΩ",
+    "uneceCode": "B49",
+    "description": "kiloohm"
+  },
+  {
+    "displayName": "kΩ·m",
+    "uneceCode": "B50",
+    "description": "kiloohm metre"
+  },
+  {
+    "displayName": "l",
+    "uneceCode": "LTR",
+    "description": "litre"
+  },
+  {
+    "displayName": "l/(d·bar)",
+    "uneceCode": "G82",
+    "description": "litre per day bar"
+  },
+  {
+    "displayName": "l/(d·K)",
+    "uneceCode": "G65",
+    "description": "litre per day kelvin"
+  },
+  {
+    "displayName": "l/(h·bar)",
+    "uneceCode": "G83",
+    "description": "litre per hour bar"
+  },
+  {
+    "displayName": "l/(h·K)",
+    "uneceCode": "G66",
+    "description": "litre per hour kelvin"
+  },
+  {
+    "displayName": "l/(min·bar)",
+    "uneceCode": "G84",
+    "description": "litre per minute bar"
+  },
+  {
+    "displayName": "l/(min·K)",
+    "uneceCode": "G67",
+    "description": "litre per minute kelvin"
+  },
+  {
+    "displayName": "l/(s·bar)",
+    "uneceCode": "G85",
+    "description": "litre per second bar"
+  },
+  {
+    "displayName": "l/(s·K)",
+    "uneceCode": "G68",
+    "description": "litre per second kelvin"
+  },
+  {
+    "displayName": "l/bar",
+    "uneceCode": "G95",
+    "description": "litre per bar"
+  },
+  {
+    "displayName": "l/d",
+    "uneceCode": "LD",
+    "description": "litre per day"
+  },
+  {
+    "displayName": "l/h",
+    "uneceCode": "E32",
+    "description": "litre per hour"
+  },
+  {
+    "displayName": "l/K",
+    "uneceCode": "G28",
+    "description": "litre per kelvin"
+  },
+  {
+    "displayName": "l/kg",
+    "uneceCode": "H83",
+    "description": "litre per kilogram"
+  },
+  {
+    "displayName": "l/l",
+    "uneceCode": "K62",
+    "description": "litre per litre"
+  },
+  {
+    "displayName": "l/min",
+    "uneceCode": "L2",
+    "description": "litre per minute"
+  },
+  {
+    "displayName": "l/mol",
+    "uneceCode": "B58",
+    "description": "litre per mole"
+  },
+  {
+    "displayName": "l/s",
+    "uneceCode": "G51",
+    "description": "litre per second"
+  },
+  {
+    "displayName": "lb",
+    "uneceCode": "LBR",
+    "description": "pound"
+  },
+  {
+    "displayName": "Lb",
+    "uneceCode": "P30",
+    "description": "lambert"
+  },
+  {
+    "displayName": "lb·(ft/s)",
+    "uneceCode": "N10",
+    "description": "pound foot per second"
+  },
+  {
+    "displayName": "lb·(in/s)",
+    "uneceCode": "N11",
+    "description": "pound inch per second"
+  },
+  {
+    "displayName": "lb·ft²",
+    "uneceCode": "K65",
+    "description": "pound (avoirdupois) square foot"
+  },
+  {
+    "displayName": "lb·in²",
+    "uneceCode": "F20",
+    "description": "pound inch squared"
+  },
+  {
+    "displayName": "lb/(ft·d)",
+    "uneceCode": "N44",
+    "description": "pound per foot day"
+  },
+  {
+    "displayName": "lb/(ft·h)",
+    "uneceCode": "K67",
+    "description": "pound per foot hour"
+  },
+  {
+    "displayName": "lb/(ft·min)",
+    "uneceCode": "N43",
+    "description": "pound per foot minute"
+  },
+  {
+    "displayName": "lb/(ft·s)",
+    "uneceCode": "K68",
+    "description": "pound per foot second"
+  },
+  {
+    "displayName": "lb/(min·°F)",
+    "uneceCode": "K79",
+    "description": "pound (avoirdupois) per minute degree Fahrenheit"
+  },
+  {
+    "displayName": "lb/°F",
+    "uneceCode": "K64",
+    "description": "pound (avoirdupois) per degree Fahrenheit"
+  },
+  {
+    "displayName": "lb/d",
+    "uneceCode": "K66",
+    "description": "pound (avoirdupois) per day"
+  },
+  {
+    "displayName": "lb/ft",
+    "uneceCode": "P2",
+    "description": "pound per foot"
+  },
+  {
+    "displayName": "lb/ft²",
+    "uneceCode": "FP",
+    "description": "pound per square foot"
+  },
+  {
+    "displayName": "lb/ft³",
+    "uneceCode": "87",
+    "description": "pound per cubic foot"
+  },
+  {
+    "displayName": "lb/gal (UK)",
+    "uneceCode": "K71",
+    "description": "pound (avoirdupois) per gallon (UK)"
+  },
+  {
+    "displayName": "lb/gal (US)",
+    "uneceCode": "GE",
+    "description": "pound per gallon (US)"
+  },
+  {
+    "displayName": "lb/h",
+    "uneceCode": "4U",
+    "description": "pound per hour"
+  },
+  {
+    "displayName": "lb/in",
+    "uneceCode": "PO",
+    "description": "pound per inch of length"
+  },
+  {
+    "displayName": "lb/in²",
+    "uneceCode": "80",
+    "description": "pound per square inch absolute"
+  },
+  {
+    "displayName": "lb/in³",
+    "uneceCode": "LA",
+    "description": "pound per cubic inch"
+  },
+  {
+    "displayName": "lb/lb",
+    "uneceCode": "M91",
+    "description": "pound per pound"
+  },
+  {
+    "displayName": "lb/min",
+    "uneceCode": "K78",
+    "description": "pound (avoirdupois) per minute"
+  },
+  {
+    "displayName": "lb/psi",
+    "uneceCode": "K77",
+    "description": "pound (avoirdupois) per psi"
+  },
+  {
+    "displayName": "lb/s",
+    "uneceCode": "K81",
+    "description": "pound (avoirdupois) per second"
+  },
+  {
+    "displayName": "lb/yd",
+    "uneceCode": "M84",
+    "description": "pound per yard"
+  },
+  {
+    "displayName": "lb/yd²",
+    "uneceCode": "N25",
+    "description": "pound per square yard"
+  },
+  {
+    "displayName": "lb/yd³",
+    "uneceCode": "K84",
+    "description": "pound per cubic yard"
+  },
+  {
+    "displayName": "lbf",
+    "uneceCode": "C78",
+    "description": "pound-force"
+  },
+  {
+    "displayName": "lbf·ft",
+    "uneceCode": "M92",
+    "description": "pound-force foot"
+  },
+  {
+    "displayName": "lbf·ft/A",
+    "uneceCode": "F22",
+    "description": "pound-force foot per ampere"
+  },
+  {
+    "displayName": "lbf·ft/in",
+    "uneceCode": "P89",
+    "description": "pound-force foot per inch"
+  },
+  {
+    "displayName": "lbf·ft/lb",
+    "uneceCode": "G20",
+    "description": "pound-force foot per pound"
+  },
+  {
+    "displayName": "lbf·in",
+    "uneceCode": "F21",
+    "description": "pound-force inch"
+  },
+  {
+    "displayName": "lbf·in/in",
+    "uneceCode": "P90",
+    "description": "pound-force inch per inch"
+  },
+  {
+    "displayName": "lbf·s/ft²",
+    "uneceCode": "K91",
+    "description": "pound-force second per square foot"
+  },
+  {
+    "displayName": "lbf·s/in²",
+    "uneceCode": "K92",
+    "description": "pound-force second per square inch"
+  },
+  {
+    "displayName": "lbf/ft",
+    "uneceCode": "F17",
+    "description": "pound-force per foot"
+  },
+  {
+    "displayName": "lbf/ft²",
+    "uneceCode": "K85",
+    "description": "pound-force per square foot"
+  },
+  {
+    "displayName": "lbf/in",
+    "uneceCode": "F48",
+    "description": "pound-force per inch"
+  },
+  {
+    "displayName": "lbf/in²",
+    "uneceCode": "PS",
+    "description": "pound-force per square inch"
+  },
+  {
+    "displayName": "lbf/yd",
+    "uneceCode": "N33",
+    "description": "pound-force per yard"
+  },
+  {
+    "displayName": "lbmol",
+    "uneceCode": "P44",
+    "description": "pound mole"
+  },
+  {
+    "displayName": "lbmol/h",
+    "uneceCode": "P46",
+    "description": "pound mole per minute"
+  },
+  {
+    "displayName": "lbmol/lb",
+    "uneceCode": "P48",
+    "description": "pound mole per pound"
+  },
+  {
+    "displayName": "lbmol/s",
+    "uneceCode": "P45",
+    "description": "pound mole per second"
+  },
+  {
+    "displayName": "liq pt (US)",
+    "uneceCode": "PTL",
+    "description": "liquid pint (US)"
+  },
+  {
+    "displayName": "liq qt (US)",
+    "uneceCode": "QTL",
+    "description": "liquid quart (US)"
+  },
+  {
+    "displayName": "lm",
+    "uneceCode": "LUM",
+    "description": "lumen"
+  },
+  {
+    "displayName": "lm·h",
+    "uneceCode": "B59",
+    "description": "lumen hour"
+  },
+  {
+    "displayName": "lm·s",
+    "uneceCode": "B62",
+    "description": "lumen second"
+  },
+  {
+    "displayName": "lm/ft²",
+    "uneceCode": "P25",
+    "description": "lumen per square foot"
+  },
+  {
+    "displayName": "lm/m²",
+    "uneceCode": "B60",
+    "description": "lumen per square metre"
+  },
+  {
+    "displayName": "lm/W",
+    "uneceCode": "B61",
+    "description": "lumen per watt"
+  },
+  {
+    "displayName": "lx",
+    "uneceCode": "LUX",
+    "description": "lux"
+  },
+  {
+    "displayName": "lx·h",
+    "uneceCode": "B63",
+    "description": "lux hour"
+  },
+  {
+    "displayName": "lx·s",
+    "uneceCode": "B64",
+    "description": "lux second"
+  },
+  {
+    "displayName": "ly",
+    "uneceCode": "B57",
+    "description": "light year"
+  },
+  {
+    "displayName": "Ly",
+    "uneceCode": "P40",
+    "description": "langley"
+  },
+  {
+    "displayName": "m",
+    "uneceCode": "MTR",
+    "description": "metre"
+  },
+  {
+    "displayName": "m·K",
+    "uneceCode": "D18",
+    "description": "metre kelvin"
+  },
+  {
+    "displayName": "m/(°C·m)",
+    "uneceCode": "N83",
+    "description": "metre per degree Celcius metre"
+  },
+  {
+    "displayName": "m/(V·s)",
+    "uneceCode": "H58",
+    "description": "metre per volt second"
+  },
+  {
+    "displayName": "m/bar",
+    "uneceCode": "G05",
+    "description": "metre per bar"
+  },
+  {
+    "displayName": "m/h",
+    "uneceCode": "M60",
+    "description": "metre per hour"
+  },
+  {
+    "displayName": "m/K",
+    "uneceCode": "F52",
+    "description": "metre per kelvin"
+  },
+  {
+    "displayName": "m/min",
+    "uneceCode": "2X",
+    "description": "metre per minute"
+  },
+  {
+    "displayName": "m/Pa",
+    "uneceCode": "M53",
+    "description": "metre per pascal"
+  },
+  {
+    "displayName": "m/rad",
+    "uneceCode": "M55",
+    "description": "metre per radiant"
+  },
+  {
+    "displayName": "m/s",
+    "uneceCode": "MTS",
+    "description": "metre per second"
+  },
+  {
+    "displayName": "m/s²",
+    "uneceCode": "MSK",
+    "description": "metre per second squared"
+  },
+  {
+    "displayName": "m⁻¹",
+    "uneceCode": "C92",
+    "description": "reciprocal metre"
+  },
+  {
+    "displayName": "m⁻²",
+    "uneceCode": "C93",
+    "description": "reciprocal square metre"
+  },
+  {
+    "displayName": "m⁻²/s",
+    "uneceCode": "B81",
+    "description": "reciprocal metre squared reciprocal second"
+  },
+  {
+    "displayName": "m⁻³",
+    "uneceCode": "C86",
+    "description": "reciprocal cubic metre"
+  },
+  {
+    "displayName": "m⁻³/s",
+    "uneceCode": "C87",
+    "description": "reciprocal cubic metre per second"
+  },
+  {
+    "displayName": "m²",
+    "uneceCode": "MTK",
+    "description": "square metre"
+  },
+  {
+    "displayName": "m²·h·°C/kcal",
+    "uneceCode": "L14",
+    "description": "square metre hour degree Celsius per kilocalorie (international table)"
+  },
+  {
+    "displayName": "m²·K/W",
+    "uneceCode": "D19",
+    "description": "square metre kelvin per watt"
+  },
+  {
+    "displayName": "m²/(s·bar)",
+    "uneceCode": "G41",
+    "description": "square metre per second bar"
+  },
+  {
+    "displayName": "m²/(s·K)",
+    "uneceCode": "G09",
+    "description": "square metre per second kelvin"
+  },
+  {
+    "displayName": "m²/(sr·J)",
+    "uneceCode": "D25",
+    "description": "square metre per steradian joule"
+  },
+  {
+    "displayName": "m²/(V·s)",
+    "uneceCode": "D26",
+    "description": "square metre per volt second"
+  },
+  {
+    "displayName": "m²/J",
+    "uneceCode": "D20",
+    "description": "square metre per joule"
+  },
+  {
+    "displayName": "m²/kg",
+    "uneceCode": "D21",
+    "description": "square metre per kilogram"
+  },
+  {
+    "displayName": "m²/l",
+    "uneceCode": "E31",
+    "description": "square metre per litre"
+  },
+  {
+    "displayName": "m2/m3",
+    "uneceCode": "Q36",
+    "description": "square metre per cubic metre"
+  },
+  {
+    "displayName": "m²/mol",
+    "uneceCode": "D22",
+    "description": "square metre per mole"
+  },
+  {
+    "displayName": "m²/N",
+    "uneceCode": "H59",
+    "description": "square metre per newton"
+  },
+  {
+    "displayName": "m²/s",
+    "uneceCode": "S4",
+    "description": "square metre per second"
+  },
+  {
+    "displayName": "m²/sr",
+    "uneceCode": "D24",
+    "description": "square metre per steradian"
+  },
+  {
+    "displayName": "m³",
+    "uneceCode": "MTQ",
+    "description": "cubic metre"
+  },
+  {
+    "displayName": "m³/(d·bar)",
+    "uneceCode": "G86",
+    "description": "cubic metre per day bar"
+  },
+  {
+    "displayName": "m³/(d·K)",
+    "uneceCode": "G69",
+    "description": "cubic metre per day kelvin"
+  },
+  {
+    "displayName": "m³/(h·bar)",
+    "uneceCode": "G87",
+    "description": "cubic metre per hour bar"
+  },
+  {
+    "displayName": "m³/(h·K)",
+    "uneceCode": "G70",
+    "description": "cubic metre per hour kelvin"
+  },
+  {
+    "displayName": "m³/(min·bar)",
+    "uneceCode": "G88",
+    "description": "cubic metre per minute bar"
+  },
+  {
+    "displayName": "m³/(min·K)",
+    "uneceCode": "G71",
+    "description": "cubic metre per minute kelvin"
+  },
+  {
+    "displayName": "m³/(s·bar)",
+    "uneceCode": "G89",
+    "description": "cubic metre per second bar"
+  },
+  {
+    "displayName": "m³/(s·K)",
+    "uneceCode": "G72",
+    "description": "cubic metre per second kelvin"
+  },
+  {
+    "displayName": "m³/bar",
+    "uneceCode": "G96",
+    "description": "cubic metre per bar"
+  },
+  {
+    "displayName": "m³/C",
+    "uneceCode": "A38",
+    "description": "cubic metre per coulomb"
+  },
+  {
+    "displayName": "m³/d",
+    "uneceCode": "G52",
+    "description": "cubic metre per day"
+  },
+  {
+    "displayName": "m3/h",
+    "uneceCode": "MQH",
+    "description": "cubic metre per hour"
+  },
+  {
+    "displayName": "m³/h",
+    "uneceCode": "MQH",
+    "description": "cubic metre per hour"
+  },
+  {
+    "displayName": "m³/K",
+    "uneceCode": "G29",
+    "description": "cubic metre per kelvin"
+  },
+  {
+    "displayName": "m³/kg",
+    "uneceCode": "A39",
+    "description": "cubic metre per kilogram"
+  },
+  {
+    "displayName": "m³/m³",
+    "uneceCode": "H60",
+    "description": "cubic metre per cubic metre"
+  },
+  {
+    "displayName": "m³/min",
+    "uneceCode": "G53",
+    "description": "cubic metre per minute"
+  },
+  {
+    "displayName": "m³/mol",
+    "uneceCode": "A40",
+    "description": "cubic metre per mole"
+  },
+  {
+    "displayName": "m³/Pa",
+    "uneceCode": "M71",
+    "description": "cubic metre per pascal"
+  },
+  {
+    "displayName": "m³/s",
+    "uneceCode": "MQS",
+    "description": "cubic metre per second"
+  },
+  {
+    "displayName": "m⁴",
+    "uneceCode": "B83",
+    "description": "metre to the fourth power"
+  },
+  {
+    "displayName": "mA",
+    "uneceCode": "4K",
+    "description": "milliampere"
+  },
+  {
+    "displayName": "MA",
+    "uneceCode": "H38",
+    "description": "megaampere"
+  },
+  {
+    "displayName": "mA·h",
+    "uneceCode": "E09",
+    "description": "milliampere hour"
+  },
+  {
+    "displayName": "mA/(lbf/in²)",
+    "uneceCode": "F57",
+    "description": "milliampere per pound-force per square inch"
+  },
+  {
+    "displayName": "mA/(l·min)",
+    "uneceCode": "G59",
+    "description": "milliampere per litre minute"
+  },
+  {
+    "displayName": "mA/bar",
+    "uneceCode": "F59",
+    "description": "milliampere per bar"
+  },
+  {
+    "displayName": "mA/in",
+    "uneceCode": "F08",
+    "description": "milliampere per inch"
+  },
+  {
+    "displayName": "MA/m²",
+    "uneceCode": "B66",
+    "description": "megaampere per square metre"
+  },
+  {
+    "displayName": "mA/mm",
+    "uneceCode": "F76",
+    "description": "milliampere per millimetre"
+  },
+  {
+    "displayName": "mbar",
+    "uneceCode": "MBR",
+    "description": "millibar"
+  },
+  {
+    "displayName": "mbar·l/s",
+    "uneceCode": "F95",
+    "description": "millibar litre per second"
+  },
+  {
+    "displayName": "mbar·m³/s",
+    "uneceCode": "F96",
+    "description": "millibar cubic metre per second"
+  },
+  {
+    "displayName": "mbar/bar",
+    "uneceCode": "F04",
+    "description": "millibar per bar"
+  },
+  {
+    "displayName": "mbar/K",
+    "uneceCode": "F84",
+    "description": "millibar per kelvin"
+  },
+  {
+    "displayName": "MBd",
+    "uneceCode": "J54",
+    "description": "megabaud"
+  },
+  {
+    "displayName": "Mbit",
+    "uneceCode": "D36",
+    "description": "megabit"
+  },
+  {
+    "displayName": "Mbit/s",
+    "uneceCode": "E20",
+    "description": "megabit per second"
+  },
+  {
+    "displayName": "MBq",
+    "uneceCode": "4N",
+    "description": "megabecquerel"
+  },
+  {
+    "displayName": "MBq/kg",
+    "uneceCode": "B67",
+    "description": "megabecquerel per kilogram"
+  },
+  {
+    "displayName": "MBTU/kft³",
+    "uneceCode": "M9",
+    "description": "million Btu per 1000 cubic foot"
+  },
+  {
+    "displayName": "Mbyte",
+    "uneceCode": "4L",
+    "description": "megabyte"
+  },
+  {
+    "displayName": "Mbyte/s",
+    "uneceCode": "P95",
+    "description": "megabyte per second"
+  },
+  {
+    "displayName": "mC",
+    "uneceCode": "D86",
+    "description": "millicoulomb"
+  },
+  {
+    "displayName": "MC",
+    "uneceCode": "D77",
+    "description": "megacoulomb"
+  },
+  {
+    "displayName": "mC/kg",
+    "uneceCode": "C8",
+    "description": "millicoulomb per kilogram"
+  },
+  {
+    "displayName": "mC/m²",
+    "uneceCode": "D89",
+    "description": "millicoulomb per square metre"
+  },
+  {
+    "displayName": "MC/m²",
+    "uneceCode": "B70",
+    "description": "megacoulomb per square metre"
+  },
+  {
+    "displayName": "mC/m³",
+    "uneceCode": "D88",
+    "description": "millicoulomb per cubic metre"
+  },
+  {
+    "displayName": "MC/m³",
+    "uneceCode": "B69",
+    "description": "megacoulomb per cubic metre"
+  },
+  {
+    "displayName": "mcd",
+    "uneceCode": "P34",
+    "description": "millicandela"
+  },
+  {
+    "displayName": "mCi",
+    "uneceCode": "MCU",
+    "description": "millicurie"
+  },
+  {
+    "displayName": "metric hp",
+    "uneceCode": "HJ",
+    "description": "metric horse power"
+  },
+  {
+    "displayName": "MeV",
+    "uneceCode": "B71",
+    "description": "megaelectronvolt"
+  },
+  {
+    "displayName": "mF",
+    "uneceCode": "C10",
+    "description": "millifarad"
+  },
+  {
+    "displayName": "mg",
+    "uneceCode": "MGM",
+    "description": "milligram"
+  },
+  {
+    "displayName": "Mg",
+    "uneceCode": "2U",
+    "description": "megagram"
+  },
+  {
+    "displayName": "mg/(d·bar)",
+    "uneceCode": "F70",
+    "description": "milligram per day bar"
+  },
+  {
+    "displayName": "mg/(d·K)",
+    "uneceCode": "F43",
+    "description": "milligram per day kelvin"
+  },
+  {
+    "displayName": "mg/(h·bar)",
+    "uneceCode": "F71",
+    "description": "milligram per hour bar"
+  },
+  {
+    "displayName": "mg/(h·K)",
+    "uneceCode": "F44",
+    "description": "milligram per hour kelvin"
+  },
+  {
+    "displayName": "mg/(min·bar)",
+    "uneceCode": "F72",
+    "description": "milligram per minute bar"
+  },
+  {
+    "displayName": "mg/(min·K)",
+    "uneceCode": "F45",
+    "description": "milligram per minute kelvin"
+  },
+  {
+    "displayName": "mg/(s·bar)",
+    "uneceCode": "F73",
+    "description": "milligram per second bar"
+  },
+  {
+    "displayName": "mg/(s·K)",
+    "uneceCode": "F46",
+    "description": "milligram per second kelvin"
+  },
+  {
+    "displayName": "mg/bar",
+    "uneceCode": "F75",
+    "description": "milligram per bar"
+  },
+  {
+    "displayName": "mg/cm²",
+    "uneceCode": "H63",
+    "description": "milligram per square centimetre"
+  },
+  {
+    "displayName": "mg/d",
+    "uneceCode": "F32",
+    "description": "milligram per day"
+  },
+  {
+    "displayName": "mg/g",
+    "uneceCode": "H64",
+    "description": "milligram per gram"
+  },
+  {
+    "displayName": "mg/h",
+    "uneceCode": "4M",
+    "description": "milligram per hour"
+  },
+  {
+    "displayName": "mg/K",
+    "uneceCode": "F16",
+    "description": "milligram per kelvin"
+  },
+  {
+    "displayName": "mg/kg",
+    "uneceCode": "NA",
+    "description": "milligram per kilogram"
+  },
+  {
+    "displayName": "mg/l",
+    "uneceCode": "M1",
+    "description": "milligram per litre"
+  },
+  {
+    "displayName": "mg/m",
+    "uneceCode": "C12",
+    "description": "milligram per metre"
+  },
+  {
+    "displayName": "mg/m²",
+    "uneceCode": "GO",
+    "description": "milligram per square metre"
+  },
+  {
+    "displayName": "mg/m³",
+    "uneceCode": "GP",
+    "description": "milligram per cubic metre"
+  },
+  {
+    "displayName": "Mg/m³",
+    "uneceCode": "B72",
+    "description": "megagram per cubic metre"
+  },
+  {
+    "displayName": "mg/min",
+    "uneceCode": "F33",
+    "description": "milligram per minute"
+  },
+  {
+    "displayName": "mg/s",
+    "uneceCode": "F34",
+    "description": "milligram per second"
+  },
+  {
+    "displayName": "mGal",
+    "uneceCode": "C11",
+    "description": "milligal"
+  },
+  {
+    "displayName": "mGy",
+    "uneceCode": "C13",
+    "description": "milligray"
+  },
+  {
+    "displayName": "mGy/h",
+    "uneceCode": "P62",
+    "description": "milligray per hour"
+  },
+  {
+    "displayName": "mGy/min",
+    "uneceCode": "P58",
+    "description": "milligray per minute"
+  },
+  {
+    "displayName": "mGy/s",
+    "uneceCode": "P54",
+    "description": "milligray per second"
+  },
+  {
+    "displayName": "mH",
+    "uneceCode": "C14",
+    "description": "millihenry"
+  },
+  {
+    "displayName": "mH/kΩ",
+    "uneceCode": "H05",
+    "description": "millihenry per kiloohm"
+  },
+  {
+    "displayName": "mH/Ω",
+    "uneceCode": "H06",
+    "description": "millihenry per ohm"
+  },
+  {
+    "displayName": "mH₂O",
+    "uneceCode": "N23",
+    "description": "conventional metre of water"
+  },
+  {
+    "displayName": "MHz",
+    "uneceCode": "MHZ",
+    "description": "megahertz"
+  },
+  {
+    "displayName": "MHz·km",
+    "uneceCode": "H39",
+    "description": "megahertz kilometre"
+  },
+  {
+    "displayName": "MHz·m",
+    "uneceCode": "M27",
+    "description": "megahertz metre"
+  },
+  {
+    "displayName": "mi (US survey)",
+    "uneceCode": "M52",
+    "description": "mile (based on U.S. survey foot)"
+  },
+  {
+    "displayName": "mi/min",
+    "uneceCode": "M57",
+    "description": "mile per minute"
+  },
+  {
+    "displayName": "mi/s",
+    "uneceCode": "M58",
+    "description": "mile per second"
+  },
+  {
+    "displayName": "mi/s²",
+    "uneceCode": "M42",
+    "description": "mile (statute mile) per second squared"
+  },
+  {
+    "displayName": "mi²",
+    "uneceCode": "MIK",
+    "description": "square mile (statute mile)"
+  },
+  {
+    "displayName": "mi² (US survey)",
+    "uneceCode": "M48",
+    "description": "square mile (based on U.S. survey foot)"
+  },
+  {
+    "displayName": "mi³",
+    "uneceCode": "M69",
+    "description": "cubic mile (UK statute)"
+  },
+  {
+    "displayName": "Mibit",
+    "uneceCode": "D11",
+    "description": "mebibit"
+  },
+  {
+    "displayName": "Mibit/m",
+    "uneceCode": "E75",
+    "description": "mebibit per metre"
+  },
+  {
+    "displayName": "Mibit/m²",
+    "uneceCode": "E76",
+    "description": "mebibit per square metre"
+  },
+  {
+    "displayName": "Mibit/m³",
+    "uneceCode": "E77",
+    "description": "mebibit per cubic metre"
+  },
+  {
+    "displayName": "Mibyte",
+    "uneceCode": "E63",
+    "description": "mebibyte"
+  },
+  {
+    "displayName": "mil",
+    "uneceCode": "M43",
+    "description": "mil"
+  },
+  {
+    "displayName": "mil",
+    "uneceCode": "77",
+    "description": "milli-inch"
+  },
+  {
+    "displayName": "mile",
+    "uneceCode": "SMI",
+    "description": "mile (statute mile)"
+  },
+  {
+    "displayName": "mile/h",
+    "uneceCode": "HM",
+    "description": "mile per hour (statute mile)"
+  },
+  {
+    "displayName": "min",
+    "uneceCode": "MIN",
+    "description": "minute [unit of time]"
+  },
+  {
+    "displayName": "min⁻¹",
+    "uneceCode": "C94",
+    "description": "reciprocal minute"
+  },
+  {
+    "displayName": "mJ",
+    "uneceCode": "C15",
+    "description": "millijoule"
+  },
+  {
+    "displayName": "MJ",
+    "uneceCode": "3B",
+    "description": "megajoule"
+  },
+  {
+    "displayName": "MJ/kg",
+    "uneceCode": "JK",
+    "description": "megajoule per kilogram"
+  },
+  {
+    "displayName": "MJ/m³",
+    "uneceCode": "JM",
+    "description": "megajoule per cubic metre"
+  },
+  {
+    "displayName": "MJ/s",
+    "uneceCode": "D78",
+    "description": "megajoule per second"
+  },
+  {
+    "displayName": "ml",
+    "uneceCode": "MLT",
+    "description": "millilitre"
+  },
+  {
+    "displayName": "Ml",
+    "uneceCode": "MAL",
+    "description": "megalitre"
+  },
+  {
+    "displayName": "ml/(cm²·s)",
+    "uneceCode": "35",
+    "description": "millilitre per square centimetre second"
+  },
+  {
+    "displayName": "ml/(d·bar)",
+    "uneceCode": "G90",
+    "description": "millilitre per day bar"
+  },
+  {
+    "displayName": "ml/(d·K)",
+    "uneceCode": "G73",
+    "description": "millilitre per day kelvin"
+  },
+  {
+    "displayName": "ml/(h·bar)",
+    "uneceCode": "G91",
+    "description": "millilitre per hour bar"
+  },
+  {
+    "displayName": "ml/(h·K)",
+    "uneceCode": "G74",
+    "description": "millilitre per hour kelvin"
+  },
+  {
+    "displayName": "ml/(min·bar)",
+    "uneceCode": "G92",
+    "description": "millilitre per minute bar"
+  },
+  {
+    "displayName": "ml/(min·K)",
+    "uneceCode": "G75",
+    "description": "millilitre per minute kelvin"
+  },
+  {
+    "displayName": "ml/(s·bar)",
+    "uneceCode": "G93",
+    "description": "millilitre per second bar"
+  },
+  {
+    "displayName": "ml/(s·K)",
+    "uneceCode": "G76",
+    "description": "millilitre per second kelvin"
+  },
+  {
+    "displayName": "ml/bar",
+    "uneceCode": "G97",
+    "description": "millilitre per bar"
+  },
+  {
+    "displayName": "ml/d",
+    "uneceCode": "G54",
+    "description": "millilitre per day"
+  },
+  {
+    "displayName": "ml/h",
+    "uneceCode": "G55",
+    "description": "millilitre per hour"
+  },
+  {
+    "displayName": "ml/K",
+    "uneceCode": "G30",
+    "description": "millilitre per kelvin"
+  },
+  {
+    "displayName": "ml/kg",
+    "uneceCode": "KX",
+    "description": "millilitre per kilogram"
+  },
+  {
+    "displayName": "ml/l",
+    "uneceCode": "L19",
+    "description": "millilitre per litre"
+  },
+  {
+    "displayName": "ml/m³",
+    "uneceCode": "H65",
+    "description": "millilitre per cubic metre"
+  },
+  {
+    "displayName": "ml/min",
+    "uneceCode": "41",
+    "description": "millilitre per minute"
+  },
+  {
+    "displayName": "ml/s",
+    "uneceCode": "40",
+    "description": "millilitre per second"
+  },
+  {
+    "displayName": "mm",
+    "uneceCode": "MMT",
+    "description": "millimetre"
+  },
+  {
+    "displayName": "Mm",
+    "uneceCode": "MAM",
+    "description": "megametre"
+  },
+  {
+    "displayName": "mm H₂O",
+    "uneceCode": "HP",
+    "description": "conventional millimetre of water"
+  },
+  {
+    "displayName": "mm Hg",
+    "uneceCode": "HN",
+    "description": "conventional millimetre of mercury"
+  },
+  {
+    "displayName": "mm/(°C·m)",
+    "uneceCode": "E97",
+    "description": "millimetre per degree Celcius metre"
+  },
+  {
+    "displayName": "mm/bar",
+    "uneceCode": "G06",
+    "description": "millimetre per bar"
+  },
+  {
+    "displayName": "mm/h",
+    "uneceCode": "H67",
+    "description": "millimetre per hour"
+  },
+  {
+    "displayName": "mm/K",
+    "uneceCode": "F53",
+    "description": "millimetre per kelvin"
+  },
+  {
+    "displayName": "mm/min",
+    "uneceCode": "H81",
+    "description": "millimetre per minute"
+  },
+  {
+    "displayName": "mm/s",
+    "uneceCode": "C16",
+    "description": "millimetre per second"
+  },
+  {
+    "displayName": "mm/s²",
+    "uneceCode": "M41",
+    "description": "millimetre per second squared"
+  },
+  {
+    "displayName": "mm/y",
+    "uneceCode": "H66",
+    "description": "millimetre per year"
+  },
+  {
+    "displayName": "mm²",
+    "uneceCode": "MMK",
+    "description": "square millimetre"
+  },
+  {
+    "displayName": "mm²/s",
+    "uneceCode": "C17",
+    "description": "millimetre squared per second"
+  },
+  {
+    "displayName": "mm³",
+    "uneceCode": "MMQ",
+    "description": "cubic millimetre"
+  },
+  {
+    "displayName": "Mm³",
+    "uneceCode": "HMQ",
+    "description": "million cubic metre"
+  },
+  {
+    "displayName": "mm³/m³",
+    "uneceCode": "L21",
+    "description": "cubic millimetre per cubic metre"
+  },
+  {
+    "displayName": "mm⁴",
+    "uneceCode": "G77",
+    "description": "millimetre to the fourth power"
+  },
+  {
+    "displayName": "mmol",
+    "uneceCode": "C18",
+    "description": "millimole"
+  },
+  {
+    "displayName": "mmol/g",
+    "uneceCode": "H68",
+    "description": "millimole per gram"
+  },
+  {
+    "displayName": "mmol/kg",
+    "uneceCode": "D87",
+    "description": "millimole per kilogram"
+  },
+  {
+    "displayName": "mmol/l",
+    "uneceCode": "M33",
+    "description": "millimole per litre"
+  },
+  {
+    "displayName": "mN",
+    "uneceCode": "C20",
+    "description": "millinewton"
+  },
+  {
+    "displayName": "MN",
+    "uneceCode": "B73",
+    "description": "meganewton"
+  },
+  {
+    "displayName": "mN·m",
+    "uneceCode": "D83",
+    "description": "millinewton metre"
+  },
+  {
+    "displayName": "MN·m",
+    "uneceCode": "B74",
+    "description": "meganewton metre"
+  },
+  {
+    "displayName": "mN/m",
+    "uneceCode": "C22",
+    "description": "millinewton per metre"
+  },
+  {
+    "displayName": "mo",
+    "uneceCode": "MON",
+    "description": "month"
+  },
+  {
+    "displayName": "mo (30 days)",
+    "uneceCode": "M36",
+    "description": "30-day month"
+  },
+  {
+    "displayName": "mol",
+    "uneceCode": "C34",
+    "description": "mole"
+  },
+  {
+    "displayName": "mol/dm³",
+    "uneceCode": "C35",
+    "description": "mole per cubic decimetre"
+  },
+  {
+    "displayName": "mol/h",
+    "uneceCode": "L23",
+    "description": "mole per hour"
+  },
+  {
+    "displayName": "mol/kg",
+    "uneceCode": "C19",
+    "description": "mole per kilogram"
+  },
+  {
+    "displayName": "mol/l",
+    "uneceCode": "C38",
+    "description": "mole per litre"
+  },
+  {
+    "displayName": "mol/m³",
+    "uneceCode": "C36",
+    "description": "mole per cubic metre"
+  },
+  {
+    "displayName": "mol/min",
+    "uneceCode": "L30",
+    "description": "mole per minute"
+  },
+  {
+    "displayName": "mol/s",
+    "uneceCode": "E95",
+    "description": "mole per second"
+  },
+  {
+    "displayName": "mol⁻¹",
+    "uneceCode": "C95",
+    "description": "reciprocal mole"
+  },
+  {
+    "displayName": "mPa",
+    "uneceCode": "74",
+    "description": "millipascal"
+  },
+  {
+    "displayName": "MPa",
+    "uneceCode": "MPA",
+    "description": "megapascal"
+  },
+  {
+    "displayName": "MPa·l/s",
+    "uneceCode": "F97",
+    "description": "megapascal litre per second"
+  },
+  {
+    "displayName": "MPa·m³/s",
+    "uneceCode": "F98",
+    "description": "megapascal cubic metre per second"
+  },
+  {
+    "displayName": "mPa·s",
+    "uneceCode": "C24",
+    "description": "millipascal second"
+  },
+  {
+    "displayName": "mPa·s/bar",
+    "uneceCode": "L16",
+    "description": "millipascal second per bar"
+  },
+  {
+    "displayName": "mPa·s/K",
+    "uneceCode": "L15",
+    "description": "millipascal second per kelvin"
+  },
+  {
+    "displayName": "MPa/bar",
+    "uneceCode": "F05",
+    "description": "megapascal per bar"
+  },
+  {
+    "displayName": "MPa/K",
+    "uneceCode": "F85",
+    "description": "megapascal per kelvin"
+  },
+  {
+    "displayName": "mPa/m",
+    "uneceCode": "P80",
+    "description": "millipascal per metre"
+  },
+  {
+    "displayName": "mR",
+    "uneceCode": "2Y",
+    "description": "milliroentgen"
+  },
+  {
+    "displayName": "mrad",
+    "uneceCode": "C25",
+    "description": "milliradian"
+  },
+  {
+    "displayName": "mrem",
+    "uneceCode": "L31",
+    "description": "milliroentgen aequivalent men"
+  },
+  {
+    "displayName": "ms",
+    "uneceCode": "C26",
+    "description": "millisecond"
+  },
+  {
+    "displayName": "mS",
+    "uneceCode": "C27",
+    "description": "millisiemens"
+  },
+  {
+    "displayName": "mS/cm",
+    "uneceCode": "H61",
+    "description": "millisiemens per centimetre"
+  },
+  {
+    "displayName": "MS/m",
+    "uneceCode": "B77",
+    "description": "megasiemens per metre"
+  },
+  {
+    "displayName": "mSv",
+    "uneceCode": "C28",
+    "description": "millisievert"
+  },
+  {
+    "displayName": "mSv/h",
+    "uneceCode": "P71",
+    "description": "millisievert per hour"
+  },
+  {
+    "displayName": "mSv/min",
+    "uneceCode": "P75",
+    "description": "millisievert per minute"
+  },
+  {
+    "displayName": "mSv/s",
+    "uneceCode": "P66",
+    "description": "millisievert per second"
+  },
+  {
+    "displayName": "mT",
+    "uneceCode": "C29",
+    "description": "millitesla"
+  },
+  {
+    "displayName": "mV",
+    "uneceCode": "2Z",
+    "description": "millivolt"
+  },
+  {
+    "displayName": "MV",
+    "uneceCode": "B78",
+    "description": "megavolt"
+  },
+  {
+    "displayName": "mV·A",
+    "uneceCode": "M35",
+    "description": "millivolt - ampere"
+  },
+  {
+    "displayName": "MV·A",
+    "uneceCode": "MVA",
+    "description": "megavolt - ampere"
+  },
+  {
+    "displayName": "mV/K",
+    "uneceCode": "D49",
+    "description": "millivolt per kelvin"
+  },
+  {
+    "displayName": "mV/m",
+    "uneceCode": "C30",
+    "description": "millivolt per metre"
+  },
+  {
+    "displayName": "MV/m",
+    "uneceCode": "B79",
+    "description": "megavolt per metre"
+  },
+  {
+    "displayName": "mV/min",
+    "uneceCode": "H62",
+    "description": "millivolt per minute"
+  },
+  {
+    "displayName": "mvar",
+    "uneceCode": "MAR",
+    "description": "megavar"
+  },
+  {
+    "displayName": "Mvar·h",
+    "uneceCode": "MAH",
+    "description": "megavolt ampere reactive hour"
+  },
+  {
+    "displayName": "mW",
+    "uneceCode": "C31",
+    "description": "milliwatt"
+  },
+  {
+    "displayName": "MW",
+    "uneceCode": "MAW",
+    "description": "megawatt"
+  },
+  {
+    "displayName": "MW",
+    "uneceCode": "H77",
+    "description": "module width"
+  },
+  {
+    "displayName": "MW·h/h",
+    "uneceCode": "E07",
+    "description": "megawatt hour per hour"
+  },
+  {
+    "displayName": "MW/Hz",
+    "uneceCode": "E08",
+    "description": "megawatt per hertz"
+  },
+  {
+    "displayName": "mW/m²",
+    "uneceCode": "C32",
+    "description": "milliwatt per square metre"
+  },
+  {
+    "displayName": "MW/min",
+    "uneceCode": "Q35",
+    "description": "megawatts per minute"
+  },
+  {
+    "displayName": "mWb",
+    "uneceCode": "C33",
+    "description": "milliweber"
+  },
+  {
+    "displayName": "MWh",
+    "uneceCode": "MWH",
+    "description": "megawatt hour (1000 kW.h)"
+  },
+  {
+    "displayName": "Mx",
+    "uneceCode": "B65",
+    "description": "maxwell"
+  },
+  {
+    "displayName": "mΩ",
+    "uneceCode": "E45",
+    "description": "milliohm"
+  },
+  {
+    "displayName": "MΩ",
+    "uneceCode": "B75",
+    "description": "megaohm"
+  },
+  {
+    "displayName": "MΩ·km",
+    "uneceCode": "H88",
+    "description": "megaohm kilometre"
+  },
+  {
+    "displayName": "mΩ·m",
+    "uneceCode": "C23",
+    "description": "milliohm metre"
+  },
+  {
+    "displayName": "MΩ·m",
+    "uneceCode": "B76",
+    "description": "megaohm metre"
+  },
+  {
+    "displayName": "MΩ/km",
+    "uneceCode": "H36",
+    "description": "megaohm per kilometre"
+  },
+  {
+    "displayName": "mΩ/m",
+    "uneceCode": "F54",
+    "description": "milliohm per metre"
+  },
+  {
+    "displayName": "MΩ/m",
+    "uneceCode": "H37",
+    "description": "megaohm per metre"
+  },
+  {
+    "displayName": "N",
+    "uneceCode": "NEW",
+    "description": "newton"
+  },
+  {
+    "displayName": "n mile",
+    "uneceCode": "NMI",
+    "description": "nautical mile"
+  },
+  {
+    "displayName": "N·cm",
+    "uneceCode": "F88",
+    "description": "newton centimetre"
+  },
+  {
+    "displayName": "N·m",
+    "uneceCode": "NU",
+    "description": "newton metre"
+  },
+  {
+    "displayName": "N·m·s",
+    "uneceCode": "C53",
+    "description": "newton metre second"
+  },
+  {
+    "displayName": "N·m·W⁻⁰‧⁵",
+    "uneceCode": "H41",
+    "description": "newton metre watt to the power minus 0,5"
+  },
+  {
+    "displayName": "N·m/A",
+    "uneceCode": "F90",
+    "description": "newton metre per ampere"
+  },
+  {
+    "displayName": "N·m/kg",
+    "uneceCode": "G19",
+    "description": "newton metre per kilogram"
+  },
+  {
+    "displayName": "N·m/m²",
+    "uneceCode": "M34",
+    "description": "newton metre per square metre"
+  },
+  {
+    "displayName": "N·m/m²",
+    "uneceCode": "Q27",
+    "description": "newton metre per metre"
+  },
+  {
+    "displayName": "N·m/rad",
+    "uneceCode": "M93",
+    "description": "newton metre per radian"
+  },
+  {
+    "displayName": "N·m²/A",
+    "uneceCode": "P49",
+    "description": "newton square metre per ampere"
+  },
+  {
+    "displayName": "N·m²/kg²",
+    "uneceCode": "C54",
+    "description": "newton metre squared per kilogram squared"
+  },
+  {
+    "displayName": "N·s",
+    "uneceCode": "C57",
+    "description": "newton second"
+  },
+  {
+    "displayName": "N·s/m",
+    "uneceCode": "C58",
+    "description": "newton second per metre"
+  },
+  {
+    "displayName": "N/A",
+    "uneceCode": "H40",
+    "description": "newton per ampere"
+  },
+  {
+    "displayName": "N/cm",
+    "uneceCode": "M23",
+    "description": "newton per centimetre"
+  },
+  {
+    "displayName": "N/cm²",
+    "uneceCode": "E01",
+    "description": "newton per square centimetre"
+  },
+  {
+    "displayName": "N/m",
+    "uneceCode": "4P",
+    "description": "newton per metre"
+  },
+  {
+    "displayName": "N/m²",
+    "uneceCode": "C55",
+    "description": "newton per square metre"
+  },
+  {
+    "displayName": "N/mm",
+    "uneceCode": "F47",
+    "description": "newton per millimetre"
+  },
+  {
+    "displayName": "N/mm²",
+    "uneceCode": "C56",
+    "description": "newton per square millimetre"
+  },
+  {
+    "displayName": "nA",
+    "uneceCode": "C39",
+    "description": "nanoampere"
+  },
+  {
+    "displayName": "nat",
+    "uneceCode": "Q16",
+    "description": "natural unit of information"
+  },
+  {
+    "displayName": "nat/s",
+    "uneceCode": "Q19",
+    "description": "natural unit of information per second"
+  },
+  {
+    "displayName": "nC",
+    "uneceCode": "C40",
+    "description": "nanocoulomb"
+  },
+  {
+    "displayName": "nF",
+    "uneceCode": "C41",
+    "description": "nanofarad"
+  },
+  {
+    "displayName": "nF/m",
+    "uneceCode": "C42",
+    "description": "nanofarad per metre"
+  },
+  {
+    "displayName": "ng/kg",
+    "uneceCode": "L32",
+    "description": "nanogram per kilogram"
+  },
+  {
+    "displayName": "nGy/h",
+    "uneceCode": "P64",
+    "description": "nanogray per hour"
+  },
+  {
+    "displayName": "nGy/min",
+    "uneceCode": "P60",
+    "description": "nanogray per minute"
+  },
+  {
+    "displayName": "nGy/s",
+    "uneceCode": "P56",
+    "description": "nanogray per second"
+  },
+  {
+    "displayName": "nH",
+    "uneceCode": "C43",
+    "description": "nanohenry"
+  },
+  {
+    "displayName": "nH/m",
+    "uneceCode": "C44",
+    "description": "nanohenry per metre"
+  },
+  {
+    "displayName": "nl",
+    "uneceCode": "Q34",
+    "description": "nanolitre"
+  },
+  {
+    "displayName": "nm",
+    "uneceCode": "C45",
+    "description": "nanometre"
+  },
+  {
+    "displayName": "Nm/°",
+    "uneceCode": "F89",
+    "description": "newton metre per degree"
+  },
+  {
+    "displayName": "Np",
+    "uneceCode": "C50",
+    "description": "neper"
+  },
+  {
+    "displayName": "Np/s",
+    "uneceCode": "C51",
+    "description": "neper per second"
+  },
+  {
+    "displayName": "ns",
+    "uneceCode": "C47",
+    "description": "nanosecond"
+  },
+  {
+    "displayName": "nS/cm",
+    "uneceCode": "G44",
+    "description": "nanosiemens per centimetre"
+  },
+  {
+    "displayName": "nS/m",
+    "uneceCode": "G45",
+    "description": "nanosiemens per metre"
+  },
+  {
+    "displayName": "nSv/h",
+    "uneceCode": "P73",
+    "description": "nanosievert per hour"
+  },
+  {
+    "displayName": "nSv/min",
+    "uneceCode": "P77",
+    "description": "nanosievert per minute"
+  },
+  {
+    "displayName": "nSv/s",
+    "uneceCode": "P68",
+    "description": "nanosievert per second"
+  },
+  {
+    "displayName": "nT",
+    "uneceCode": "C48",
+    "description": "nanotesla"
+  },
+  {
+    "displayName": "nW",
+    "uneceCode": "C49",
+    "description": "nanowatt"
+  },
+  {
+    "displayName": "nΩ",
+    "uneceCode": "P22",
+    "description": "nanoohm"
+  },
+  {
+    "displayName": "nΩ·m",
+    "uneceCode": "C46",
+    "description": "nanoohm metre"
+  },
+  {
+    "displayName": "o",
+    "uneceCode": "Q12",
+    "description": "octet"
+  },
+  {
+    "displayName": "o/min",
+    "uneceCode": "OPM",
+    "description": "oscillations per minute"
+  },
+  {
+    "displayName": "o/s",
+    "uneceCode": "Q13",
+    "description": "octet per second"
+  },
+  {
+    "displayName": "Oe",
+    "uneceCode": "66",
+    "description": "oersted"
+  },
+  {
+    "displayName": "ºF·h·ft²/(BtuIT·in)",
+    "uneceCode": "N88",
+    "description": "degree Fahrenheit hour square foot per British thermal unit (international table) inch"
+  },
+  {
+    "displayName": "ºF·h·ft²/(Btuth·in)",
+    "uneceCode": "N89",
+    "description": "degree Fahrenheit hour square foot per British thermal unit (thermochemical) inch"
+  },
+  {
+    "displayName": "ºF/(BtuIT/h)",
+    "uneceCode": "N84",
+    "description": "degree Fahrenheit hour per British thermal unit (international table)"
+  },
+  {
+    "displayName": "ºF/(BtuIT/s)",
+    "uneceCode": "N86",
+    "description": "degree Fahrenheit second per British thermal unit (international table)"
+  },
+  {
+    "displayName": "ºF/(Btuth/h)",
+    "uneceCode": "N85",
+    "description": "degree Fahrenheit hour per British thermal unit (thermochemical)"
+  },
+  {
+    "displayName": "ºF/(Btuth/s)",
+    "uneceCode": "N87",
+    "description": "degree Fahrenheit second per British thermal unit (thermochemical)"
+  },
+  {
+    "displayName": "oz",
+    "uneceCode": "ONZ",
+    "description": "ounce (avoirdupois)"
+  },
+  {
+    "displayName": "oz·ft",
+    "uneceCode": "4R",
+    "description": "ounce foot"
+  },
+  {
+    "displayName": "oz·in",
+    "uneceCode": "4Q",
+    "description": "ounce inch"
+  },
+  {
+    "displayName": "oz/(ft²/cin)",
+    "uneceCode": "38",
+    "description": "ounce per square foot per 0,01inch"
+  },
+  {
+    "displayName": "oz/d",
+    "uneceCode": "L33",
+    "description": "ounce (avoirdupois) per day"
+  },
+  {
+    "displayName": "oz/ft²",
+    "uneceCode": "37",
+    "description": "ounce per square foot"
+  },
+  {
+    "displayName": "oz/gal (UK)",
+    "uneceCode": "L37",
+    "description": "ounce (avoirdupois) per gallon (UK)"
+  },
+  {
+    "displayName": "oz/gal (US)",
+    "uneceCode": "L38",
+    "description": "ounce (avoirdupois) per gallon (US)"
+  },
+  {
+    "displayName": "oz/h",
+    "uneceCode": "L34",
+    "description": "ounce (avoirdupois) per hour"
+  },
+  {
+    "displayName": "oz/in²",
+    "uneceCode": "N22",
+    "description": "ounce (avoirdupois) per square inch"
+  },
+  {
+    "displayName": "oz/in³",
+    "uneceCode": "L39",
+    "description": "ounce (avoirdupois) per cubic inch"
+  },
+  {
+    "displayName": "oz/min",
+    "uneceCode": "L35",
+    "description": "ounce (avoirdupois) per minute"
+  },
+  {
+    "displayName": "oz/s",
+    "uneceCode": "L36",
+    "description": "ounce (avoirdupois) per second"
+  },
+  {
+    "displayName": "oz/yd²",
+    "uneceCode": "ON",
+    "description": "ounce per square yard"
+  },
+  {
+    "displayName": "oz/yd³",
+    "uneceCode": "G32",
+    "description": "ounce (avoirdupois) per cubic yard"
+  },
+  {
+    "displayName": "ozf",
+    "uneceCode": "L40",
+    "description": "ounce (avoirdupois)-force"
+  },
+  {
+    "displayName": "ozf·in",
+    "uneceCode": "L41",
+    "description": "ounce (avoirdupois)-force inch"
+  },
+  {
+    "displayName": "p",
+    "uneceCode": "M78",
+    "description": "pond"
+  },
+  {
+    "displayName": "P",
+    "uneceCode": "89",
+    "description": "poise"
+  },
+  {
+    "displayName": "P/bar",
+    "uneceCode": "F06",
+    "description": "poise per bar"
+  },
+  {
+    "displayName": "P/K",
+    "uneceCode": "F86",
+    "description": "poise per kelvin"
+  },
+  {
+    "displayName": "P/Pa",
+    "uneceCode": "N35",
+    "description": "poise per pascal"
+  },
+  {
+    "displayName": "pA",
+    "uneceCode": "C70",
+    "description": "picoampere"
+  },
+  {
+    "displayName": "Pa",
+    "uneceCode": "PAL",
+    "description": "pascal"
+  },
+  {
+    "displayName": "Pa.s/K",
+    "uneceCode": "F77",
+    "description": "pascal second per kelvin"
+  },
+  {
+    "displayName": "Pa· s/m",
+    "uneceCode": "C67",
+    "description": "pascal second per metre"
+  },
+  {
+    "displayName": "Pa·l/s",
+    "uneceCode": "F99",
+    "description": "pascal litre per second"
+  },
+  {
+    "displayName": "Pa·m³/s",
+    "uneceCode": "G01",
+    "description": "pascal cubic metre per second"
+  },
+  {
+    "displayName": "Pa·s",
+    "uneceCode": "C65",
+    "description": "pascal second"
+  },
+  {
+    "displayName": "Pa·s/bar",
+    "uneceCode": "H07",
+    "description": "pascal second per bar"
+  },
+  {
+    "displayName": "Pa·s/l",
+    "uneceCode": "M32",
+    "description": "pascal second per litre"
+  },
+  {
+    "displayName": "Pa·s/m³",
+    "uneceCode": "C66",
+    "description": "pascal second per cubic metre"
+  },
+  {
+    "displayName": "Pa/(kg/m²)",
+    "uneceCode": "P79",
+    "description": "pascal square metre per kilogram"
+  },
+  {
+    "displayName": "Pa/bar",
+    "uneceCode": "F07",
+    "description": "pascal per bar"
+  },
+  {
+    "displayName": "Pa/K",
+    "uneceCode": "C64",
+    "description": "pascal per kelvin"
+  },
+  {
+    "displayName": "Pa/m",
+    "uneceCode": "H42",
+    "description": "pascal per metre"
+  },
+  {
+    "displayName": "Pa⁻¹",
+    "uneceCode": "C96",
+    "description": "reciprocal pascal or pascal to the power minus one"
+  },
+  {
+    "displayName": "Pa²·s",
+    "uneceCode": "P42",
+    "description": "pascal squared second"
+  },
+  {
+    "displayName": "PaΣνB",
+    "uneceCode": "P98",
+    "description": "pascal to the power sum of stoichiometric numbers"
+  },
+  {
+    "displayName": "Pbit",
+    "uneceCode": "E78",
+    "description": "petabit"
+  },
+  {
+    "displayName": "Pbit/s",
+    "uneceCode": "E79",
+    "description": "petabit per second"
+  },
+  {
+    "displayName": "Pbyte",
+    "uneceCode": "E36",
+    "description": "petabyte"
+  },
+  {
+    "displayName": "pc",
+    "uneceCode": "C63",
+    "description": "parsec"
+  },
+  {
+    "displayName": "pC",
+    "uneceCode": "C71",
+    "description": "picocoulomb"
+  },
+  {
+    "displayName": "pdl",
+    "uneceCode": "M76",
+    "description": "poundal"
+  },
+  {
+    "displayName": "pdl/ft²",
+    "uneceCode": "N21",
+    "description": "poundal per square foot"
+  },
+  {
+    "displayName": "pdl/in",
+    "uneceCode": "N32",
+    "description": "poundal per inch"
+  },
+  {
+    "displayName": "pdl/in²",
+    "uneceCode": "N26",
+    "description": "poundal per square inch"
+  },
+  {
+    "displayName": "pdl·ft",
+    "uneceCode": "M95",
+    "description": "poundal foot"
+  },
+  {
+    "displayName": "pdl·in",
+    "uneceCode": "M96",
+    "description": "poundal inch"
+  },
+  {
+    "displayName": "perm (0 ºC)",
+    "uneceCode": "P91",
+    "description": "perm (0 ºC)"
+  },
+  {
+    "displayName": "perm (23 ºC)",
+    "uneceCode": "P92",
+    "description": "perm (23 ºC)"
+  },
+  {
+    "displayName": "pF",
+    "uneceCode": "4T",
+    "description": "picofarad"
+  },
+  {
+    "displayName": "pF/m",
+    "uneceCode": "C72",
+    "description": "picofarad per metre"
+  },
+  {
+    "displayName": "pfd",
+    "uneceCode": "M86",
+    "description": "pfund"
+  },
+  {
+    "displayName": "ph",
+    "uneceCode": "P26",
+    "description": "phot"
+  },
+  {
+    "displayName": "pH",
+    "uneceCode": "C73",
+    "description": "picohenry"
+  },
+  {
+    "displayName": "pH",
+    "uneceCode": "Q30",
+    "description": "pH (potential of Hydrogen)"
+  },
+  {
+    "displayName": "Pibit/m",
+    "uneceCode": "E80",
+    "description": "pebibit per metre"
+  },
+  {
+    "displayName": "Pibit/m²",
+    "uneceCode": "E81",
+    "description": "pebibit per square metre"
+  },
+  {
+    "displayName": "Pibit/m³",
+    "uneceCode": "E82",
+    "description": "pebibit per cubic metre"
+  },
+  {
+    "displayName": "Pibyte",
+    "uneceCode": "E60",
+    "description": "pebibyte"
+  },
+  {
+    "displayName": "PJ",
+    "uneceCode": "C68",
+    "description": "petajoule"
+  },
+  {
+    "displayName": "pk",
+    "uneceCode": "AB",
+    "description": "bulk pack"
+  },
+  {
+    "displayName": "pk (UK)",
+    "uneceCode": "L43",
+    "description": "peck (UK)"
+  },
+  {
+    "displayName": "pk (UK)/d",
+    "uneceCode": "L44",
+    "description": "peck (UK) per day"
+  },
+  {
+    "displayName": "pk (UK)/h",
+    "uneceCode": "L45",
+    "description": "peck (UK) per hour"
+  },
+  {
+    "displayName": "pk (UK)/min",
+    "uneceCode": "L46",
+    "description": "peck (UK) per minute"
+  },
+  {
+    "displayName": "pk (UK)/s",
+    "uneceCode": "L47",
+    "description": "peck (UK) per second"
+  },
+  {
+    "displayName": "pk (US dry)/d",
+    "uneceCode": "L48",
+    "description": "peck (US dry) per day"
+  },
+  {
+    "displayName": "pk (US dry)/h",
+    "uneceCode": "L49",
+    "description": "peck (US dry) per hour"
+  },
+  {
+    "displayName": "pk (US dry)/min",
+    "uneceCode": "L50",
+    "description": "peck (US dry) per minute"
+  },
+  {
+    "displayName": "pk (US dry)/s",
+    "uneceCode": "L51",
+    "description": "peck (US dry) per second"
+  },
+  {
+    "displayName": "pk (US)",
+    "uneceCode": "G23",
+    "description": "peck"
+  },
+  {
+    "displayName": "pl",
+    "uneceCode": "Q33",
+    "description": "picolitre"
+  },
+  {
+    "displayName": "pm",
+    "uneceCode": "C52",
+    "description": "picometre"
+  },
+  {
+    "displayName": "pPa/km",
+    "uneceCode": "H69",
+    "description": "picopascal per kilometre"
+  },
+  {
+    "displayName": "ppb",
+    "uneceCode": "61",
+    "description": "part per billion (US)"
+  },
+  {
+    "displayName": "ppht",
+    "uneceCode": "E40",
+    "description": "part per hundred thousand"
+  },
+  {
+    "displayName": "ppi",
+    "uneceCode": "PQ",
+    "description": "page per inch"
+  },
+  {
+    "displayName": "ppm",
+    "uneceCode": "59",
+    "description": "part per million"
+  },
+  {
+    "displayName": "ps",
+    "uneceCode": "H70",
+    "description": "picosecond"
+  },
+  {
+    "displayName": "pS",
+    "uneceCode": "N92",
+    "description": "picosiemens"
+  },
+  {
+    "displayName": "PS",
+    "uneceCode": "N12",
+    "description": "Pferdestaerke"
+  },
+  {
+    "displayName": "pS/m",
+    "uneceCode": "L42",
+    "description": "picosiemens per metre"
+  },
+  {
+    "displayName": "psi·in³/s",
+    "uneceCode": "K87",
+    "description": "psi cubic inch per second"
+  },
+  {
+    "displayName": "psi·l/s",
+    "uneceCode": "K88",
+    "description": "psi litre per second"
+  },
+  {
+    "displayName": "psi·m³/s",
+    "uneceCode": "K89",
+    "description": "psi cubic metre per second"
+  },
+  {
+    "displayName": "psi·yd³/s",
+    "uneceCode": "K90",
+    "description": "psi cubic yard per second"
+  },
+  {
+    "displayName": "psi/°F",
+    "uneceCode": "K86",
+    "description": "pound-force per square inch degree Fahrenheit"
+  },
+  {
+    "displayName": "psi/in",
+    "uneceCode": "P86",
+    "description": "psi per inch"
+  },
+  {
+    "displayName": "psi/psi",
+    "uneceCode": "L52",
+    "description": "psi per psi"
+  },
+  {
+    "displayName": "pt (UK)",
+    "uneceCode": "PTI",
+    "description": "pint (UK)"
+  },
+  {
+    "displayName": "pt (UK)/d",
+    "uneceCode": "L53",
+    "description": "pint (UK) per day"
+  },
+  {
+    "displayName": "pt (UK)/h",
+    "uneceCode": "L54",
+    "description": "pint (UK) per hour"
+  },
+  {
+    "displayName": "pt (UK)/min",
+    "uneceCode": "L55",
+    "description": "pint (UK) per minute"
+  },
+  {
+    "displayName": "pt (UK)/s",
+    "uneceCode": "L56",
+    "description": "pint (UK) per second"
+  },
+  {
+    "displayName": "pt (US liq.)/d",
+    "uneceCode": "L57",
+    "description": "pint (US liquid) per day"
+  },
+  {
+    "displayName": "pt (US liq.)/h",
+    "uneceCode": "L58",
+    "description": "pint (US liquid) per hour"
+  },
+  {
+    "displayName": "pt (US liq.)/min",
+    "uneceCode": "L59",
+    "description": "pint (US liquid) per minute"
+  },
+  {
+    "displayName": "pt (US liq.)/s",
+    "uneceCode": "L60",
+    "description": "pint (US liquid) per second"
+  },
+  {
+    "displayName": "pt (US)",
+    "uneceCode": "PT",
+    "description": "pint (US)"
+  },
+  {
+    "displayName": "PTN",
+    "uneceCode": "PTN",
+    "description": "portion"
+  },
+  {
+    "displayName": "pV",
+    "uneceCode": "N99",
+    "description": "picovolt"
+  },
+  {
+    "displayName": "pW",
+    "uneceCode": "C75",
+    "description": "picowatt"
+  },
+  {
+    "displayName": "pW/m²",
+    "uneceCode": "C76",
+    "description": "picowatt per square metre"
+  },
+  {
+    "displayName": "qr",
+    "uneceCode": "QR",
+    "description": "quire"
+  },
+  {
+    "displayName": "Qr (UK)",
+    "uneceCode": "QTR",
+    "description": "quarter (UK)"
+  },
+  {
+    "displayName": "qt (UK liq.)/d",
+    "uneceCode": "K94",
+    "description": "quart (UK liquid) per day"
+  },
+  {
+    "displayName": "qt (UK liq.)/h",
+    "uneceCode": "K95",
+    "description": "quart (UK liquid) per hour"
+  },
+  {
+    "displayName": "qt (UK liq.)/min",
+    "uneceCode": "K96",
+    "description": "quart (UK liquid) per minute"
+  },
+  {
+    "displayName": "qt (UK liq.)/s",
+    "uneceCode": "K97",
+    "description": "quart (UK liquid) per second"
+  },
+  {
+    "displayName": "qt (UK)",
+    "uneceCode": "QTI",
+    "description": "quart (UK)"
+  },
+  {
+    "displayName": "qt (US liq.)/d",
+    "uneceCode": "K98",
+    "description": "quart (US liquid) per day"
+  },
+  {
+    "displayName": "qt (US liq.)/h",
+    "uneceCode": "K99",
+    "description": "quart (US liquid) per hour"
+  },
+  {
+    "displayName": "qt (US liq.)/min",
+    "uneceCode": "L10",
+    "description": "quart (US liquid) per minute"
+  },
+  {
+    "displayName": "qt (US liq.)/s",
+    "uneceCode": "L11",
+    "description": "quart (US liquid) per second"
+  },
+  {
+    "displayName": "qt (US)",
+    "uneceCode": "QT",
+    "description": "quart (US)"
+  },
+  {
+    "displayName": "quad",
+    "uneceCode": "N70",
+    "description": "quad (1015 BtuIT)"
+  },
+  {
+    "displayName": "R",
+    "uneceCode": "2C",
+    "description": "roentgen"
+  },
+  {
+    "displayName": "r/min",
+    "uneceCode": "M46",
+    "description": "revolution per minute"
+  },
+  {
+    "displayName": "R/s",
+    "uneceCode": "D6",
+    "description": "roentgen per second"
+  },
+  {
+    "displayName": "rad",
+    "uneceCode": "C81",
+    "description": "radian"
+  },
+  {
+    "displayName": "rad",
+    "uneceCode": "C80",
+    "description": "rad"
+  },
+  {
+    "displayName": "rad·m²/kg",
+    "uneceCode": "C83",
+    "description": "radian square metre per kilogram"
+  },
+  {
+    "displayName": "rad·m²/mol",
+    "uneceCode": "C82",
+    "description": "radian square metre per mole"
+  },
+  {
+    "displayName": "rad/m",
+    "uneceCode": "C84",
+    "description": "radian per metre"
+  },
+  {
+    "displayName": "rad/s",
+    "uneceCode": "2A",
+    "description": "radian per second"
+  },
+  {
+    "displayName": "rad/s²",
+    "uneceCode": "2B",
+    "description": "radian per second squared"
+  },
+  {
+    "displayName": "rd (US)",
+    "uneceCode": "F49",
+    "description": "rod [unit of distance]"
+  },
+  {
+    "displayName": "rem",
+    "uneceCode": "D91",
+    "description": "rem"
+  },
+  {
+    "displayName": "rem/s",
+    "uneceCode": "P69",
+    "description": "rem per second"
+  },
+  {
+    "displayName": "rev",
+    "uneceCode": "M44",
+    "description": "revolution"
+  },
+  {
+    "displayName": "rhe",
+    "uneceCode": "P88",
+    "description": "rhe"
+  },
+  {
+    "displayName": "RT",
+    "uneceCode": "M70",
+    "description": "ton, register"
+  },
+  {
+    "displayName": "s",
+    "uneceCode": "SEC",
+    "description": "second [unit of time]"
+  },
+  {
+    "displayName": "S",
+    "uneceCode": "SIE",
+    "description": "siemens"
+  },
+  {
+    "displayName": "S·m²/mol",
+    "uneceCode": "D12",
+    "description": "siemens square metre per mole"
+  },
+  {
+    "displayName": "s/(rad·m³)",
+    "uneceCode": "D94",
+    "description": "second per cubic metre radian"
+  },
+  {
+    "displayName": "S/cm",
+    "uneceCode": "H43",
+    "description": "siemens per centimetre"
+  },
+  {
+    "displayName": "s/kg",
+    "uneceCode": "Q20",
+    "description": "second per kilogramm"
+  },
+  {
+    "displayName": "S/m",
+    "uneceCode": "D10",
+    "description": "siemens per metre"
+  },
+  {
+    "displayName": "s/m³",
+    "uneceCode": "D93",
+    "description": "second per cubic metre"
+  },
+  {
+    "displayName": "s⁻¹",
+    "uneceCode": "C97",
+    "description": "reciprocal second"
+  },
+  {
+    "displayName": "s⁻¹/(sr·m²)",
+    "uneceCode": "D2",
+    "description": "reciprocal second per steradian metre squared"
+  },
+  {
+    "displayName": "s⁻¹/m²",
+    "uneceCode": "C99",
+    "description": "reciprocal second per metre squared"
+  },
+  {
+    "displayName": "s⁻¹/sr",
+    "uneceCode": "D1",
+    "description": "reciprocal second per steradian"
+  },
+  {
+    "displayName": "sb",
+    "uneceCode": "P31",
+    "description": "stilb"
+  },
+  {
+    "displayName": "Sh",
+    "uneceCode": "Q14",
+    "description": "shannon"
+  },
+  {
+    "displayName": "Sh/s",
+    "uneceCode": "Q17",
+    "description": "shannon per second"
+  },
+  {
+    "displayName": "shake",
+    "uneceCode": "M56",
+    "description": "shake"
+  },
+  {
+    "displayName": "slug",
+    "uneceCode": "F13",
+    "description": "slug"
+  },
+  {
+    "displayName": "slug/(ft·s)",
+    "uneceCode": "L64",
+    "description": "slug per foot second"
+  },
+  {
+    "displayName": "slug/d",
+    "uneceCode": "L63",
+    "description": "slug per day"
+  },
+  {
+    "displayName": "slug/ft³",
+    "uneceCode": "L65",
+    "description": "slug per cubic foot"
+  },
+  {
+    "displayName": "slug/h",
+    "uneceCode": "L66",
+    "description": "slug per hour"
+  },
+  {
+    "displayName": "slug/min",
+    "uneceCode": "L67",
+    "description": "slug per minute"
+  },
+  {
+    "displayName": "slug/s",
+    "uneceCode": "L68",
+    "description": "slug per second"
+  },
+  {
+    "displayName": "sr",
+    "uneceCode": "D27",
+    "description": "steradian"
+  },
+  {
+    "displayName": "st",
+    "uneceCode": "G26",
+    "description": "stere"
+  },
+  {
+    "displayName": "st",
+    "uneceCode": "STI",
+    "description": "stone (UK)"
+  },
+  {
+    "displayName": "St",
+    "uneceCode": "91",
+    "description": "stokes"
+  },
+  {
+    "displayName": "St/bar",
+    "uneceCode": "G46",
+    "description": "stokes per bar"
+  },
+  {
+    "displayName": "St/K",
+    "uneceCode": "G10",
+    "description": "stokes per kelvin"
+  },
+  {
+    "displayName": "St/Pa",
+    "uneceCode": "M80",
+    "description": "stokes per pascal"
+  },
+  {
+    "displayName": "std",
+    "uneceCode": "WSD",
+    "description": "standard"
+  },
+  {
+    "displayName": "Sv",
+    "uneceCode": "D13",
+    "description": "sievert"
+  },
+  {
+    "displayName": "Sv/h",
+    "uneceCode": "P70",
+    "description": "sievert per hour"
+  },
+  {
+    "displayName": "Sv/min",
+    "uneceCode": "P74",
+    "description": "sievert per minute"
+  },
+  {
+    "displayName": "Sv/s",
+    "uneceCode": "P65",
+    "description": "sievert per second"
+  },
+  {
+    "displayName": "t",
+    "uneceCode": "TNE",
+    "description": "tonne (metric ton)"
+  },
+  {
+    "displayName": "T",
+    "uneceCode": "D33",
+    "description": "tesla"
+  },
+  {
+    "displayName": "t·km",
+    "uneceCode": "TKM",
+    "description": "tonne kilometre"
+  },
+  {
+    "displayName": "t/bar",
+    "uneceCode": "L70",
+    "description": "tonne per bar"
+  },
+  {
+    "displayName": "t/d",
+    "uneceCode": "L71",
+    "description": "tonne per day"
+  },
+  {
+    "displayName": "t/h",
+    "uneceCode": "E18",
+    "description": "tonne per hour"
+  },
+  {
+    "displayName": "t/K",
+    "uneceCode": "L69",
+    "description": "tonne per kelvin"
+  },
+  {
+    "displayName": "t/m³",
+    "uneceCode": "D41",
+    "description": "tonne per cubic metre"
+  },
+  {
+    "displayName": "t/min",
+    "uneceCode": "L78",
+    "description": "tonne per minute"
+  },
+  {
+    "displayName": "t/mo",
+    "uneceCode": "M88",
+    "description": "tonne per month"
+  },
+  {
+    "displayName": "t/s",
+    "uneceCode": "L81",
+    "description": "tonne per second"
+  },
+  {
+    "displayName": "t/y",
+    "uneceCode": "M89",
+    "description": "tonne per year"
+  },
+  {
+    "displayName": "tablespoon (US)",
+    "uneceCode": "G24",
+    "description": "tablespoon (US)"
+  },
+  {
+    "displayName": "TAN",
+    "uneceCode": "TAN",
+    "description": "total acid number"
+  },
+  {
+    "displayName": "Tbit",
+    "uneceCode": "E83",
+    "description": "terabit"
+  },
+  {
+    "displayName": "Tbit/s",
+    "uneceCode": "E84",
+    "description": "terabit per second"
+  },
+  {
+    "displayName": "Tbyte",
+    "uneceCode": "E35",
+    "description": "terabyte"
+  },
+  {
+    "displayName": "teaspoon (US)",
+    "uneceCode": "G25",
+    "description": "teaspoon (US)"
+  },
+  {
+    "displayName": "tex (g/km)",
+    "uneceCode": "D34",
+    "description": "tex"
+  },
+  {
+    "displayName": "thm (EC)",
+    "uneceCode": "N71",
+    "description": "therm (EC)"
+  },
+  {
+    "displayName": "thm (US)",
+    "uneceCode": "N72",
+    "description": "therm (U.S.)"
+  },
+  {
+    "displayName": "THz",
+    "uneceCode": "D29",
+    "description": "terahertz"
+  },
+  {
+    "displayName": "Tibit/m",
+    "uneceCode": "E85",
+    "description": "tebibit per metre"
+  },
+  {
+    "displayName": "Tibit/m²",
+    "uneceCode": "E87",
+    "description": "tebibit per square metre"
+  },
+  {
+    "displayName": "Tibit/m³",
+    "uneceCode": "E86",
+    "description": "tebibit per cubic metre"
+  },
+  {
+    "displayName": "Tibyte",
+    "uneceCode": "E61",
+    "description": "tebibyte"
+  },
+  {
+    "displayName": "TJ",
+    "uneceCode": "D30",
+    "description": "terajoule"
+  },
+  {
+    "displayName": "ton (UK)",
+    "uneceCode": "LTN",
+    "description": "ton (UK) or long ton (US)"
+  },
+  {
+    "displayName": "ton (UK)/d",
+    "uneceCode": "L85",
+    "description": "ton long per day"
+  },
+  {
+    "displayName": "ton (US)",
+    "uneceCode": "STN",
+    "description": "ton (US) or short ton (UK/US)"
+  },
+  {
+    "displayName": "ton (US) /h",
+    "uneceCode": "4W",
+    "description": "ton (US) per hour"
+  },
+  {
+    "displayName": "ton (US)/(h·°F)",
+    "uneceCode": "L89",
+    "description": "ton short per hour degree Fahrenheit"
+  },
+  {
+    "displayName": "ton (US)/°F",
+    "uneceCode": "L87",
+    "description": "ton short per degree Fahrenheit"
+  },
+  {
+    "displayName": "ton (US)/d",
+    "uneceCode": "L88",
+    "description": "ton short per day"
+  },
+  {
+    "displayName": "ton (US)/psi",
+    "uneceCode": "L91",
+    "description": "ton short per psi"
+  },
+  {
+    "displayName": "ton.l/yd³ (UK)",
+    "uneceCode": "L92",
+    "description": "ton (UK long) per cubic yard"
+  },
+  {
+    "displayName": "ton.s/yd³ (US)",
+    "uneceCode": "L93",
+    "description": "ton (US short) per cubic yard"
+  },
+  {
+    "displayName": "ton.sh-force",
+    "uneceCode": "L94",
+    "description": "ton-force (US short)"
+  },
+  {
+    "displayName": "Torr",
+    "uneceCode": "UA",
+    "description": "torr"
+  },
+  {
+    "displayName": "Torr/m",
+    "uneceCode": "P85",
+    "description": "torr per metre"
+  },
+  {
+    "displayName": "TPI",
+    "uneceCode": "TPI",
+    "description": "teeth per inch"
+  },
+  {
+    "displayName": "Tr / min",
+    "uneceCode": "RPM",
+    "description": "revolutions per minute"
+  },
+  {
+    "displayName": "Tr / s",
+    "uneceCode": "RPS",
+    "description": "revolutions per second"
+  },
+  {
+    "displayName": "tr oz",
+    "uneceCode": "APZ",
+    "description": "troy ounce or apothecary ounce"
+  },
+  {
+    "displayName": "tr/min",
+    "uneceCode": "RPM",
+    "description": "revolutions per minute"
+  },
+  {
+    "displayName": "TW",
+    "uneceCode": "D31",
+    "description": "terawatt"
+  },
+  {
+    "displayName": "TWh",
+    "uneceCode": "D32",
+    "description": "terawatt hour"
+  },
+  {
+    "displayName": "TΩ",
+    "uneceCode": "H44",
+    "description": "teraohm"
+  },
+  {
+    "displayName": "u",
+    "uneceCode": "D43",
+    "description": "unified atomic mass unit"
+  },
+  {
+    "displayName": "U or RU",
+    "uneceCode": "H80",
+    "description": "rack unit"
+  },
+  {
+    "displayName": "ua",
+    "uneceCode": "A12",
+    "description": "astronomical unit"
+  },
+  {
+    "displayName": "unit pole",
+    "uneceCode": "P53",
+    "description": "unit pole"
+  },
+  {
+    "displayName": "V",
+    "uneceCode": "VLT",
+    "description": "volt"
+  },
+  {
+    "displayName": "V",
+    "uneceCode": "2G",
+    "description": "volt AC"
+  },
+  {
+    "displayName": "V",
+    "uneceCode": "2H",
+    "description": "volt DC"
+  },
+  {
+    "displayName": "V·A",
+    "uneceCode": "D46",
+    "description": "volt - ampere"
+  },
+  {
+    "displayName": "V·A / kg",
+    "uneceCode": "VA",
+    "description": "volt - ampere per kilogram"
+  },
+  {
+    "displayName": "V·s/m",
+    "uneceCode": "H45",
+    "description": "volt second per metre"
+  },
+  {
+    "displayName": "V/(lbf/in²)",
+    "uneceCode": "H22",
+    "description": "volt square inch per pound-force"
+  },
+  {
+    "displayName": "V/(l·min)",
+    "uneceCode": "F87",
+    "description": "volt per litre minute"
+  },
+  {
+    "displayName": "V/bar",
+    "uneceCode": "G60",
+    "description": "volt per bar"
+  },
+  {
+    "displayName": "V/cm",
+    "uneceCode": "D47",
+    "description": "volt per centimetre"
+  },
+  {
+    "displayName": "V/in",
+    "uneceCode": "H23",
+    "description": "volt per inch"
+  },
+  {
+    "displayName": "V/K",
+    "uneceCode": "D48",
+    "description": "volt per kelvin"
+  },
+  {
+    "displayName": "V/m",
+    "uneceCode": "D50",
+    "description": "volt per metre"
+  },
+  {
+    "displayName": "V/mm",
+    "uneceCode": "D51",
+    "description": "volt per millimetre"
+  },
+  {
+    "displayName": "V/Pa",
+    "uneceCode": "N98",
+    "description": "volt per pascal"
+  },
+  {
+    "displayName": "V/s",
+    "uneceCode": "H46",
+    "description": "volt per second"
+  },
+  {
+    "displayName": "V/µs",
+    "uneceCode": "H24",
+    "description": "volt per microsecond"
+  },
+  {
+    "displayName": "V²/K²",
+    "uneceCode": "D45",
+    "description": "volt squared per kelvin squared"
+  },
+  {
+    "displayName": "var",
+    "uneceCode": "D44",
+    "description": "var"
+  },
+  {
+    "displayName": "W",
+    "uneceCode": "WTT",
+    "description": "watt"
+  },
+  {
+    "displayName": "W·h",
+    "uneceCode": "WHR",
+    "description": "watt hour"
+  },
+  {
+    "displayName": "W·m²",
+    "uneceCode": "Q21",
+    "description": "watt square metre"
+  },
+  {
+    "displayName": "W·s",
+    "uneceCode": "J55",
+    "description": "watt second"
+  },
+  {
+    "displayName": "W/(m·°C)",
+    "uneceCode": "N80",
+    "description": "watt per metre degree Celsius"
+  },
+  {
+    "displayName": "W/(m·K)",
+    "uneceCode": "D53",
+    "description": "watt per metre kelvin"
+  },
+  {
+    "displayName": "W/(m²·K)",
+    "uneceCode": "D55",
+    "description": "watt per square metre kelvin"
+  },
+  {
+    "displayName": "W/(m²·K⁴)",
+    "uneceCode": "D56",
+    "description": "watt per square metre kelvin to the fourth power"
+  },
+  {
+    "displayName": "W/(sr·m²)",
+    "uneceCode": "D58",
+    "description": "watt per steradian square metre"
+  },
+  {
+    "displayName": "W/cm²",
+    "uneceCode": "N48",
+    "description": "watt per square centimetre"
+  },
+  {
+    "displayName": "W/in²",
+    "uneceCode": "N49",
+    "description": "watt per square inch"
+  },
+  {
+    "displayName": "W/K",
+    "uneceCode": "D52",
+    "description": "watt per kelvin"
+  },
+  {
+    "displayName": "W/kg",
+    "uneceCode": "WA",
+    "description": "watt per kilogram"
+  },
+  {
+    "displayName": "W/m",
+    "uneceCode": "H74",
+    "description": "watt per metre"
+  },
+  {
+    "displayName": "W/m²",
+    "uneceCode": "D54",
+    "description": "watt per square metre"
+  },
+  {
+    "displayName": "W/m³",
+    "uneceCode": "H47",
+    "description": "watt per cubic metre"
+  },
+  {
+    "displayName": "W/sr",
+    "uneceCode": "D57",
+    "description": "watt per steradian"
+  },
+  {
+    "displayName": "Wb",
+    "uneceCode": "WEB",
+    "description": "weber"
+  },
+  {
+    "displayName": "Wb·m",
+    "uneceCode": "P50",
+    "description": "weber metre"
+  },
+  {
+    "displayName": "Wb/m",
+    "uneceCode": "D59",
+    "description": "weber per metre"
+  },
+  {
+    "displayName": "Wb/mm",
+    "uneceCode": "D60",
+    "description": "weber per millimetre"
+  },
+  {
+    "displayName": "wk",
+    "uneceCode": "WEE",
+    "description": "week"
+  },
+  {
+    "displayName": "y",
+    "uneceCode": "ANN",
+    "description": "year"
+  },
+  {
+    "displayName": "y (360 days)",
+    "uneceCode": "M37",
+    "description": "actual/360"
+  },
+  {
+    "displayName": "y (365 days)",
+    "uneceCode": "L95",
+    "description": "common year"
+  },
+  {
+    "displayName": "y (sidereal)",
+    "uneceCode": "L96",
+    "description": "sidereal year"
+  },
+  {
+    "displayName": "y (tropical)",
+    "uneceCode": "D42",
+    "description": "tropical year"
+  },
+  {
+    "displayName": "yd",
+    "uneceCode": "YRD",
+    "description": "yard"
+  },
+  {
+    "displayName": "yd/°F",
+    "uneceCode": "L98",
+    "description": "yard per degree Fahrenheit"
+  },
+  {
+    "displayName": "yd/h",
+    "uneceCode": "M66",
+    "description": "yard per hour"
+  },
+  {
+    "displayName": "yd/min",
+    "uneceCode": "M65",
+    "description": "yard per minute"
+  },
+  {
+    "displayName": "yd/psi",
+    "uneceCode": "L99",
+    "description": "yard per psi"
+  },
+  {
+    "displayName": "yd/s",
+    "uneceCode": "M64",
+    "description": "yard per second"
+  },
+  {
+    "displayName": "yd/s²",
+    "uneceCode": "M40",
+    "description": "yard per second squared"
+  },
+  {
+    "displayName": "yd²",
+    "uneceCode": "YDK",
+    "description": "square yard"
+  },
+  {
+    "displayName": "yd³",
+    "uneceCode": "YDQ",
+    "description": "cubic yard"
+  },
+  {
+    "displayName": "yd³/°F",
+    "uneceCode": "M11",
+    "description": "cubic yard per degree Fahrenheit"
+  },
+  {
+    "displayName": "yd³/d",
+    "uneceCode": "M12",
+    "description": "cubic yard per day"
+  },
+  {
+    "displayName": "yd³/h",
+    "uneceCode": "M13",
+    "description": "cubic yard per hour"
+  },
+  {
+    "displayName": "yd³/min",
+    "uneceCode": "M15",
+    "description": "cubic yard per minute"
+  },
+  {
+    "displayName": "yd³/psi",
+    "uneceCode": "M14",
+    "description": "cubic yard per psi"
+  },
+  {
+    "displayName": "yd³/s",
+    "uneceCode": "M16",
+    "description": "cubic yard per second"
+  },
+  {
+    "displayName": "γ",
+    "uneceCode": "P12",
+    "description": "gamma"
+  },
+  {
+    "displayName": "µA",
+    "uneceCode": "B84",
+    "description": "microampere"
+  },
+  {
+    "displayName": "µbar",
+    "uneceCode": "B85",
+    "description": "microbar"
+  },
+  {
+    "displayName": "µBq",
+    "uneceCode": "H08",
+    "description": "microbecquerel"
+  },
+  {
+    "displayName": "µC",
+    "uneceCode": "B86",
+    "description": "microcoulomb"
+  },
+  {
+    "displayName": "µC/m²",
+    "uneceCode": "B88",
+    "description": "microcoulomb per square metre"
+  },
+  {
+    "displayName": "µC/m³",
+    "uneceCode": "B87",
+    "description": "microcoulomb per cubic metre"
+  },
+  {
+    "displayName": "µCi",
+    "uneceCode": "M5",
+    "description": "microcurie"
+  },
+  {
+    "displayName": "µF",
+    "uneceCode": "4O",
+    "description": "microfarad"
+  },
+  {
+    "displayName": "µF/km",
+    "uneceCode": "H28",
+    "description": "microfarad per kilometre"
+  },
+  {
+    "displayName": "µF/m",
+    "uneceCode": "B89",
+    "description": "microfarad per metre"
+  },
+  {
+    "displayName": "µg",
+    "uneceCode": "MC",
+    "description": "microgram"
+  },
+  {
+    "displayName": "µg/hg",
+    "uneceCode": "Q29",
+    "description": "microgram per hectogram"
+  },
+  {
+    "displayName": "µg/kg",
+    "uneceCode": "J33",
+    "description": "microgram per kilogram"
+  },
+  {
+    "displayName": "µg/l",
+    "uneceCode": "H29",
+    "description": "microgram per litre"
+  },
+  {
+    "displayName": "µg/m³",
+    "uneceCode": "GQ",
+    "description": "microgram per cubic metre"
+  },
+  {
+    "displayName": "µGy/h",
+    "uneceCode": "P63",
+    "description": "microgray per hour"
+  },
+  {
+    "displayName": "µGy/min",
+    "uneceCode": "P59",
+    "description": "microgray per minute"
+  },
+  {
+    "displayName": "µGy/s",
+    "uneceCode": "P55",
+    "description": "microgray per second"
+  },
+  {
+    "displayName": "µH",
+    "uneceCode": "B90",
+    "description": "microhenry"
+  },
+  {
+    "displayName": "µH/kΩ",
+    "uneceCode": "G98",
+    "description": "microhenry per kiloohm"
+  },
+  {
+    "displayName": "µH/m",
+    "uneceCode": "B91",
+    "description": "microhenry per metre"
+  },
+  {
+    "displayName": "µH/Ω",
+    "uneceCode": "G99",
+    "description": "microhenry per ohm"
+  },
+  {
+    "displayName": "µin",
+    "uneceCode": "M7",
+    "description": "micro-inch"
+  },
+  {
+    "displayName": "µl",
+    "uneceCode": "4G",
+    "description": "microlitre"
+  },
+  {
+    "displayName": "µl/l",
+    "uneceCode": "J36",
+    "description": "microlitre per litre"
+  },
+  {
+    "displayName": "µm",
+    "uneceCode": "4H",
+    "description": "micrometre (micron)"
+  },
+  {
+    "displayName": "µm/K",
+    "uneceCode": "F50",
+    "description": "micrometre per kelvin"
+  },
+  {
+    "displayName": "µm²",
+    "uneceCode": "H30",
+    "description": "square micrometre (square micron)"
+  },
+  {
+    "displayName": "µmol",
+    "uneceCode": "FH",
+    "description": "micromole"
+  },
+  {
+    "displayName": "µN",
+    "uneceCode": "B92",
+    "description": "micronewton"
+  },
+  {
+    "displayName": "µN·m",
+    "uneceCode": "B93",
+    "description": "micronewton metre"
+  },
+  {
+    "displayName": "µP",
+    "uneceCode": "J32",
+    "description": "micropoise"
+  },
+  {
+    "displayName": "µPa",
+    "uneceCode": "B96",
+    "description": "micropascal"
+  },
+  {
+    "displayName": "µrad",
+    "uneceCode": "B97",
+    "description": "microradian"
+  },
+  {
+    "displayName": "µs",
+    "uneceCode": "B98",
+    "description": "microsecond"
+  },
+  {
+    "displayName": "µS",
+    "uneceCode": "B99",
+    "description": "microsiemens"
+  },
+  {
+    "displayName": "µS/cm",
+    "uneceCode": "G42",
+    "description": "microsiemens per centimetre"
+  },
+  {
+    "displayName": "µS/m",
+    "uneceCode": "G43",
+    "description": "microsiemens per metre"
+  },
+  {
+    "displayName": "µSv/h",
+    "uneceCode": "P72",
+    "description": "microsievert per hour"
+  },
+  {
+    "displayName": "µSv/min",
+    "uneceCode": "P76",
+    "description": "microsievert per minute"
+  },
+  {
+    "displayName": "µSv/s",
+    "uneceCode": "P67",
+    "description": "microsievert per second"
+  },
+  {
+    "displayName": "µT",
+    "uneceCode": "D81",
+    "description": "microtesla"
+  },
+  {
+    "displayName": "µV",
+    "uneceCode": "D82",
+    "description": "microvolt"
+  },
+  {
+    "displayName": "µV/m",
+    "uneceCode": "C3",
+    "description": "microvolt per metre"
+  },
+  {
+    "displayName": "µW",
+    "uneceCode": "D80",
+    "description": "microwatt"
+  },
+  {
+    "displayName": "µW/m²",
+    "uneceCode": "D85",
+    "description": "microwatt per square metre"
+  },
+  {
+    "displayName": "µΩ",
+    "uneceCode": "B94",
+    "description": "microohm"
+  },
+  {
+    "displayName": "µΩ·m",
+    "uneceCode": "B95",
+    "description": "microohm metre"
+  },
+  {
+    "displayName": "Ω",
+    "uneceCode": "OHM",
+    "description": "ohm"
+  },
+  {
+    "displayName": "Ω·cm",
+    "uneceCode": "C60",
+    "description": "ohm centimetre"
+  },
+  {
+    "displayName": "Ω·cmil/ft",
+    "uneceCode": "P23",
+    "description": "ohm circular-mil per foot"
+  },
+  {
+    "displayName": "Ω·km",
+    "uneceCode": "M24",
+    "description": "ohm kilometre"
+  },
+  {
+    "displayName": "Ω·m",
+    "uneceCode": "C61",
+    "description": "ohm metre"
+  },
+  {
+    "displayName": "Ω/km",
+    "uneceCode": "F56",
+    "description": "ohm per kilometre"
+  },
+  {
+    "displayName": "Ω/m",
+    "uneceCode": "H26",
+    "description": "ohm per metre"
+  },
+  {
+    "displayName": "Ω/mi",
+    "uneceCode": "F55",
+    "description": "ohm per mile (statute mile)"
+  }
+]
