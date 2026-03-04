@@ -325,6 +325,56 @@ $Script:MainXaml = @'
 
 # =================== INITIALIZE MAIN WINDOW ===================
 
+function New-AppIcon {
+    # Generate a 32x32 TIA/DB icon programmatically using WPF drawing
+    $size = 32
+    $dv = New-Object System.Windows.Media.DrawingVisual
+    $dc = $dv.RenderOpen()
+
+    # Background: rounded rectangle (Siemens teal)
+    $bgRect = New-Object System.Windows.Rect(1, 1, 30, 30)
+    $bgBrush = New-Object System.Windows.Media.LinearGradientBrush(
+        [System.Windows.Media.Color]::FromRgb(0, 120, 136),
+        [System.Windows.Media.Color]::FromRgb(0, 90, 100),
+        45)
+    $bgPen = New-Object System.Windows.Media.Pen(
+        (New-Object System.Windows.Media.SolidColorBrush([System.Windows.Media.Color]::FromRgb(0, 70, 80))), 0.5)
+    $dc.DrawRoundedRectangle($bgBrush, $bgPen, $bgRect, 4, 4)
+
+    # "DB" text (bold, white, centered)
+    $typeface = New-Object System.Windows.Media.Typeface(
+        (New-Object System.Windows.Media.FontFamily("Segoe UI")),
+        [System.Windows.FontStyles]::Normal,
+        [System.Windows.FontWeights]::Bold,
+        [System.Windows.FontStretches]::Normal)
+    $formattedText = New-Object System.Windows.Media.FormattedText(
+        "DB", [System.Globalization.CultureInfo]::InvariantCulture,
+        [System.Windows.FlowDirection]::LeftToRight,
+        $typeface, 14, [System.Windows.Media.Brushes]::White)
+    $textX = (32 - $formattedText.Width) / 2
+    $textY = (32 - $formattedText.Height) / 2 - 1
+    $dc.DrawText($formattedText, (New-Object System.Windows.Point($textX, $textY)))
+
+    # Small arrow/export indicator (bottom-right corner)
+    $arrowGeo = New-Object System.Windows.Media.StreamGeometry
+    $ctx = $arrowGeo.Open()
+    $ctx.BeginFigure((New-Object System.Windows.Point(22, 23)), $true, $true)
+    $ctx.LineTo((New-Object System.Windows.Point(28, 23)), $true, $false)
+    $ctx.LineTo((New-Object System.Windows.Point(25, 28)), $true, $false)
+    $ctx.Close()
+    $arrowBrush = New-Object System.Windows.Media.SolidColorBrush([System.Windows.Media.Color]::FromRgb(255, 200, 0))
+    $dc.DrawGeometry($arrowBrush, $null, $arrowGeo)
+
+    $dc.Close()
+
+    # Render to bitmap
+    $rtb = New-Object System.Windows.Media.Imaging.RenderTargetBitmap($size, $size, 96, 96,
+        [System.Windows.Media.PixelFormats]::Pbgra32)
+    $rtb.Render($dv)
+    $rtb.Freeze()
+    return $rtb
+}
+
 function Initialize-MainWindow {
     Add-Type -AssemblyName PresentationFramework
     Add-Type -AssemblyName PresentationCore
@@ -344,6 +394,9 @@ function Initialize-MainWindow {
     [xml]$xaml = $Script:MainXaml
     $reader = [System.Xml.XmlNodeReader]::new($xaml)
     $Script:ui_Window = [System.Windows.Markup.XamlReader]::Load($reader)
+
+    # Set app icon (programmatically generated)
+    try { $Script:ui_Window.Icon = New-AppIcon } catch {}
 
     # Bind all named elements to script variables with ui_ prefix
     $elementNames = @(
