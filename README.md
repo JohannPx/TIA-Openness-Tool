@@ -12,8 +12,9 @@ Multi-version TIA Portal DataBlock Exporter — Application PowerShell + WPF uti
 - **Multi-langue** — Interface en Francais, Anglais, Espagnol et Italien (drapeaux interactifs)
 - **Scan automatique** — Detecte les instances TIA Portal en cours d'execution (avec nom du projet)
 - **Connexion directe** — Se connecte a un projet TIA Portal ouvert via l'API Openness
-- **Export CSV (Siemens)** — Table d'echange avec colonnes Tag, DB, Offset, Type, Description, Unite, Repere, Coef
+- **Table d'echange CSV** — Export avec colonnes Tag, DB, Offset, Type, Description, Unite, Repere, Coef
 - **Export var_lst (Ewon)** — Fichier 62 colonnes compatible routeur Ewon Flexy (adresses S7, types, unites UNECE)
+- **Export PcVue Architect** — 1 fichier CSV par DB, colonnes Nom/Type/Description/Decalage/WBIT/Trame, word-swap Bool
 - **Expansion des Array** — Les types `Array[lo..hi] of Type` sont eclates en elements individuels avec offsets corrects
 - **Commentaires UDT** — Resolution automatique des commentaires depuis les definitions FB/UDT source
 - **Filtrage** — Affichage avec badges colores (Global / Instance), filtre par type
@@ -53,12 +54,12 @@ powershell -Sta -ExecutionPolicy Bypass -File "scripts\TIA-Openness-Tool.ps1"
 3. **Se connecter** a l'instance souhaitee
 4. **Charger** les DataBlocks du projet
 5. **Selectionner** les DBs a exporter (filtrage possible)
-6. **Choisir le format** d'export : CSV (Siemens) ou var_lst (Ewon)
+6. **Choisir le format** d'export : Table d'echange CSV, var_lst (Ewon) ou PcVue Architect
 7. **Exporter** → fichier genere dans le dossier choisi
 
 ### Formats de sortie
 
-#### CSV (Siemens — Table d'Echange)
+#### Table d'echange CSV
 
 Export UTF-8 avec BOM, separateur `;`. En-tete PLC (nom, IP, TSAP) suivi des colonnes :
 
@@ -73,11 +74,25 @@ Env.Moteur1.Etat;1;2.0;Int;Etat moteur;;;
 Export Latin-1 (ISO-8859-1), separateur `;`, 62 colonnes entre guillemets. Compatible import direct Ewon.
 
 Configuration Ewon dans l'interface :
-- **Repere** — Prefixe variable (ex: `i30`)
+- **Prefixe tag** — Prefixe optionnel sur le tagname (ex: `i30`)
 - **Topic** — Canal de communication : A, B ou C
 - **Page** — Page Ewon : 1 a 11
 
 Adresses S7 generees automatiquement : `DB1F2,ISOTCP,192.168.1.100,03.02`
+
+#### PcVue Architect
+
+Export UTF-8 avec BOM, 1 fichier CSV par DB dans un dossier horodate. Compatible import PcVue Architect.
+
+```
+Nom;Adresse;Type;Description;Decalage;WBIT;Trame;Colonne1;...;Colonne8
+Prod.Moteur1.Mode;;Int;Mode moteur;0;0;DB100;;;;;;;
+Prod.Moteur1.Actif;;Bool;Moteur actif;1;3;DB100;;;;;;;
+```
+
+- **Word-swap Bool** — Les offsets Bool sont inverses par paire d'octets (big-endian Siemens vers little-endian PcVue)
+- **Trame** — `DB{numero}` pour chaque bloc
+- **Dossier de sortie** — `PcVue_{NomPLC}_{horodatage}/`
 
 ### Expansion des Array
 
@@ -109,7 +124,7 @@ scripts/
     TiaConnection.ps1           # Scan, connexion, deconnexion TIA Portal
     TiaDataBlocks.ps1           # Enumeration recursive des DataBlocks
     TiaExport.ps1               # Export GenerateSource (.db)
-    TiaExportTable.ps1          # Export CSV (Siemens) + var_lst (Ewon)
+    TiaExportTable.ps1          # Export CSV + var_lst (Ewon) + PcVue Architect
     UIHelpers.ps1               # Composants WPF reutilisables
     UI.ps1                      # XAML, initialisation fenetre, evenements
   data/
@@ -126,7 +141,7 @@ scripts/
 | **TiaConnection** | API Openness : scan process (avec nom projet), attach, enumeration PLC |
 | **TiaDataBlocks** | Parcours recursif des groupes de blocs + recherche par nom/numero |
 | **TiaExport** | `GenerateSource()` avec dependances, nommage `DB{N}_{Nom}.db` |
-| **TiaExportTable** | Export CSV table + var_lst Ewon (parsing XML, offsets S7, expansion Array, commentaires UDT) |
+| **TiaExportTable** | Export CSV table + var_lst Ewon + PcVue Architect (parsing XML, offsets S7, expansion Array, commentaires UDT) |
 | **UIHelpers** | Badges colores, items de liste, bannieres de statut |
 | **UI** | XAML WPF, drapeaux langues, selecteur format, config Ewon, evenements |
 
@@ -146,6 +161,7 @@ C:\Program Files\Siemens\Automation\Portal V{XX}\PublicAPI\V{XX}\Siemens.Enginee
 | V18 | `.ap18` | Supporte |
 | V19 | `.ap19` | Supporte |
 | V20 | `.ap20` | Supporte |
+| V21+ | `.ap21`+ | Supporte (detection automatique) |
 
 ## Auteur
 

@@ -114,14 +114,19 @@ $Script:Strings = @{
 
         # --- Export Format ---
         LblExportFormat   = "Format d'export :"
-        OptCsvSiemens     = "CSV (Siemens)"
+        OptCsvSiemens     = "Table d'echange CSV"
         OptVarLstEwon     = "var_lst (Ewon)"
-        LblEwonRepere     = "Repere Ewon :"
+        OptPcVue          = "PcVue Architect (.csv)"
+        LblEwonRepere     = "Prefixe tag (opt.) :"
         LblEwonTopic      = "Topic :"
         LblEwonPage       = "Page :"
         BtnExportEwon     = "Exporter var_lst"
         TipExportEwon     = "Exporter les DataBlocks selectionnes en var_lst.csv (Ewon Flexy)"
         MsgExportEwonDone = "Export var_lst termine !"
+        BtnExportPcVue    = "Exporter PcVue"
+        TipExportPcVue    = "Exporter au format PcVue Architect (1 fichier CSV par DB)"
+        MsgExportPcVueDone = "Export PcVue termine !"
+        MsgInconsistentBlock = "Bloc inconsistant --compilez le projet TIA Portal avant l'export"
 
         # --- Language ---
         LangLabel         = "Langue :"
@@ -238,14 +243,19 @@ $Script:Strings = @{
 
         # --- Export Format ---
         LblExportFormat   = "Export format:"
-        OptCsvSiemens     = "CSV (Siemens)"
+        OptCsvSiemens     = "CSV Exchange Table"
         OptVarLstEwon     = "var_lst (Ewon)"
-        LblEwonRepere     = "Ewon Reference:"
+        OptPcVue          = "PcVue Architect (.csv)"
+        LblEwonRepere     = "Tag prefix (opt.):"
         LblEwonTopic      = "Topic:"
         LblEwonPage       = "Page:"
         BtnExportEwon     = "Export var_lst"
         TipExportEwon     = "Export selected DataBlocks as var_lst.csv (Ewon Flexy)"
         MsgExportEwonDone = "var_lst export completed!"
+        BtnExportPcVue    = "Export PcVue"
+        TipExportPcVue    = "Export as PcVue Architect format (1 CSV file per DB)"
+        MsgExportPcVueDone = "PcVue export completed!"
+        MsgInconsistentBlock = "Inconsistent block --compile the TIA Portal project before exporting"
 
         # --- Language ---
         LangLabel         = "Language:"
@@ -344,14 +354,19 @@ $Script:Strings = @{
         TipBrowse         = "Elegir la carpeta de exportacion"
         # --- Export Format ---
         LblExportFormat   = "Formato de exportacion:"
-        OptCsvSiemens     = "CSV (Siemens)"
+        OptCsvSiemens     = "Tabla de intercambio CSV"
         OptVarLstEwon     = "var_lst (Ewon)"
-        LblEwonRepere     = "Referencia Ewon:"
+        OptPcVue          = "PcVue Architect (.csv)"
+        LblEwonRepere     = "Prefijo tag (opc.):"
         LblEwonTopic      = "Topic:"
         LblEwonPage       = "Pagina:"
         BtnExportEwon     = "Exportar var_lst"
         TipExportEwon     = "Exportar DataBlocks seleccionados como var_lst.csv (Ewon Flexy)"
         MsgExportEwonDone = "Exportacion var_lst completada!"
+        BtnExportPcVue    = "Exportar PcVue"
+        TipExportPcVue    = "Exportar en formato PcVue Architect (1 archivo CSV por DB)"
+        MsgExportPcVueDone = "Exportacion PcVue completada!"
+        MsgInconsistentBlock = "Bloque inconsistente --compile el proyecto TIA Portal antes de exportar"
         LangLabel         = "Idioma:"
     }
 
@@ -448,14 +463,19 @@ $Script:Strings = @{
         TipBrowse         = "Scegliere la cartella di esportazione"
         # --- Export Format ---
         LblExportFormat   = "Formato di esportazione:"
-        OptCsvSiemens     = "CSV (Siemens)"
+        OptCsvSiemens     = "Tabella di scambio CSV"
         OptVarLstEwon     = "var_lst (Ewon)"
-        LblEwonRepere     = "Riferimento Ewon:"
+        OptPcVue          = "PcVue Architect (.csv)"
+        LblEwonRepere     = "Prefisso tag (opz.):"
         LblEwonTopic      = "Topic:"
         LblEwonPage       = "Pagina:"
         BtnExportEwon     = "Esporta var_lst"
         TipExportEwon     = "Esportare i DataBlocks selezionati come var_lst.csv (Ewon Flexy)"
         MsgExportEwonDone = "Esportazione var_lst completata!"
+        BtnExportPcVue    = "Esporta PcVue"
+        TipExportPcVue    = "Esportare in formato PcVue Architect (1 file CSV per DB)"
+        MsgExportPcVueDone = "Esportazione PcVue completata!"
+        MsgInconsistentBlock = "Blocco inconsistente --compilare il progetto TIA Portal prima dell'esportazione"
         LangLabel         = "Lingua:"
     }
 }

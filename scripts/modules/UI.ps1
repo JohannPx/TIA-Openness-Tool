@@ -562,16 +562,23 @@ function Update-AllTexts {
     $Script:ui_btnDeselectAll.Content = T "BtnDeselectAll"
     $Script:ui_chkHideInstance.Content = T "LblHideInstanceDB"
     $Script:ui_txtExportFormatLabel.Text = T "LblExportFormat"
+    # Refresh format ComboBox items (preserve selection)
+    $fmtIdx = $Script:ui_cbExportFormat.SelectedIndex
+    $Script:ui_cbExportFormat.Items.Clear()
+    $Script:ui_cbExportFormat.Items.Add((T "OptCsvSiemens")) | Out-Null
+    $Script:ui_cbExportFormat.Items.Add((T "OptVarLstEwon")) | Out-Null
+    $Script:ui_cbExportFormat.Items.Add((T "OptPcVue")) | Out-Null
+    $Script:ui_cbExportFormat.SelectedIndex = $fmtIdx
     $Script:ui_txtEwonRepereLabel.Text = T "LblEwonRepere"
     $Script:ui_txtEwonTopicLabel.Text = T "LblEwonTopic"
     $Script:ui_txtEwonPageLabel.Text = T "LblEwonPage"
     $Script:ui_txtExportFolderLabel.Text = T "LblExportFolder"
     # Update export button based on current format
     $fmt = $Script:ui_cbExportFormat.SelectedIndex
-    if ($fmt -eq 1) {
-        $Script:ui_btnExportCsv.Content = T "BtnExportEwon"
-    } else {
-        $Script:ui_btnExportCsv.Content = T "BtnExportCsv"
+    switch ($fmt) {
+        1 { $Script:ui_btnExportCsv.Content = T "BtnExportEwon" }
+        2 { $Script:ui_btnExportCsv.Content = T "BtnExportPcVue" }
+        default { $Script:ui_btnExportCsv.Content = T "BtnExportCsv" }
     }
 
     # Export folder default text
@@ -593,10 +600,10 @@ function Update-AllTexts {
     $Script:ui_btnConnect.ToolTip = T "TipConnect"
     $Script:ui_btnDisconnect.ToolTip = T "TipDisconnect"
     $Script:ui_btnLoadDBs.ToolTip = T "TipLoadDBs"
-    if ($Script:ui_cbExportFormat.SelectedIndex -eq 1) {
-        $Script:ui_btnExportCsv.ToolTip = T "TipExportEwon"
-    } else {
-        $Script:ui_btnExportCsv.ToolTip = T "TipExportCsv"
+    switch ($Script:ui_cbExportFormat.SelectedIndex) {
+        1 { $Script:ui_btnExportCsv.ToolTip = T "TipExportEwon" }
+        2 { $Script:ui_btnExportCsv.ToolTip = T "TipExportPcVue" }
+        default { $Script:ui_btnExportCsv.ToolTip = T "TipExportCsv" }
     }
     $Script:ui_btnBrowseFolder.ToolTip = T "TipBrowse"
 }
@@ -725,6 +732,7 @@ function Initialize-FormatSelector {
     $Script:ui_cbExportFormat.Items.Clear()
     $Script:ui_cbExportFormat.Items.Add((T "OptCsvSiemens")) | Out-Null
     $Script:ui_cbExportFormat.Items.Add((T "OptVarLstEwon")) | Out-Null
+    $Script:ui_cbExportFormat.Items.Add((T "OptPcVue")) | Out-Null
     $Script:ui_cbExportFormat.SelectedIndex = 0
 
     # Populate Ewon Topic ComboBox
@@ -739,16 +747,26 @@ function Initialize-FormatSelector {
 
     # Format change event — show/hide Ewon config, update button text
     $Script:ui_cbExportFormat.Add_SelectionChanged({
-        if ($Script:ui_cbExportFormat.SelectedIndex -eq 1) {
-            $Script:ui_pnlEwonConfig.Visibility = [System.Windows.Visibility]::Visible
-            $Script:ui_btnExportCsv.Content = T "BtnExportEwon"
-            $Script:ui_btnExportCsv.ToolTip = T "TipExportEwon"
-            Set-AppStateValue -Key "ExportFormat" -Value "EWON"
-        } else {
-            $Script:ui_pnlEwonConfig.Visibility = [System.Windows.Visibility]::Collapsed
-            $Script:ui_btnExportCsv.Content = T "BtnExportCsv"
-            $Script:ui_btnExportCsv.ToolTip = T "TipExportCsv"
-            Set-AppStateValue -Key "ExportFormat" -Value "CSV"
+        $idx = $Script:ui_cbExportFormat.SelectedIndex
+        switch ($idx) {
+            1 {
+                $Script:ui_pnlEwonConfig.Visibility = [System.Windows.Visibility]::Visible
+                $Script:ui_btnExportCsv.Content = T "BtnExportEwon"
+                $Script:ui_btnExportCsv.ToolTip = T "TipExportEwon"
+                Set-AppStateValue -Key "ExportFormat" -Value "EWON"
+            }
+            2 {
+                $Script:ui_pnlEwonConfig.Visibility = [System.Windows.Visibility]::Collapsed
+                $Script:ui_btnExportCsv.Content = T "BtnExportPcVue"
+                $Script:ui_btnExportCsv.ToolTip = T "TipExportPcVue"
+                Set-AppStateValue -Key "ExportFormat" -Value "PCVUE"
+            }
+            default {
+                $Script:ui_pnlEwonConfig.Visibility = [System.Windows.Visibility]::Collapsed
+                $Script:ui_btnExportCsv.Content = T "BtnExportCsv"
+                $Script:ui_btnExportCsv.ToolTip = T "TipExportCsv"
+                Set-AppStateValue -Key "ExportFormat" -Value "CSV"
+            }
         }
     })
 }
@@ -842,7 +860,7 @@ function Register-ExportEvents {
 
             $result = Invoke-TableExport -SelectedBlocks $selected -OutputFolder $folder -Format $format -EwonConfig $ewonConfig
             $summary = Get-ExportSummary -Result $result
-            $doneKey = if ($format -eq "EWON") { "MsgExportEwonDone" } else { "MsgExportCsvDone" }
+            $doneKey = switch ($format) { "EWON" { "MsgExportEwonDone" }; "PCVUE" { "MsgExportPcVueDone" }; default { "MsgExportCsvDone" } }
             $icon = if ($result.ErrorCount -gt 0 -or $result.OptimizedDBs.Count -gt 0) { "Warning" } else { "Information" }
             [System.Windows.MessageBox]::Show($summary, (T $doneKey), "OK", $icon)
         } catch {

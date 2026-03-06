@@ -712,6 +712,60 @@ function Write-VarLstMemberRow {
     $Writer.Write(($vals -join ";") + "`r`n")
 }
 
+# =================== PCVUE ARCHITECT FORMAT ===================
+
+function Get-PcVueOffset {
+    param([string]$SiemensOffset, [string]$DataType)
+
+    if (-not $SiemensOffset) { return @{ Decalage = 0; WBIT = 0 } }
+
+    $parts = $SiemensOffset.Split('.')
+    $byte = [int]$parts[0]
+    $bit = if ($parts.Count -gt 1) { [int]$parts[1] } else { 0 }
+
+    $dt = $DataType.Trim('"')
+    if ($dt -eq "Bool") {
+        # Word-swap: even byte → +1, odd byte → -1
+        if ($byte % 2 -eq 0) { $pcvueByte = $byte + 1 } else { $pcvueByte = $byte - 1 }
+        return @{ Decalage = $pcvueByte; WBIT = $bit }
+    }
+
+    return @{ Decalage = $byte; WBIT = 0 }
+}
+
+function Write-PcVueCsvHeader {
+    param([System.IO.StreamWriter]$Writer)
+    $Writer.WriteLine("Nom;Adresse;Type;Description;Decalage;WBIT;Trame;Colonne1;Colonne2;Colonne3;Colonne4;Colonne5;Colonne6;Colonne7;Colonne8")
+}
+
+function Write-PcVueMemberRow {
+    param(
+        [System.IO.StreamWriter]$Writer,
+        [hashtable]$Member,
+        [bool]$IsOptimized
+    )
+
+    $dt = $Member.DataType.Trim('"')
+    $comment = ($Member.Comment -replace '"', '""')
+    if ($comment -match '[;"]') { $comment = "`"$comment`"" }
+
+    $name = ($Member.Name -replace '"', '""')
+    if ($name -match '[;"]') { $name = "`"$name`"" }
+
+    if ($IsOptimized) {
+        $decalage = ""
+        $wbit = ""
+    } else {
+        $pcvue = Get-PcVueOffset -SiemensOffset $Member.Offset -DataType $dt
+        $decalage = $pcvue.Decalage
+        $wbit = $pcvue.WBIT
+    }
+
+    $trame = "DB$($Member.DbNumber)"
+
+    $Writer.WriteLine("$name;;$dt;$comment;$decalage;$wbit;$trame;;;;;;;;")
+}
+
 # =================== MAIN EXPORT ORCHESTRATION ===================
 
 function Invoke-TableExport {
@@ -770,29 +824,33 @@ function Invoke-TableExport {
                 $plcInfo = @{ PlcIndex = $plcIdx; Name = "PLC_$plcIdx"; IpAddress = ""; Rack = 0; Slot = 2; Tsap = "03.02" }
             }
 
-            # Create output file
             $safeName = $plcInfo.Name -replace '[\\/:*?"<>|]', '_'
             $timestamp = Get-Date -Format "yyyyMMdd_HHmmss"
 
-            if ($Format -eq "EWON") {
+            # PCVUE: create timestamped subfolder (1 file per DB)
+            # CSV/EWON: single file per PLC
+            $writer = $null
+            $pcvueFolder = $null
+
+            if ($Format -eq "PCVUE") {
+                $pcvueFolder = Join-Path $OutputFolder "PcVue_${safeName}_${timestamp}"
+                New-Item -ItemType Directory -Path $pcvueFolder -Force | Out-Null
+                $result.OutputFolder = $pcvueFolder
+            } elseif ($Format -eq "EWON") {
                 $csvFileName = "var_lst_${safeName}.csv"
                 $csvPath = Join-Path $OutputFolder $csvFileName
                 $encoding = [System.Text.Encoding]::GetEncoding("iso-8859-1")
+                $writer = New-Object System.IO.StreamWriter($csvPath, $false, $encoding)
+                Write-VarLstHeader -Writer $writer
             } else {
                 $csvFileName = "${safeName}_Export_${timestamp}.csv"
                 $csvPath = Join-Path $OutputFolder $csvFileName
                 $encoding = New-Object System.Text.UTF8Encoding($true)
+                $writer = New-Object System.IO.StreamWriter($csvPath, $false, $encoding)
+                Write-CsvHeader -Writer $writer -PlcInfo $plcInfo
             }
 
-            $writer = New-Object System.IO.StreamWriter($csvPath, $false, $encoding)
-
             try {
-                if ($Format -eq "EWON") {
-                    Write-VarLstHeader -Writer $writer
-                } else {
-                    Write-CsvHeader -Writer $writer -PlcInfo $plcInfo
-                }
-
                 foreach ($dbInfo in $plcBlocks) {
                     $currentBlock++
 
@@ -811,7 +869,17 @@ function Invoke-TableExport {
                         }
 
                         # Export block to XML
-                        $xmlPath = Export-BlockToXml -Block $block -TempFolder $tempFolder
+                        try {
+                            $xmlPath = Export-BlockToXml -Block $block -TempFolder $tempFolder
+                        } catch {
+                            if ($_.Exception.Message -match "Inconsistent") {
+                                $result.Errors += "$($dbInfo.Name): $(T 'MsgInconsistentBlock')"
+                            } else {
+                                $result.Errors += "$($dbInfo.Name): $($_.Exception.Message)"
+                            }
+                            $result.ErrorCount++
+                            continue
+                        }
 
                         # Parse SimaticML XML
                         $parseResult = Parse-SimaticMlMembers -XmlPath $xmlPath -DbNumber $dbInfo.Number
@@ -880,17 +948,37 @@ function Invoke-TableExport {
                             }
                         }
 
-                        # Write member rows
-                        foreach ($member in $parseResult.Members) {
-                            try {
-                                if ($Format -eq "EWON") {
-                                    Write-VarLstMemberRow -Writer $writer -Member $member -PlcInfo $plcInfo -EwonConfig $EwonConfig
-                                } else {
-                                    Write-CsvMemberRow -Writer $writer -Member $member -IsOptimized $false
+                        # PCVUE: open a new writer per DB
+                        $pcvueWriter = $null
+                        if ($Format -eq "PCVUE") {
+                            $safeDbName = $dbInfo.Name -replace '[\\/:*?"<>|]', '_'
+                            $pcvueFile = Join-Path $pcvueFolder "DB$($dbInfo.Number)_${safeDbName}.csv"
+                            $pcvueEncoding = New-Object System.Text.UTF8Encoding($true)
+                            $pcvueWriter = New-Object System.IO.StreamWriter($pcvueFile, $false, $pcvueEncoding)
+                            Write-PcVueCsvHeader -Writer $pcvueWriter
+                        }
+
+                        try {
+                            # Write member rows
+                            foreach ($member in $parseResult.Members) {
+                                try {
+                                    if ($Format -eq "PCVUE") {
+                                        Write-PcVueMemberRow -Writer $pcvueWriter -Member $member -IsOptimized $false
+                                    } elseif ($Format -eq "EWON") {
+                                        Write-VarLstMemberRow -Writer $writer -Member $member -PlcInfo $plcInfo -EwonConfig $EwonConfig
+                                    } else {
+                                        Write-CsvMemberRow -Writer $writer -Member $member -IsOptimized $false
+                                    }
+                                } catch {
+                                    $memberName = if ($member -and $member.ContainsKey('Name')) { $member.Name } else { "?" }
+                                    $result.Errors += "DB$($dbInfo.Number).$memberName : $($_.Exception.Message) [$($_.InvocationInfo.ScriptLineNumber)]"
                                 }
-                            } catch {
-                                $memberName = if ($member -and $member.ContainsKey('Name')) { $member.Name } else { "?" }
-                                $result.Errors += "DB$($dbInfo.Number).$memberName : $($_.Exception.Message) [$($_.InvocationInfo.ScriptLineNumber)]"
+                            }
+                        } finally {
+                            if ($pcvueWriter) {
+                                $pcvueWriter.Flush()
+                                $pcvueWriter.Close()
+                                $result.Files += $pcvueFile
                             }
                         }
 
@@ -905,13 +993,19 @@ function Invoke-TableExport {
                         }
 
                     } catch {
-                        $result.Errors += "$($dbInfo.Name): $($_.Exception.Message) [line $($_.InvocationInfo.ScriptLineNumber)]"
+                        if ($_.Exception.Message -match "Inconsistent") {
+                            $result.Errors += "$($dbInfo.Name): $(T 'MsgInconsistentBlock')"
+                        } else {
+                            $result.Errors += "$($dbInfo.Name): $($_.Exception.Message) [line $($_.InvocationInfo.ScriptLineNumber)]"
+                        }
                         $result.ErrorCount++
                     }
                 }
 
-                $writer.Flush()
-                $result.Files += $csvPath
+                if ($writer) {
+                    $writer.Flush()
+                    $result.Files += $csvPath
+                }
             } finally {
                 if ($writer) { $writer.Close() }
             }
@@ -930,7 +1024,11 @@ function Invoke-TableExport {
 function Get-ExportSummary {
     param([hashtable]$Result)
 
-    $doneKey = if ($Result.Format -eq "EWON") { "MsgExportEwonDone" } else { "MsgExportCsvDone" }
+    $doneKey = switch ($Result.Format) {
+        "EWON"  { "MsgExportEwonDone" }
+        "PCVUE" { "MsgExportPcVueDone" }
+        default { "MsgExportCsvDone" }
+    }
     $msg = (T $doneKey) + "`n`n"
     $msg += "$([char]0x2714) " + ((T "MsgExportSuccess") -f $Result.SuccessCount) + "`n"
 

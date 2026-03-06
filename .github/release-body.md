@@ -52,7 +52,7 @@ Tapez `O` puis Entree pour executer. Pour ne plus voir cet avertissement : clic-
 - Scan des instances TIA Portal en cours d'execution (avec nom du projet)
 - Connexion directe via l'API Openness
 
-### Export CSV (Siemens — Table d'Echange)
+### Table d'echange CSV
 - Format UTF-8 BOM, separateur `;`
 - Colonnes : Tag, DB, Offset, Type, Description, Unite, Repere, Coef
 - En-tete PLC (nom, adresse IP, TSAP)
@@ -62,6 +62,12 @@ Tapez `O` puis Entree pour executer. Pour ne plus voir cet avertissement : clic-
 - Adresses S7 generees automatiquement (ex: `DB1F2,ISOTCP,192.168.1.100,03.02`)
 - Configuration Ewon : Repere, Topic (A/B/C), Page (1-11)
 - Resolution automatique des unites UNECE
+
+### Export PcVue Architect (BETA)
+- 1 fichier CSV par DB dans un dossier horodate
+- Colonnes : Nom, Type, Description, Decalage, WBIT, Trame
+- Word-swap automatique des offsets Bool (big-endian Siemens vers PcVue)
+- Compatible import PcVue Architect
 
 ### Traitement avance
 - Expansion automatique des types Array en elements individuels
