@@ -457,7 +457,8 @@ function Write-CsvMemberRow {
     param(
         [System.IO.StreamWriter]$Writer,
         [hashtable]$Member,
-        [bool]$IsOptimized
+        [bool]$IsOptimized,
+        [string]$DbName
     )
 
     $offset = if ($IsOptimized) { "" } else { $Member.Offset }
@@ -465,7 +466,9 @@ function Write-CsvMemberRow {
     $comment = ($Member.Comment -replace '"', '""')
     if ($comment -match '[;"]') { $comment = "`"$comment`"" }
 
-    $name = ($Member.Name -replace '"', '""')
+    # Prefixe le tagname par le nom du DB pour garantir l'unicite entre DB
+    $fullName = if ($DbName) { "$DbName.$($Member.Name)" } else { $Member.Name }
+    $name = ($fullName -replace '"', '""')
     if ($name -match '[;"]') { $name = "`"$name`"" }
 
     $Writer.WriteLine("$name;$($Member.DbNumber);$offset;$($Member.DataType);$comment;;;")
@@ -626,15 +629,17 @@ function Write-VarLstMemberRow {
         [System.IO.StreamWriter]$Writer,
         [hashtable]$Member,
         [hashtable]$PlcInfo,
-        [hashtable]$EwonConfig
+        [hashtable]$EwonConfig,
+        [string]$DbName
     )
 
     $dt = $Member.DataType.Trim('"')
     $ewonType = $Script:EWON_TYPE_MAP[$dt]
     if ($null -eq $ewonType) { $ewonType = 0 }
 
-    # Name: {repere}.{memberPath}
-    $tagName = if ($EwonConfig.Repere) { "$($EwonConfig.Repere).$($Member.Name)" } else { $Member.Name }
+    # Name: {repere}.{dbName}.{memberPath} — le nom du DB garantit l'unicite entre DB
+    $baseName = if ($DbName) { "$DbName.$($Member.Name)" } else { $Member.Name }
+    $tagName = if ($EwonConfig.Repere) { "$($EwonConfig.Repere).$baseName" } else { $baseName }
 
     # Address
     $address = Get-EwonS7Address -DbNumber $Member.DbNumber -Offset $Member.Offset -DataType $dt -IpAddress $PlcInfo.IpAddress -Tsap $PlcInfo.Tsap
@@ -742,14 +747,17 @@ function Write-PcVueMemberRow {
     param(
         [System.IO.StreamWriter]$Writer,
         [hashtable]$Member,
-        [bool]$IsOptimized
+        [bool]$IsOptimized,
+        [string]$DbName
     )
 
     $dt = $Member.DataType.Trim('"')
     $comment = ($Member.Comment -replace '"', '""')
     if ($comment -match '[;"]') { $comment = "`"$comment`"" }
 
-    $name = ($Member.Name -replace '"', '""')
+    # Prefixe le tagname par le nom du DB pour garantir l'unicite entre DB
+    $fullName = if ($DbName) { "$DbName.$($Member.Name)" } else { $Member.Name }
+    $name = ($fullName -replace '"', '""')
     if ($name -match '[;"]') { $name = "`"$name`"" }
 
     if ($IsOptimized) {
@@ -963,11 +971,11 @@ function Invoke-TableExport {
                             foreach ($member in $parseResult.Members) {
                                 try {
                                     if ($Format -eq "PCVUE") {
-                                        Write-PcVueMemberRow -Writer $pcvueWriter -Member $member -IsOptimized $false
+                                        Write-PcVueMemberRow -Writer $pcvueWriter -Member $member -IsOptimized $false -DbName $dbInfo.Name
                                     } elseif ($Format -eq "EWON") {
-                                        Write-VarLstMemberRow -Writer $writer -Member $member -PlcInfo $plcInfo -EwonConfig $EwonConfig
+                                        Write-VarLstMemberRow -Writer $writer -Member $member -PlcInfo $plcInfo -EwonConfig $EwonConfig -DbName $dbInfo.Name
                                     } else {
-                                        Write-CsvMemberRow -Writer $writer -Member $member -IsOptimized $false
+                                        Write-CsvMemberRow -Writer $writer -Member $member -IsOptimized $false -DbName $dbInfo.Name
                                     }
                                 } catch {
                                     $memberName = if ($member -and $member.ContainsKey('Name')) { $member.Name } else { "?" }
