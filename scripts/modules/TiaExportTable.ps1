@@ -215,11 +215,16 @@ function Parse-SimaticMlMembers {
     # Offset tracking: enabled for non-optimized DBs
     $offsetState = @{ Byte = 0; Bit = 0; Enabled = (-not $isOptimized) }
 
-    $members = @(Parse-MemberNodes -ParentNode $staticSection -ParentPath "" -DbNumber $DbNumber -Nsmgr $nsmgr -Prefix $prefix -OffsetState $offsetState)
+    # Dictionnaire partage (path -> commentaire) — capture tous les noeuds (leaves et intermediaires)
+    # pour permettre le chainage des commentaires parents lors de l'export.
+    $parentComments = @{}
+
+    $members = @(Parse-MemberNodes -ParentNode $staticSection -ParentPath "" -DbNumber $DbNumber -Nsmgr $nsmgr -Prefix $prefix -OffsetState $offsetState -ParentComments $parentComments)
 
     return @{
-        Members     = $members
-        IsOptimized = $isOptimized
+        Members        = $members
+        IsOptimized    = $isOptimized
+        ParentComments = $parentComments
     }
 }
 
@@ -233,7 +238,8 @@ function Parse-MemberNodes {
         [hashtable]$OffsetState,
         [string]$SectionName = "",
         [string]$CurrentUdtType = "",
-        [string]$UdtRelativePath = ""
+        [string]$UdtRelativePath = "",
+        [hashtable]$ParentComments = $null
     )
 
     $results = @()
@@ -266,6 +272,19 @@ function Parse-MemberNodes {
                     }
                 }
                 break
+            }
+        }
+
+        # Enregistre le contexte du noeud (commentaire DB + UdtType/UdtPath) pour permettre
+        # le chainage des commentaires parents lors de l'export, avec resolution via les types.
+        if ($null -ne $ParentComments) {
+            $nodeUdtPath = if ($CurrentUdtType) {
+                if ($UdtRelativePath) { "$UdtRelativePath.$name" } else { $name }
+            } else { $fullPath }
+            $ParentComments[$fullPath] = @{
+                Comment = $comment
+                UdtType = $CurrentUdtType
+                UdtPath = $nodeUdtPath
             }
         }
 
@@ -306,7 +325,7 @@ function Parse-MemberNodes {
             $childUdtPath = if ($CurrentUdtType) {
                 if ($UdtRelativePath) { "$UdtRelativePath.$name" } else { $name }
             } else { "" }
-            $childResults += @(Parse-MemberNodes -ParentNode $member -ParentPath $fullPath -DbNumber $DbNumber -Nsmgr $Nsmgr -Prefix $Prefix -OffsetState $OffsetState -SectionName $SectionName -CurrentUdtType $CurrentUdtType -UdtRelativePath $childUdtPath)
+            $childResults += @(Parse-MemberNodes -ParentNode $member -ParentPath $fullPath -DbNumber $DbNumber -Nsmgr $Nsmgr -Prefix $Prefix -OffsetState $OffsetState -SectionName $SectionName -CurrentUdtType $CurrentUdtType -UdtRelativePath $childUdtPath -ParentComments $ParentComments)
             if ($OffsetState -and $OffsetState.Enabled) { Align-OffsetState -State $OffsetState }
         }
         # Sections (FB instances / UDTs) — enter new UDT context
@@ -323,7 +342,7 @@ function Parse-MemberNodes {
                 if ($OffsetState -and $OffsetState.Enabled) { Align-OffsetState -State $OffsetState }
                 foreach ($sectionNode in $allSections) {
                     $secName = $sectionNode.GetAttribute("Name")
-                    $childResults += @(Parse-MemberNodes -ParentNode $sectionNode -ParentPath $fullPath -DbNumber $DbNumber -Nsmgr $Nsmgr -Prefix $Prefix -OffsetState $OffsetState -SectionName $secName -CurrentUdtType $udtName -UdtRelativePath "")
+                    $childResults += @(Parse-MemberNodes -ParentNode $sectionNode -ParentPath $fullPath -DbNumber $DbNumber -Nsmgr $Nsmgr -Prefix $Prefix -OffsetState $OffsetState -SectionName $secName -CurrentUdtType $udtName -UdtRelativePath "" -ParentComments $ParentComments)
                     # Align between sections
                     if ($OffsetState -and $OffsetState.Enabled) { Align-OffsetState -State $OffsetState }
                 }
@@ -426,6 +445,43 @@ function Parse-MemberNodes {
     return $results
 }
 
+# =================== COMMENT CHAIN ===================
+
+function Build-CommentChain {
+    # Concatene les commentaires des parents intermediaires (du plus eleve au plus proche)
+    # avec le commentaire du membre lui-meme. Un parent sans commentaire est ignore.
+    # Si le membre est sans commentaire, on garde la chaine des parents seule.
+    param(
+        [string]$MemberName,
+        [string]$MemberComment,
+        [hashtable]$ParentComments
+    )
+
+    if (-not $ParentComments -or $ParentComments.Count -eq 0) {
+        return $MemberComment
+    }
+
+    $parts = $MemberName -split '\.'
+    $chain = New-Object System.Collections.Generic.List[string]
+
+    # Parcours tous les prefixes sauf le membre lui-meme (dernier segment)
+    for ($i = 0; $i -lt $parts.Count - 1; $i++) {
+        $parentPath = ($parts[0..$i] -join '.')
+        if ($ParentComments.ContainsKey($parentPath)) {
+            $pc = $ParentComments[$parentPath]
+            if (-not [string]::IsNullOrEmpty($pc)) {
+                $chain.Add($pc)
+            }
+        }
+    }
+
+    if (-not [string]::IsNullOrEmpty($MemberComment)) {
+        $chain.Add($MemberComment)
+    }
+
+    return ($chain -join ' - ')
+}
+
 # =================== CSV GENERATION ===================
 
 function New-ExportFolder {
@@ -458,12 +514,15 @@ function Write-CsvMemberRow {
         [System.IO.StreamWriter]$Writer,
         [hashtable]$Member,
         [bool]$IsOptimized,
-        [string]$DbName
+        [string]$DbName,
+        [hashtable]$ParentComments
     )
 
     $offset = if ($IsOptimized) { "" } else { $Member.Offset }
-    # Escape semicolons and quotes in fields
-    $comment = ($Member.Comment -replace '"', '""')
+
+    # Chaine les commentaires des parents intermediaires avec celui du membre
+    $rawComment = Build-CommentChain -MemberName $Member.Name -MemberComment $Member.Comment -ParentComments $ParentComments
+    $comment = ($rawComment -replace '"', '""')
     if ($comment -match '[;"]') { $comment = "`"$comment`"" }
 
     # Prefixe le tagname par le nom du DB pour garantir l'unicite entre DB
@@ -630,7 +689,8 @@ function Write-VarLstMemberRow {
         [hashtable]$Member,
         [hashtable]$PlcInfo,
         [hashtable]$EwonConfig,
-        [string]$DbName
+        [string]$DbName,
+        [hashtable]$ParentComments
     )
 
     $dt = $Member.DataType.Trim('"')
@@ -640,6 +700,9 @@ function Write-VarLstMemberRow {
     # Name: {repere}.{dbName}.{memberPath} — le nom du DB garantit l'unicite entre DB
     $baseName = if ($DbName) { "$DbName.$($Member.Name)" } else { $Member.Name }
     $tagName = if ($EwonConfig.Repere) { "$($EwonConfig.Repere).$baseName" } else { $baseName }
+
+    # Chaine les commentaires des parents intermediaires avec celui du membre
+    $chainedComment = Build-CommentChain -MemberName $Member.Name -MemberComment $Member.Comment -ParentComments $ParentComments
 
     # Address
     $address = Get-EwonS7Address -DbNumber $Member.DbNumber -Offset $Member.Offset -DataType $dt -IpAddress $PlcInfo.IpAddress -Tsap $PlcInfo.Tsap
@@ -652,7 +715,7 @@ function Write-VarLstMemberRow {
     $vals = @(
         ""                                          #  0 Id (auto)
         (Format-EwonStr $tagName)                   #  1 Name
-        (Format-EwonStr $Member.Comment)            #  2 Description
+        (Format-EwonStr $chainedComment)            #  2 Description
         (Format-EwonStr "S7300")                    #  3 ServerName
         (Format-EwonStr $EwonConfig.Topic)          #  4 TopicName
         (Format-EwonStr $address)                   #  5 Address
@@ -748,11 +811,15 @@ function Write-PcVueMemberRow {
         [System.IO.StreamWriter]$Writer,
         [hashtable]$Member,
         [bool]$IsOptimized,
-        [string]$DbName
+        [string]$DbName,
+        [hashtable]$ParentComments
     )
 
     $dt = $Member.DataType.Trim('"')
-    $comment = ($Member.Comment -replace '"', '""')
+
+    # Chaine les commentaires des parents intermediaires avec celui du membre
+    $rawComment = Build-CommentChain -MemberName $Member.Name -MemberComment $Member.Comment -ParentComments $ParentComments
+    $comment = ($rawComment -replace '"', '""')
     if ($comment -match '[;"]') { $comment = "`"$comment`"" }
 
     # Prefixe le tagname par le nom du DB pour garantir l'unicite entre DB
@@ -905,11 +972,17 @@ function Invoke-TableExport {
                         [xml]$dbXml = Get-Content $xmlPath -Encoding UTF8
                         $instanceOfName = Get-InstanceOfName -XmlDoc $dbXml
 
-                        # Collect all type names that need comment resolution
+                        # Collect all type names that need comment resolution (leaves + parents intermediaires)
                         $typeNames = @{}
                         foreach ($m in $parseResult.Members) {
                             if ([string]::IsNullOrEmpty($m.Comment)) {
                                 $src = if ($m.UdtType) { $m.UdtType } elseif ($instanceOfName) { $instanceOfName } else { $null }
+                                if ($src -and -not $typeNames.ContainsKey($src)) { $typeNames[$src] = @{} }
+                            }
+                        }
+                        foreach ($pi in $parseResult.ParentComments.Values) {
+                            if ([string]::IsNullOrEmpty($pi.Comment)) {
+                                $src = if ($pi.UdtType) { $pi.UdtType } elseif ($instanceOfName) { $instanceOfName } else { $null }
                                 if ($src -and -not $typeNames.ContainsKey($src)) { $typeNames[$src] = @{} }
                             }
                         }
@@ -946,13 +1019,30 @@ function Invoke-TableExport {
                             }
                         }
 
-                        # Inject resolved comments
+                        # Inject resolved comments dans les leaves
                         foreach ($m in $parseResult.Members) {
                             if ([string]::IsNullOrEmpty($m.Comment)) {
                                 $src = if ($m.UdtType) { $m.UdtType } elseif ($instanceOfName) { $instanceOfName } else { $null }
                                 if ($src -and $typeCommentCache.ContainsKey($src) -and $typeCommentCache[$src].ContainsKey($m.UdtPath)) {
                                     $m.Comment = $typeCommentCache[$src][$m.UdtPath]
                                 }
+                            }
+                        }
+
+                        # Resout les commentaires des parents intermediaires (via type si absent du DB)
+                        # puis aplatit en dict path -> string pour Build-CommentChain
+                        $parentCommentMap = @{}
+                        foreach ($path in @($parseResult.ParentComments.Keys)) {
+                            $info = $parseResult.ParentComments[$path]
+                            $resolved = $info.Comment
+                            if ([string]::IsNullOrEmpty($resolved)) {
+                                $src = if ($info.UdtType) { $info.UdtType } elseif ($instanceOfName) { $instanceOfName } else { $null }
+                                if ($src -and $typeCommentCache.ContainsKey($src) -and $typeCommentCache[$src].ContainsKey($info.UdtPath)) {
+                                    $resolved = $typeCommentCache[$src][$info.UdtPath]
+                                }
+                            }
+                            if (-not [string]::IsNullOrEmpty($resolved)) {
+                                $parentCommentMap[$path] = $resolved
                             }
                         }
 
@@ -971,11 +1061,11 @@ function Invoke-TableExport {
                             foreach ($member in $parseResult.Members) {
                                 try {
                                     if ($Format -eq "PCVUE") {
-                                        Write-PcVueMemberRow -Writer $pcvueWriter -Member $member -IsOptimized $false -DbName $dbInfo.Name
+                                        Write-PcVueMemberRow -Writer $pcvueWriter -Member $member -IsOptimized $false -DbName $dbInfo.Name -ParentComments $parentCommentMap
                                     } elseif ($Format -eq "EWON") {
-                                        Write-VarLstMemberRow -Writer $writer -Member $member -PlcInfo $plcInfo -EwonConfig $EwonConfig -DbName $dbInfo.Name
+                                        Write-VarLstMemberRow -Writer $writer -Member $member -PlcInfo $plcInfo -EwonConfig $EwonConfig -DbName $dbInfo.Name -ParentComments $parentCommentMap
                                     } else {
-                                        Write-CsvMemberRow -Writer $writer -Member $member -IsOptimized $false -DbName $dbInfo.Name
+                                        Write-CsvMemberRow -Writer $writer -Member $member -IsOptimized $false -DbName $dbInfo.Name -ParentComments $parentCommentMap
                                     }
                                 } catch {
                                     $memberName = if ($member -and $member.ContainsKey('Name')) { $member.Name } else { "?" }
