@@ -67,6 +67,14 @@ jobs:
           echo ''"'"'@' >> ./TIA-Openness-Tool_latest.ps1
           echo '' >> ./TIA-Openness-Tool_latest.ps1
 
+          # Flag this as the embedded/bundled build so the entry point does NOT dot-source
+          # an external "modules" folder sitting next to the bundle (which would override the
+          # functions already concatenated above with possibly stale copies).
+          echo '' >> ./TIA-Openness-Tool_latest.ps1
+          echo '# =================== BUILD FLAG ===================' >> ./TIA-Openness-Tool_latest.ps1
+          echo '$Script:EmbeddedBuild = $true' >> ./TIA-Openness-Tool_latest.ps1
+          echo '' >> ./TIA-Openness-Tool_latest.ps1
+
           # Append main entry point
           LC_ALL=C sed '1s/^\xEF\xBB\xBF//' ./scripts/TIA-Openness-Tool.ps1 >> ./TIA-Openness-Tool_latest.ps1
 
