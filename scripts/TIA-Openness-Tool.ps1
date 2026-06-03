@@ -42,7 +42,15 @@ try {
     $ScriptDir = Split-Path -Parent $MyInvocation.MyCommand.Path
     $modulesDir = Join-Path $ScriptDir "modules"
 
-    if (Test-Path $modulesDir) {
+    # In the bundled (release) build, every module is already concatenated above and
+    # $Script:EmbeddedBuild is set to $true by the build step. We must NOT dot-source an
+    # external "modules" folder in that case: it would override the embedded functions with
+    # whatever (possibly stale) modules happen to sit next to the bundle. Only the modular
+    # dev layout loads modules from disk. (Get-Variable is used because referencing an
+    # undefined $Script:EmbeddedBuild directly would throw under Set-StrictMode.)
+    $embeddedBuild = [bool](Get-Variable -Name EmbeddedBuild -Scope Script -ValueOnly -ErrorAction SilentlyContinue)
+
+    if (-not $embeddedBuild -and (Test-Path $modulesDir)) {
         $moduleOrder = @(
             "AppState.ps1"
             "Localization.ps1"
