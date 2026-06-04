@@ -398,6 +398,9 @@ function Initialize-MainWindow {
     # Set app icon (programmatically generated)
     try { $Script:ui_Window.Icon = New-AppIcon } catch {}
 
+    # Show the app version in the title bar
+    try { $Script:ui_Window.Title = "TIA Openness Tool - v$(Get-AppVersion)" } catch {}
+
     # Bind all named elements to script variables with ui_ prefix
     $elementNames = @(
         "txtAppTitle", "txtAppSubtitle",
@@ -536,7 +539,7 @@ function Update-LanguageButtonHighlight {
 function Update-AllTexts {
     # App title bar
     $Script:ui_txtAppTitle.Text = T "AppTitle"
-    $Script:ui_txtAppSubtitle.Text = T "AppSubtitle"
+    $Script:ui_txtAppSubtitle.Text = "$(T 'AppSubtitle')  -  v$(Get-AppVersion)"
     $Script:ui_txtLangLabel.Text = T "LangLabel"
 
     # Connection status

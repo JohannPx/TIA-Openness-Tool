@@ -6,45 +6,68 @@ on:
       - main
 
 jobs:
+  # ─── Job 1: Build concatenated .ps1 ───
   build:
     runs-on: ubuntu-latest
     permissions:
       contents: write
-
+    outputs:
+      version: ${{ steps.version.outputs.version }}
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+
+      - name: Resolve version
+        id: version
+        run: |
+          BASE_VERSION=$(jq -r '.version' manifest.json)
+          echo "Base version from manifest: $BASE_VERSION"
+
+          # Auto-bump patch if tag already exists
+          if git tag -l "v${BASE_VERSION}" | grep -q .; then
+            echo "Tag v${BASE_VERSION} already exists, auto-bumping patch..."
+            LATEST_TAG=$(git tag -l 'v[0-9]*.[0-9]*.[0-9]*' --sort=-v:refname | grep -v '-' | head -1)
+            if [ -n "$LATEST_TAG" ]; then
+              LATEST=${LATEST_TAG#v}
+              MAJOR=$(echo "$LATEST" | cut -d. -f1)
+              MINOR=$(echo "$LATEST" | cut -d. -f2)
+              PATCH=$(echo "$LATEST" | cut -d. -f3)
+              PATCH=$((PATCH + 1))
+              VERSION="${MAJOR}.${MINOR}.${PATCH}"
+            else
+              VERSION="$BASE_VERSION"
+            fi
+          else
+            VERSION="$BASE_VERSION"
+          fi
+
+          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
+          echo "Resolved version: $VERSION"
+
+      - name: Update manifest.json if version bumped
+        run: |
+          VERSION="${{ steps.version.outputs.version }}"
+          CURRENT=$(jq -r '.version' manifest.json)
+          if [ "$VERSION" != "$CURRENT" ]; then
+            jq --arg v "$VERSION" '.version = $v' manifest.json > manifest.tmp && mv manifest.tmp manifest.json
+            git config user.name "github-actions[bot]"
+            git config user.email "github-actions[bot]@users.noreply.github.com"
+            git add manifest.json
+            git commit -m "ci: auto-bump version to $VERSION"
+            git push
+            echo "Manifest updated to $VERSION"
+          else
+            echo "No bump needed, version $VERSION is new"
+          fi
 
       - name: Build Script
         run: |
           # Build a single .ps1 with UTF-8 BOM (required by PowerShell 5.1 for accented chars)
-          # 1. Write UTF-8 BOM
           printf '\xEF\xBB\xBF' > ./TIA-Openness-Tool_latest.ps1
 
-          # 2. Concatenate modules in dependency order, stripping any embedded BOMs
-          for f in \
-            ./scripts/modules/AppState.ps1 \
-            ./scripts/modules/Localization.ps1 \
-            ./scripts/modules/TiaVersions.ps1 \
-            ./scripts/modules/TiaConnection.ps1 \
-            ./scripts/modules/TiaDataBlocks.ps1 \
-            ./scripts/modules/TiaExport.ps1 \
-            ./scripts/modules/TiaExportTable.ps1 \
-            ./scripts/modules/UIHelpers.ps1 \
-            ./scripts/modules/UI.ps1 \
-            ./scripts/TIA-Openness-Tool.ps1; do
-            LC_ALL=C sed '1s/^\xEF\xBB\xBF//' "$f" >> ./TIA-Openness-Tool_latest.ps1
-          done
-
-          # 3. Embed units.json as inline data (required for Ewon export)
-          # Insert a PowerShell variable containing the JSON before the main entry point
-          UNITS_JSON=$(cat ./scripts/data/units.json)
-          # Create a temp file with the embedded data
-          printf '\xEF\xBB\xBF' > ./TIA-Openness-Tool_latest_final.ps1
-
-          # Write everything before TIA-Openness-Tool.ps1 marker, then inject data, then the rest
-          # Simpler: rebuild with embedded JSON block inserted before the main script
-          printf '\xEF\xBB\xBF' > ./TIA-Openness-Tool_latest.ps1
+          # 1. Concatenate modules in dependency order, stripping any embedded BOMs
           for f in \
             ./scripts/modules/AppState.ps1 \
             ./scripts/modules/Localization.ps1 \
@@ -58,7 +81,7 @@ jobs:
             LC_ALL=C sed '1s/^\xEF\xBB\xBF//' "$f" >> ./TIA-Openness-Tool_latest.ps1
           done
 
-          # Embed units.json as a here-string variable
+          # 2. Embed units.json as a here-string variable (required for Ewon export)
           echo '' >> ./TIA-Openness-Tool_latest.ps1
           echo '# =================== EMBEDDED DATA (units.json) ===================' >> ./TIA-Openness-Tool_latest.ps1
           echo '$Script:EmbeddedUnitsJson = @'"'"'' >> ./TIA-Openness-Tool_latest.ps1
@@ -67,7 +90,7 @@ jobs:
           echo ''"'"'@' >> ./TIA-Openness-Tool_latest.ps1
           echo '' >> ./TIA-Openness-Tool_latest.ps1
 
-          # Flag this as the embedded/bundled build so the entry point does NOT dot-source
+          # 3. Flag this as the embedded/bundled build so the entry point does NOT dot-source
           # an external "modules" folder sitting next to the bundle (which would override the
           # functions already concatenated above with possibly stale copies).
           echo '' >> ./TIA-Openness-Tool_latest.ps1
@@ -75,41 +98,158 @@ jobs:
           echo '$Script:EmbeddedBuild = $true' >> ./TIA-Openness-Tool_latest.ps1
           echo '' >> ./TIA-Openness-Tool_latest.ps1
 
-          # Append main entry point
+          # 4. Append main entry point
           LC_ALL=C sed '1s/^\xEF\xBB\xBF//' ./scripts/TIA-Openness-Tool.ps1 >> ./TIA-Openness-Tool_latest.ps1
 
-          # Clean temp
-          rm -f ./TIA-Openness-Tool_latest_final.ps1
+          # 5. Inject resolved version (replaces @APP_VERSION@ placeholder in AppState.ps1)
+          sed -i "s/@APP_VERSION@/${{ steps.version.outputs.version }}/g" ./TIA-Openness-Tool_latest.ps1
 
-      - name: Load release body template
-        id: release_body
+      - name: Upload .ps1 artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: ps1-script
+          path: ./TIA-Openness-Tool_latest.ps1
+
+  # ─── Job 2: Compile C# wrapper → .exe (Windows) ───
+  package:
+    needs: build
+    runs-on: windows-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+
+      - name: Download .ps1 artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: ps1-script
+          path: ./wrapper
+
+      - name: Generate icon
+        shell: pwsh
         run: |
-          # Read the release body template
-          BODY_TEMPLATE=$(cat .github/release-body.md)
+          & ./scripts/GenerateIcon.ps1 -OutputPath ./wrapper/icon.ico
 
-          # Replace placeholders
-          BODY="${BODY_TEMPLATE}"
-          BODY="${BODY//\{\{VERSION\}\}/${{ github.ref_name }}}"
+      - name: Setup .NET 8
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
+
+      - name: Set version in .csproj
+        shell: pwsh
+        run: |
+          $version = "${{ needs.build.outputs.version }}"
+          $csproj = Get-Content ./wrapper/TiaOpennessTool.csproj -Raw
+          $csproj = $csproj -replace '(<\/PropertyGroup>)', "    <Version>$version</Version>`n  `$1"
+          Set-Content ./wrapper/TiaOpennessTool.csproj $csproj
+          Write-Host "Version set to $version"
+
+      - name: Publish .exe
+        run: |
+          dotnet publish ./wrapper/TiaOpennessTool.csproj -c Release -r win-x64 -o ./publish
+
+      - name: Upload .exe artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: exe-app
+          path: ./publish/TiaOpennessTool.exe
+
+  # ─── Job 3: Create GitHub Release ───
+  release:
+    needs: [build, package]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+
+      - name: Download artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: ./artifacts
+
+      - name: Prepare release info
+        id: release_info
+        run: |
+          VERSION="${{ needs.build.outputs.version }}"
+          TAG="v${VERSION}"
+          NAME="v${VERSION}"
+          echo "tag=$TAG" >> "$GITHUB_OUTPUT"
+          echo "name=$NAME" >> "$GITHUB_OUTPUT"
+          echo "Release: $NAME (tag: $TAG)"
+
+      - name: Generate release notes
+        env:
+          VERSION_TAG: ${{ steps.release_info.outputs.tag }}
+          SHA: ${{ github.sha }}
+        run: |
+          # Need full history and tags to compute the changelog range
+          git fetch --tags --force
+
+          # Range = previous semver tag → HEAD (excluding the tag we're about to publish)
+          PREV_TAG=$(git tag -l 'v[0-9]*.[0-9]*.[0-9]*' --sort=-v:refname \
+                     | grep -v '-' | grep -v "^${VERSION_TAG}$" | head -1)
+          if [ -z "$PREV_TAG" ]; then
+            RANGE="HEAD"
+          else
+            RANGE="${PREV_TAG}..HEAD"
+          fi
+          echo "Changelog range: $RANGE"
+
+          FEATS=""; FIXES=""; DOCS=""; REFACTORS=""; CIS=""; TESTS=""; OTHERS=""
+
+          while IFS='|' read -r MSG HASH; do
+            [ -z "$MSG" ] && continue
+            # Skip auto-generated noise
+            case "$MSG" in
+              "Merge pull request"*|"Merge branch"*|"ci: auto-bump version"*) continue ;;
+            esac
+            ENTRY="- ${MSG} (${HASH})"
+            case "$MSG" in
+              feat:*|feat\(*) FEATS="${FEATS}${ENTRY}"$'\n' ;;
+              fix:*|fix\(*) FIXES="${FIXES}${ENTRY}"$'\n' ;;
+              docs:*|docs\(*) DOCS="${DOCS}${ENTRY}"$'\n' ;;
+              refactor:*|refactor\(*) REFACTORS="${REFACTORS}${ENTRY}"$'\n' ;;
+              ci:*|ci\(*) CIS="${CIS}${ENTRY}"$'\n' ;;
+              test:*|test\(*) TESTS="${TESTS}${ENTRY}"$'\n' ;;
+              *) OTHERS="${OTHERS}${ENTRY}"$'\n' ;;
+            esac
+          done < <(git log $RANGE --pretty=tformat:'%s|%h')
+
+          {
+            [ -n "$FEATS" ]     && { echo "**✨ Nouveautés**"; echo ""; printf '%s\n' "$FEATS"; }
+            [ -n "$FIXES" ]     && { echo "**🐛 Corrections**"; echo ""; printf '%s\n' "$FIXES"; }
+            [ -n "$REFACTORS" ] && { echo "**♻️ Refactor**"; echo ""; printf '%s\n' "$REFACTORS"; }
+            [ -n "$DOCS" ]      && { echo "**📚 Documentation**"; echo ""; printf '%s\n' "$DOCS"; }
+            [ -n "$CIS" ]       && { echo "**⚙️ CI / Build**"; echo ""; printf '%s\n' "$CIS"; }
+            [ -n "$TESTS" ]     && { echo "**🧪 Tests**"; echo ""; printf '%s\n' "$TESTS"; }
+            [ -n "$OTHERS" ]    && { echo "**🔧 Autres**"; echo ""; printf '%s\n' "$OTHERS"; }
+            [ -z "$FEATS$FIXES$REFACTORS$DOCS$CIS$TESTS$OTHERS" ] && echo "_Aucun changement notable._"
+          } > changelog.md
+
+          # Substitute placeholders in the template (bash handles multiline values fine)
+          CHANGELOG=$(cat changelog.md)
+          BODY=$(cat .github/release-body.md)
+          BODY="${BODY//\{\{VERSION\}\}/$VERSION_TAG}"
           BODY="${BODY//\{\{DATE\}\}/$(date +'%Y-%m-%d')}"
-          BODY="${BODY//\{\{COMMIT_SHA\}\}/${{ github.sha }}}"
-          BODY="${BODY//\{\{COMMIT_MSG\}\}/${{ github.event.head_commit.message }}}"
+          BODY="${BODY//\{\{COMMIT_SHA\}\}/$SHA}"
+          BODY="${BODY//\{\{CHANGELOG\}\}/$CHANGELOG}"
 
-          # Save to file for the release action
           echo "$BODY" > release_notes.md
+          echo "----- Release notes -----"
+          cat release_notes.md
 
-          # Append commits list
-          echo "" >> release_notes.md
-          echo "## Commits inclus" >> release_notes.md
-          git log -10 --pretty=format:"- %s (%h)" >> release_notes.md
-
-          echo "Release notes generated"
-
-      - name: Publish Latest Release
+      - name: Publish Release
         uses: ncipollo/release-action@v1
         with:
-          tag: latest
-          name: Latest Release
+          tag: ${{ steps.release_info.outputs.tag }}
+          name: ${{ steps.release_info.outputs.name }}
           bodyFile: release_notes.md
-          artifacts: ./TIA-Openness-Tool_latest.ps1
+          prerelease: false
+          artifacts: |
+            ./artifacts/ps1-script/TIA-Openness-Tool_latest.ps1
+            ./artifacts/exe-app/TiaOpennessTool.exe
           allowUpdates: true
           removeArtifacts: true

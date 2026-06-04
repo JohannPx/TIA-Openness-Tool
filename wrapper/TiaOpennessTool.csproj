@@ -1,0 +1,24 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <PublishSingleFile>true</PublishSingleFile>
+    <SelfContained>true</SelfContained>
+    <PublishTrimmed>true</PublishTrimmed>
+    <IncludeNativeLibrariesForSelfExtract>true</IncludeNativeLibrariesForSelfExtract>
+    <ApplicationIcon>icon.ico</ApplicationIcon>
+    <AssemblyName>TiaOpennessTool</AssemblyName>
+    <RootNamespace>TiaOpennessTool</RootNamespace>
+    <Company>Clauger</Company>
+    <Product>TIA Openness Tool</Product>
+    <Copyright>(c) 2026 Clauger</Copyright>
+    <Description>TIA Portal DataBlock export tool with auto-update</Description>
+  </PropertyGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="TIA-Openness-Tool_latest.ps1">
+      <LogicalName>TiaOpennessTool.TIA-Openness-Tool_latest.ps1</LogicalName>
+    </EmbeddedResource>
+  </ItemGroup>
+</Project>

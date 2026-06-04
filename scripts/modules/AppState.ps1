@@ -50,3 +50,40 @@ function Set-AppStateValue {
     param([string]$Key, $Value)
     $Script:AppState[$Key] = $Value
 }
+
+# Version injected at build time by CI (sed replaces @APP_VERSION@ with the resolved version).
+# Stays as the literal placeholder in dev mode, which triggers the version.json / manifest.json lookup.
+$Script:InjectedAppVersion = "@APP_VERSION@"
+
+function Get-AppVersion {
+    # 1. Build-time injected version (production bundle / .exe)
+    if ($Script:InjectedAppVersion -and $Script:InjectedAppVersion -notmatch '^@.*@$') {
+        return $Script:InjectedAppVersion
+    }
+
+    # 2. version.json maintained by the C# wrapper after install/update
+    $versionFile = Join-Path $env:LOCALAPPDATA "TiaOpennessTool\version.json"
+    if (Test-Path $versionFile) {
+        try {
+            $v = (Get-Content $versionFile -Raw | ConvertFrom-Json).version
+            if ($v -and $v -ne "0.0.0") { return $v }
+        } catch {}
+    }
+
+    # 3. Dev: read manifest.json (script lives in scripts/modules/)
+    $candidates = @(
+        (Join-Path $PSScriptRoot "..\..\manifest.json"),
+        (Join-Path $PSScriptRoot "..\manifest.json"),
+        (Join-Path $PSScriptRoot "manifest.json")
+    )
+    foreach ($p in $candidates) {
+        if (Test-Path $p) {
+            try {
+                $v = (Get-Content $p -Raw | ConvertFrom-Json).version
+                if ($v) { return $v }
+            } catch {}
+        }
+    }
+
+    return "dev"
+}

@@ -1,107 +1,105 @@
-# TIA Openness Tool {{VERSION}}
+# 📦 TIA Openness Tool {{VERSION}}
 
 **Date de release** : {{DATE}}
 **Commit** : `{{COMMIT_SHA}}`
 
 ---
 
-## A propos de cette version
+## 🎯 À propos de cette version
 
-Application PowerShell + WPF pour exporter les DataBlocks d'un projet TIA Portal via l'API Openness.
-Interface multilingue (FR/EN/ES/IT), detection automatique des versions TIA Portal V15 a V20.
+Application **PowerShell + WPF** pour exporter les DataBlocks d'un projet TIA Portal via l'API Openness.
+Interface multilingue (FR/EN/ES/IT), détection automatique des versions TIA Portal V15 à V20, export CSV (Table d'échange Siemens), var_lst (Ewon Flexy) et PcVue Architect.
 
-### Dernier changement
-```
-{{COMMIT_MSG}}
-```
+### 📝 Changements de cette version
+
+{{CHANGELOG}}
 
 ---
 
-## Telecharger
+## 📥 Téléchargement et installation
 
-> **Fichier unique auto-contenu** : tous les modules sont integres dans le script lors du build.
-> Aucune dependance externe, PowerShell 5.1 natif Windows suffit.
+### 🔽 Option recommandée : Exécutable (.exe)
 
-### Ou trouver le fichier ?
+1. **Télécharger** le fichier **`TiaOpennessTool.exe`** depuis les **Assets** ci-dessous
+2. **Double-cliquer** pour lancer
 
-Le fichier **`TIA-Openness-Tool_latest.ps1`** se trouve dans la section **Assets** tout en bas de cette page (cliquez sur **Assets** pour deplier si necessaire).
+Au premier lancement :
+- L'application s'installe automatiquement dans votre profil utilisateur (aucun droit administrateur requis)
+- Un raccourci est créé sur le **Bureau** et dans le **Menu Démarrer**
+- Les lancements suivants se font via le raccourci
 
-### Lancement
+**Mises à jour automatiques** : à chaque démarrage, l'application vérifie si une nouvelle version est disponible sur GitHub et se met à jour silencieusement.
 
-1. **Telecharger** le fichier `TIA-Openness-Tool_latest.ps1` depuis les **Assets** ci-dessous
-2. **Ouvrir PowerShell** : clic-droit sur le menu Demarrer → **Terminal** (ou **Windows PowerShell**)
-3. **Lancer** le script :
+> **Avertissements de sécurité au premier téléchargement/lancement :**
+>
+> 1. **Navigateur** (Chrome/Edge) : *"TiaOpennessTool.exe n'est pas fréquemment téléchargé"*
+>    - Chrome : cliquez sur **`^`** (flèche) → **Conserver**
+>    - Edge : cliquez sur **`...`** → **Conserver** → **Conserver quand même**
+>
+> 2. **Windows SmartScreen** : *"Windows a protégé votre ordinateur"*
+>    - Cliquez sur **Plus d'infos** → **Exécuter quand même**
+>
+> Ces avertissements sont normaux pour un exécutable non signé et n'apparaissent qu'au premier téléchargement.
+
+### 🔽 Option avancée : Script PowerShell (.ps1)
+
+Pour les utilisateurs avancés ou les environnements qui bloquent les exécutables non signés :
+
+1. **Télécharger** le fichier `TIA-Openness-Tool_latest.ps1` depuis les **Assets** ci-dessous
+2. **Ouvrir PowerShell** : clic-droit sur le menu Démarrer → **Terminal** (ou **Windows PowerShell**)
+3. **Lancer** :
 
 ```powershell
 powershell -Sta -ExecutionPolicy Bypass -File "$HOME\Downloads\TIA-Openness-Tool_latest.ps1"
 ```
 
-> `$HOME\Downloads` correspond au dossier Telechargements. Si le fichier est ailleurs, adaptez le chemin.
-
-### Avertissement de securite Windows
-
-Au premier lancement, Windows peut afficher un avertissement car le script provient d'Internet.
-Tapez `O` puis Entree pour executer. Pour ne plus voir cet avertissement : clic-droit sur le fichier → Proprietes → cochez Debloquer → OK.
+> 💡 Adaptez le chemin si vous avez déplacé le fichier. Le `.ps1` est auto-contenu (aucun dossier `modules/` requis à côté).
 
 ---
 
-## Fonctionnalites
+## ✨ Fonctionnalités principales
 
-### Multi-version TIA Portal
-- Detection automatique des versions V15 a V20 installees
-- Scan des instances TIA Portal en cours d'execution (avec nom du projet)
-- Connexion directe via l'API Openness
+### 🌍 Multilingue (FR/EN/ES/IT)
+- ✅ Sélection de la langue via drapeaux
+- ✅ Changement instantané de toute l'interface
 
-### Table d'echange CSV
-- Format UTF-8 BOM, separateur `;`
-- Colonnes : Tag, DB, Offset, Type, Description, Unite, Repere, Coef
-- En-tete PLC (nom, adresse IP, TSAP)
+### 🔌 Connexion TIA Portal
+- ✅ Détection automatique des instances TIA Portal ouvertes (V15 → V20)
+- ✅ Chargement automatique de la bonne DLL `Siemens.Engineering`
 
-### Export var_lst (Ewon Flexy)
-- Format Latin-1, 62 colonnes compatible import Ewon
-- Adresses S7 generees automatiquement (ex: `DB1F2,ISOTCP,192.168.1.100,03.02`)
-- Configuration Ewon : Repere, Topic (A/B/C), Page (1-11)
-- Resolution automatique des unites UNECE
-
-### Export PcVue Architect (BETA)
-- 1 fichier CSV par DB dans un dossier horodate
-- Colonnes : Nom, Type, Description, Decalage, WBIT, Trame
-- Word-swap automatique des offsets Bool (big-endian Siemens vers PcVue)
-- Compatible import PcVue Architect
-
-### Traitement avance
-- Expansion automatique des types Array en elements individuels
-- Resolution des commentaires depuis les definitions FB/UDT source
-- Calcul des offsets S7 pour DBs non-optimises
-
-### Interface
-- 4 langues (FR/EN/ES/IT) avec drapeaux interactifs
-- Filtrage par type de DB (Global / Instance)
-- Selection individuelle ou groupee des DataBlocks
+### 📤 Export DataBlocks
+- ✅ **Table d'échange CSV** (format Siemens)
+- ✅ **var_lst** (Ewon Flexy)
+- ✅ **PcVue Architect**
+- ✅ Expansion des Array, résolution + chaînage des commentaires de structures imbriquées
 
 ---
 
-## Prerequis
+## 📋 Configuration requise
 
 | Composant | Minimum |
 |-----------|---------|
-| **Windows** | 10 / 11 |
-| **PowerShell** | 5.1 (inclus dans Windows) |
-| **TIA Portal** | V15, V16, V17, V18, V19 ou V20 |
-| **TIA Openness** | Active a l'installation |
+| **Windows** | 10/11 ou Server 2016+ |
+| **PowerShell** | 5.1 (inclus) |
+| **TIA Portal** | V15 à V20 avec Openness installé |
 
-> L'utilisateur Windows doit etre membre du groupe **Siemens TIA Openness**
-> (Gestion de l'ordinateur → Utilisateurs et groupes locaux)
+> ⚠️ L'utilisateur Windows doit appartenir au groupe local **`Siemens TIA Openness`** pour autoriser l'accès Openness.
 
 ---
 
-## Support
+## 🐛 Support
 
-En cas de probleme :
-1. Verifiez que vous utilisez la derniere version
-2. Consultez la [documentation](../../README.md)
-3. Ouvrez une [issue](../../issues) avec une capture d'ecran de l'erreur
+En cas de problème :
+1. Vérifiez que vous utilisez la dernière version
+2. Consultez la [documentation](https://github.com/JohannPx/TIA-Openness-Tool#readme)
+3. Ouvrez une [issue](https://github.com/JohannPx/TIA-Openness-Tool/issues) avec une capture d'écran de l'erreur
 
 ---
 
-*Release automatique generee par GitHub Actions*
+## ⚠️ Note importante
+
+Cet outil est destiné à un **usage professionnel** par les équipes Clauger et leurs clients autorisés.
+
+---
+
+*Release automatique générée par GitHub Actions*
