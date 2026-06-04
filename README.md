@@ -33,19 +33,38 @@ Multi-version TIA Portal DataBlock Exporter — Application PowerShell + WPF uti
 
 ## Installation
 
+### Utilisateurs (recommande) : executable .exe auto-installant
+
+1. Telecharger `TiaOpennessTool.exe` depuis la derniere [release](https://github.com/JohannPx/TIA-Openness-Tool/releases/latest)
+2. Double-cliquer pour lancer
+
+Au premier lancement, l'application s'installe dans le profil utilisateur (`%LOCALAPPDATA%\TiaOpennessTool`, aucun droit admin requis), cree un raccourci sur le **Bureau** et dans le **Menu Demarrer**, puis se relance depuis le dossier d'installation. A chaque demarrage, elle **verifie et applique automatiquement** les mises a jour publiees sur GitHub.
+
+### Alternative : script PowerShell .ps1
+
+Telecharger `TIA-Openness-Tool_latest.ps1` (auto-contenu) depuis la release et lancer :
+
+```powershell
+powershell -Sta -ExecutionPolicy Bypass -File "$HOME\Downloads\TIA-Openness-Tool_latest.ps1"
+```
+
+### Developpeurs : depuis les sources
+
 ```bash
 git clone https://github.com/JohannPx/TIA-Openness-Tool.git
 ```
 
-Aucune compilation necessaire — l'application est 100% PowerShell.
+Aucune compilation necessaire — l'application est 100% PowerShell (les modules sont dans `scripts/modules/`).
 
 ## Utilisation
 
-### Lancement
+### Lancement (sources)
 
 ```powershell
 powershell -Sta -ExecutionPolicy Bypass -File "scripts\TIA-Openness-Tool.ps1"
 ```
+
+> La version de l'application est affichee dans la barre de titre et l'en-tete. En production, elle est injectee au build (tag `vX.Y.Z`) ; en mode source, elle est lue depuis `manifest.json`.
 
 ### Workflow
 
