@@ -275,7 +275,21 @@ function Connect-TiaInstance {
             PlcCount    = $plcList.Count
         }
     } catch {
-        return @{ Success = $false; Message = (T "MsgConnectError") -f $_.Exception.Message }
+        # Build a full message by drilling into inner exceptions (Attach() wraps the real cause)
+        $exMsg = $_.Exception.Message
+        $inner = $_.Exception.InnerException
+        while ($inner) {
+            $exMsg += "`n" + $inner.Message
+            $inner = $inner.InnerException
+        }
+
+        # Specific case: TIA Openness security error — the Windows user is not a member of
+        # the local "Siemens TIA Openness" group. Surface an actionable, localized message.
+        if ($exMsg -match 'Siemens TIA Openness' -or $exMsg -match 'Security error' -or $exMsg -match 'not\s+(a\s+)?member\s+of\s+the\s+windows\s+group') {
+            return @{ Success = $false; Message = (T "MsgOpennessSecurityError") -f $exMsg }
+        }
+
+        return @{ Success = $false; Message = (T "MsgConnectError") -f $exMsg }
     }
 }
 
