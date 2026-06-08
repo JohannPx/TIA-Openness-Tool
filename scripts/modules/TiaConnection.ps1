@@ -284,9 +284,26 @@ function Connect-TiaInstance {
         }
 
         # Specific case: TIA Openness security error — the Windows user is not a member of
-        # the local "Siemens TIA Openness" group. Surface an actionable, localized message.
+        # the local "Siemens TIA Openness" group. Surface an actionable, localized message
+        # with a ready-to-paste command pre-filled with the actual account.
         if ($exMsg -match 'Siemens TIA Openness' -or $exMsg -match 'Security error' -or $exMsg -match 'not\s+(a\s+)?member\s+of\s+the\s+windows\s+group') {
-            return @{ Success = $false; Message = (T "MsgOpennessSecurityError") -f $exMsg }
+            # The exception names the exact process owner: "Owner 'DOMAIN\User' of this process ...".
+            # Extract it so the remediation command needs no manual editing; fall back to the
+            # account currently running this tool if the owner can't be parsed.
+            if ($exMsg -match "Owner\s+'([^']+)'") {
+                $account = $Matches[1]
+            } else {
+                $account = "$env:USERDOMAIN\$env:USERNAME"
+            }
+            $command = 'net localgroup "Siemens TIA Openness" "' + $account + '" /add'
+            return @{
+                Success          = $false
+                OpennessSecurity = $true
+                Account          = $account
+                Command          = $command
+                Message          = (T "MsgOpennessSecurityError") -f $account, $exMsg
+                Detail           = $exMsg
+            }
         }
 
         return @{ Success = $false; Message = (T "MsgConnectError") -f $exMsg }
