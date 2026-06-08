@@ -697,6 +697,9 @@ function Register-ConnectionEvents {
                 $Script:ui_txtVersionInfo.Text = T "LblVersionLocked"
 
                 [System.Windows.MessageBox]::Show($result.Message, (T "MsgInfo"), "OK", "Information")
+            } elseif ($result.OpennessSecurity) {
+                # Selectable dialog with a "Copy command" button (MessageBox can't do that)
+                Show-OpennessSecurityDialog -Message $result.Message -Command $result.Command
             } else {
                 [System.Windows.MessageBox]::Show($result.Message, (T "MsgError"), "OK", "Warning")
             }
@@ -1044,6 +1047,91 @@ function Show-PlcInfoEditDialog {
         $dlg.Close()
     }.GetNewClosure())
     $stack.Children.Add($btnOk) | Out-Null
+
+    $dlg.Content = $stack
+    $dlg.ShowDialog() | Out-Null
+}
+
+function Show-OpennessSecurityDialog {
+    # Custom dialog for the TIA Openness security error: shows the explanation in a
+    # selectable (read-only) TextBox, the ready-to-paste command in its own box, and a
+    # "Copy command" button — because a standard MessageBox does not allow selecting text.
+    param(
+        [string]$Message,
+        [string]$Command
+    )
+
+    $dlg = [System.Windows.Window]::new()
+    $dlg.Title = T "MsgError"
+    $dlg.Width = 600
+    $dlg.SizeToContent = [System.Windows.SizeToContent]::Height
+    $dlg.WindowStartupLocation = [System.Windows.WindowStartupLocation]::CenterOwner
+    try { $dlg.Owner = $Script:ui_Window } catch {}
+    $dlg.ResizeMode = [System.Windows.ResizeMode]::NoResize
+    try { $dlg.Icon = New-AppIcon } catch {}
+
+    $stack = [System.Windows.Controls.StackPanel]::new()
+    $stack.Margin = [System.Windows.Thickness]::new(16)
+
+    # Explanation (read-only but selectable)
+    $txtMsg = [System.Windows.Controls.TextBox]::new()
+    $txtMsg.Text = $Message
+    $txtMsg.IsReadOnly = $true
+    $txtMsg.TextWrapping = [System.Windows.TextWrapping]::Wrap
+    $txtMsg.BorderThickness = [System.Windows.Thickness]::new(0)
+    $txtMsg.Background = [System.Windows.Media.Brushes]::Transparent
+    $txtMsg.FontSize = 12
+    $txtMsg.MaxHeight = 260
+    $txtMsg.VerticalScrollBarVisibility = [System.Windows.Controls.ScrollBarVisibility]::Auto
+    $txtMsg.Margin = [System.Windows.Thickness]::new(0, 0, 0, 10)
+    $stack.Children.Add($txtMsg) | Out-Null
+
+    # Command box (read-only, monospace, easy to select)
+    $txtCmd = [System.Windows.Controls.TextBox]::new()
+    $txtCmd.Text = $Command
+    $txtCmd.IsReadOnly = $true
+    $txtCmd.TextWrapping = [System.Windows.TextWrapping]::Wrap
+    $txtCmd.FontFamily = [System.Windows.Media.FontFamily]::new("Consolas")
+    $txtCmd.FontSize = 12
+    $txtCmd.Padding = [System.Windows.Thickness]::new(6, 4, 6, 4)
+    $txtCmd.Background = [System.Windows.Media.Brushes]::WhiteSmoke
+    $txtCmd.Margin = [System.Windows.Thickness]::new(0, 0, 0, 8)
+    $stack.Children.Add($txtCmd) | Out-Null
+
+    # Buttons row
+    $btnPanel = [System.Windows.Controls.StackPanel]::new()
+    $btnPanel.Orientation = [System.Windows.Controls.Orientation]::Horizontal
+    $btnPanel.HorizontalAlignment = [System.Windows.HorizontalAlignment]::Right
+
+    $btnCopy = [System.Windows.Controls.Button]::new()
+    $btnCopy.Content = T "BtnCopyCommand"
+    $btnCopy.MinWidth = 150
+    $btnCopy.Height = 32
+    $btnCopy.FontSize = 13
+    $btnCopy.Margin = [System.Windows.Thickness]::new(0, 0, 8, 0)
+    $copiedLabel = T "MsgCopied"
+    $btnCopy.Add_Click({
+        try {
+            [System.Windows.Clipboard]::SetText($Command)
+        } catch {
+            try { Set-Clipboard -Value $Command } catch {}
+        }
+        $txtCmd.SelectAll()
+        $btnCopy.Content = $copiedLabel
+        $btnCopy.IsEnabled = $false
+    }.GetNewClosure())
+    $btnPanel.Children.Add($btnCopy) | Out-Null
+
+    $btnOk = [System.Windows.Controls.Button]::new()
+    $btnOk.Content = "OK"
+    $btnOk.Width = 100
+    $btnOk.Height = 32
+    $btnOk.FontSize = 13
+    $btnOk.IsDefault = $true
+    $btnOk.Add_Click({ $dlg.Close() }.GetNewClosure())
+    $btnPanel.Children.Add($btnOk) | Out-Null
+
+    $stack.Children.Add($btnPanel) | Out-Null
 
     $dlg.Content = $stack
     $dlg.ShowDialog() | Out-Null
