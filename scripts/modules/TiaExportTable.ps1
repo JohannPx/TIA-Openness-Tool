@@ -841,6 +841,18 @@ function Write-PcVueMemberRow {
     $Writer.WriteLine("$name;;$dt;$comment;$decalage;$wbit;$trame;;;;;;;;")
 }
 
+# =================== ERROR MAPPING ===================
+
+function Resolve-ExportErrorMessage {
+    # Mappe une exception d'export Openness vers un message localise et actionnable.
+    # Retourne $null si l'erreur n'est pas un cas connu (laisse l'appelant gerer le brut).
+    param([string]$ExceptionMessage)
+
+    if ($ExceptionMessage -match 'online mode') { return T "MsgOnlineModeError" }
+    if ($ExceptionMessage -match 'Inconsistent') { return T "MsgInconsistentBlock" }
+    return $null
+}
+
 # =================== MAIN EXPORT ORCHESTRATION ===================
 
 function Invoke-TableExport {
@@ -859,9 +871,20 @@ function Invoke-TableExport {
         Errors           = @()
         OutputFolder     = $OutputFolder
         Files            = @()
+        OnlineBlocked    = $false
     }
 
     $result.Format = $Format
+
+    # Garde en amont : l'API Openness interdit l'export de blocs quand l'automate est en ligne.
+    # On bloque l'export d'emblee avec un message unique plutot qu'une erreur cryptique par bloc.
+    $onlinePlcs = Get-OnlinePlcNames -SelectedBlocks $SelectedBlocks
+    if ($onlinePlcs.Count -gt 0) {
+        $result.OnlineBlocked = $true
+        $result.Message = (T "MsgOnlineModeError") + "`n`n" + ((T "MsgOnlinePlcList") -f ($onlinePlcs -join ', '))
+        Set-AppStateValue -Key "LastExportResult" -Value $result
+        return $result
+    }
 
     $state = Get-AppState
     $plcInfoList = $state.PlcDeviceInfoList
@@ -947,8 +970,9 @@ function Invoke-TableExport {
                         try {
                             $xmlPath = Export-BlockToXml -Block $block -TempFolder $tempFolder
                         } catch {
-                            if ($_.Exception.Message -match "Inconsistent") {
-                                $result.Errors += "$($dbInfo.Name): $(T 'MsgInconsistentBlock')"
+                            $known = Resolve-ExportErrorMessage -ExceptionMessage $_.Exception.Message
+                            if ($known) {
+                                $result.Errors += "$($dbInfo.Name): $known"
                             } else {
                                 $result.Errors += "$($dbInfo.Name): $($_.Exception.Message)"
                             }
@@ -1091,8 +1115,9 @@ function Invoke-TableExport {
                         }
 
                     } catch {
-                        if ($_.Exception.Message -match "Inconsistent") {
-                            $result.Errors += "$($dbInfo.Name): $(T 'MsgInconsistentBlock')"
+                        $known = Resolve-ExportErrorMessage -ExceptionMessage $_.Exception.Message
+                        if ($known) {
+                            $result.Errors += "$($dbInfo.Name): $known"
                         } else {
                             $result.Errors += "$($dbInfo.Name): $($_.Exception.Message) [line $($_.InvocationInfo.ScriptLineNumber)]"
                         }

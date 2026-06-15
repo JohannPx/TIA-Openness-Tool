@@ -128,6 +128,51 @@ function Get-SoftwareContainer {
     return $generic.Invoke($DeviceItem, $null)
 }
 
+function Get-OnlineProvider {
+    # Recupere le service OnlineProvider d'un DeviceItem (CPU) via reflexion.
+    # Comme GetService<T>(), PowerShell 5.1 ne peut pas appeler la methode generique directement.
+    param([object]$DeviceItem)
+
+    $method = $DeviceItem.GetType().GetMethod('GetService')
+    if (-not $method -or -not $method.IsGenericMethod) { return $null }
+    $generic = $method.MakeGenericMethod([Siemens.Engineering.Online.OnlineProvider])
+    return $generic.Invoke($DeviceItem, $null)
+}
+
+function Test-DeviceItemOnline {
+    # Indique si l'automate (CPU) est en ligne dans TIA Portal.
+    # En cas d'indetermination (provider absent, erreur), retourne $false : on laisse alors
+    # l'export tenter et retomber sur le message d'erreur par bloc (filet de securite).
+    param([object]$DeviceItem)
+
+    if (-not $DeviceItem) { return $false }
+    try {
+        $provider = Get-OnlineProvider -DeviceItem $DeviceItem
+        if (-not $provider) { return $false }
+        return ($provider.State -eq [Siemens.Engineering.Online.OnlineState]::Online)
+    } catch {
+        return $false
+    }
+}
+
+function Get-OnlinePlcNames {
+    # Retourne les noms des automates en ligne parmi ceux concernes par les blocs selectionnes.
+    param([array]$SelectedBlocks)
+
+    $infoList = (Get-AppState).PlcDeviceInfoList
+    if (-not $infoList) { return @() }
+
+    $plcIndexes = @($SelectedBlocks | ForEach-Object { $_.PlcIndex } | Sort-Object -Unique)
+    $onlineNames = @()
+    foreach ($idx in $plcIndexes) {
+        $info = $infoList | Where-Object { $_.PlcIndex -eq $idx } | Select-Object -First 1
+        if ($info -and $info.ContainsKey('DeviceItem') -and (Test-DeviceItemOnline -DeviceItem $info.DeviceItem)) {
+            $onlineNames += $info.Name
+        }
+    }
+    return @($onlineNames)
+}
+
 function Find-PlcSoftwareInDevice {
     param([object]$DeviceItems)
 
@@ -162,12 +207,13 @@ function Build-PlcDeviceInfoList {
     foreach ($plcData in $PlcResults) {
         $deviceItem = $plcData.DeviceItem
         $plcInfo = @{
-            PlcIndex  = $idx
-            Name      = "PLC_$idx"
-            IpAddress = ""
-            Rack      = 0
-            Slot      = 2
-            Tsap      = "03.02"
+            PlcIndex   = $idx
+            Name       = "PLC_$idx"
+            IpAddress  = ""
+            Rack       = 0
+            Slot       = 2
+            Tsap       = "03.02"
+            DeviceItem = $deviceItem   # CPU, requis pour la detection de l'etat en ligne
         }
 
         # Try to get device name (navigate up to the Device level)

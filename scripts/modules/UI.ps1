@@ -865,6 +865,13 @@ function Register-ExportEvents {
             }
 
             $result = Invoke-TableExport -SelectedBlocks $selected -OutputFolder $folder -Format $format -EwonConfig $ewonConfig
+
+            # Automate(s) en ligne : export impossible, on affiche un message unique et actionnable.
+            if ($result.OnlineBlocked) {
+                [System.Windows.MessageBox]::Show($result.Message, (T "MsgError"), "OK", "Warning")
+                return
+            }
+
             $summary = Get-ExportSummary -Result $result
             $doneKey = switch ($format) { "EWON" { "MsgExportEwonDone" }; "PCVUE" { "MsgExportPcVueDone" }; default { "MsgExportCsvDone" } }
             $icon = if ($result.ErrorCount -gt 0 -or $result.OptimizedDBs.Count -gt 0) { "Warning" } else { "Information" }

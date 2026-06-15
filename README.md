@@ -142,7 +142,6 @@ scripts/
     TiaVersions.ps1             # Detection multi-version DLL Siemens
     TiaConnection.ps1           # Scan, connexion, deconnexion TIA Portal
     TiaDataBlocks.ps1           # Enumeration recursive des DataBlocks
-    TiaExport.ps1               # Export GenerateSource (.db)
     TiaExportTable.ps1          # Export CSV + var_lst (Ewon) + PcVue Architect
     UIHelpers.ps1               # Composants WPF reutilisables
     UI.ps1                      # XAML, initialisation fenetre, evenements
@@ -159,7 +158,6 @@ scripts/
 | **TiaVersions** | Scan filesystem pour DLL Siemens, chargement dynamique |
 | **TiaConnection** | API Openness : scan process (avec nom projet), attach, enumeration PLC |
 | **TiaDataBlocks** | Parcours recursif des groupes de blocs + recherche par nom/numero |
-| **TiaExport** | `GenerateSource()` avec dependances, nommage `DB{N}_{Nom}.db` |
 | **TiaExportTable** | Export CSV table + var_lst Ewon + PcVue Architect (parsing XML, offsets S7, expansion Array, commentaires UDT) |
 | **UIHelpers** | Badges colores, items de liste, bannieres de statut |
 | **UI** | XAML WPF, drapeaux langues, selecteur format, config Ewon, evenements |
