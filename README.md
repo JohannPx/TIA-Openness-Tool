@@ -56,6 +56,30 @@ git clone https://github.com/JohannPx/TIA-Openness-Tool.git
 
 Aucune compilation necessaire — l'application est 100% PowerShell (les modules sont dans `scripts/modules/`).
 
+## Faux positif Microsoft Defender
+
+L'executable n'est pas signe et lance un script PowerShell embarque : ce profil declenche
+parfois un **faux positif** de Microsoft Defender (`Virus detecte`), surtout au telechargement
+sous Windows 11. Le verdict etant heuristique / cloud, il peut **varier selon la version des
+definitions** Defender (bloquer sur une VM, pas sur une autre issue du meme master).
+
+Sur un parc de VM gere en interne (utilisateurs non administrateurs), le plus simple est
+d'autoriser l'outil **sur le master / template**, en tant qu'administrateur :
+
+```powershell
+powershell -ExecutionPolicy Bypass -File .\tools\Allow-TiaOpennessTool.ps1
+```
+
+Le script met a jour les definitions Defender et ajoute des exclusions ciblees (dossier
+d'installation + binaire de l'auto-update), couvrant le premier lancement et les mises a jour
+automatiques, pour tous les profils du poste. Il ne desactive pas Defender.
+
+> Le tout premier telechargement via le navigateur peut rester bloque (le fichier est supprime
+> avant que l'exclusion ne s'applique) : deployer alors l'exe depuis un partage interne ou
+> l'integrer au master. En complement, signaler le faux positif a Microsoft
+> ([Submit a file for analysis](https://www.microsoft.com/en-us/wdsi/filesubmission)) stabilise
+> le verdict cote cloud.
+
 ## Utilisation
 
 ### Lancement (sources)
