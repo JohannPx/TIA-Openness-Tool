@@ -697,7 +697,10 @@ function Register-ConnectionEvents {
                 $Script:ui_txtVersionInfo.Text = T "LblVersionLocked"
 
                 [System.Windows.MessageBox]::Show($result.Message, (T "MsgInfo"), "OK", "Information")
-            } elseif ($result.OpennessSecurity) {
+            } elseif ($result.ContainsKey('OpennessSecurity') -and $result.OpennessSecurity) {
+                # La cle n'existe que pour l'erreur de securite ; sous Set-StrictMode l'acces a une
+                # cle absente leve, donc on teste sa presence avant (sinon la vraie erreur de
+                # connexion est masquee par "propriete OpennessSecurity introuvable").
                 # Selectable dialog with a "Copy command" button (MessageBox can't do that)
                 Show-OpennessSecurityDialog -Message $result.Message -Command $result.Command
             } else {
