@@ -74,7 +74,6 @@ jobs:
             ./scripts/modules/TiaVersions.ps1 \
             ./scripts/modules/TiaConnection.ps1 \
             ./scripts/modules/TiaDataBlocks.ps1 \
-            ./scripts/modules/TiaExport.ps1 \
             ./scripts/modules/TiaExportTable.ps1 \
             ./scripts/modules/UIHelpers.ps1 \
             ./scripts/modules/UI.ps1; do
