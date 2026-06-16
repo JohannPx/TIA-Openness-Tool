@@ -173,6 +173,46 @@ function Get-OnlinePlcNames {
     return @($onlineNames)
 }
 
+function Get-AllProjectDevices {
+    # Collecte tous les devices du projet, y compris ceux rangés dans des groupes.
+    # project.Devices ne retourne que les devices à la racine : les automates placés
+    # dans un dossier (DeviceUserGroup) ou dans "Ungrouped devices" seraient ignorés.
+    param([object]$Project)
+
+    $devices = @()
+    $devices += @($Project.Devices)
+
+    # Dossier "Ungrouped devices"
+    try {
+        if ($Project.UngroupedDevicesGroup) {
+            $devices += @($Project.UngroupedDevicesGroup.Devices)
+        }
+    } catch {}
+
+    # Groupes de devices créés par l'utilisateur (récursif via les sous-groupes)
+    try {
+        foreach ($group in $Project.DeviceGroups) {
+            $devices += @(Get-DevicesInGroup -Group $group)
+        }
+    } catch {}
+
+    return $devices
+}
+
+function Get-DevicesInGroup {
+    # Parcours récursif d'un groupe de devices : devices directs + sous-groupes.
+    param([object]$Group)
+
+    $devices = @()
+    $devices += @($Group.Devices)
+    try {
+        foreach ($subGroup in $Group.Groups) {
+            $devices += @(Get-DevicesInGroup -Group $subGroup)
+        }
+    } catch {}
+    return $devices
+}
+
 function Find-PlcSoftwareInDevice {
     param([object]$DeviceItems)
 
@@ -289,9 +329,10 @@ function Connect-TiaInstance {
 
         $project = $tiaPortal.Projects[0]
 
-        # Enumerate PLC devices (recursive traversal of DeviceItems tree)
+        # Enumerate PLC devices (recursive traversal of DeviceItems tree).
+        # Get-AllProjectDevices inclut aussi les devices rangés dans des groupes.
         $plcResults = @()
-        foreach ($device in $project.Devices) {
+        foreach ($device in (Get-AllProjectDevices -Project $project)) {
             $plcResults += @(Find-PlcSoftwareInDevice -DeviceItems $device.DeviceItems)
         }
 
