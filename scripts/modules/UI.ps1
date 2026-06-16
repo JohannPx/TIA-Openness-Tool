@@ -651,7 +651,10 @@ function Register-ConnectionEvents {
         try {
             $Script:ui_btnScan.IsEnabled = $false
             $Script:ui_lbInstances.Items.Clear()
-            $instances = Invoke-TiaScan
+            # @(...) force un tableau : sans instance, le return d'Invoke-TiaScan se deballe
+            # en $null et $instances.Count leverait sous Set-StrictMode ; avec une seule
+            # instance, le tableau d'un element se deballerait en hashtable (.Count = nb de cles).
+            $instances = @(Invoke-TiaScan)
             foreach ($inst in $instances) {
                 $item = New-InstanceListItem -Instance $inst
                 $Script:ui_lbInstances.Items.Add($item) | Out-Null
