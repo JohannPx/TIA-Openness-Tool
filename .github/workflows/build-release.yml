@@ -169,6 +169,12 @@ jobs:
         with:
           path: ./artifacts
 
+      - name: Rename .exe asset with version
+        run: |
+          VERSION="${{ needs.build.outputs.version }}"
+          mv "./artifacts/exe-app/TiaOpennessTool.exe" \
+             "./artifacts/exe-app/TiaOpennessTool_v${VERSION}.exe"
+
       - name: Prepare release info
         id: release_info
         run: |
@@ -249,6 +255,6 @@ jobs:
           prerelease: false
           artifacts: |
             ./artifacts/ps1-script/TIA-Openness-Tool_latest.ps1
-            ./artifacts/exe-app/TiaOpennessTool.exe
+            ./artifacts/exe-app/TiaOpennessTool_v${{ needs.build.outputs.version }}.exe
           allowUpdates: true
           removeArtifacts: true

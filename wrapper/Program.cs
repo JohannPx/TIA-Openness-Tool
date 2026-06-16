@@ -12,6 +12,10 @@ static class Program
     const string GitHubApiUrl = "https://api.github.com/repos/JohannPx/TIA-Openness-Tool/releases/latest";
     const string ResourceName = "TiaOpennessTool.TIA-Openness-Tool_latest.ps1";
 
+    // Variable d'environnement transmise au script PowerShell quand une mise à jour est
+    // disponible mais que son téléchargement a échoué : l'app affiche alors un bandeau.
+    const string UpdateNoticeEnvVar = "TIA_OPENNESS_UPDATE_AVAILABLE";
+
     static readonly string InstallDir = Path.Combine(
         Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
         "TiaOpennessTool");
@@ -20,17 +24,18 @@ static class Program
     [STAThread]
     static async Task<int> Main(string[] args)
     {
+        string? updateNotice = null;
         try
         {
             if (InstallIfNeeded()) return 0;
-            await UpdateSilently();
-            LaunchScript();
+            updateNotice = await CheckAndUpdate();
         }
         catch
         {
-            // Fallback: just launch the script regardless of errors
-            try { LaunchScript(); } catch { }
+            // Une erreur de mise à jour ne doit jamais empêcher le lancement.
         }
+        // Fallback: lance le script quoi qu'il arrive
+        try { LaunchScript(updateNotice); } catch { }
         return 0;
     }
 
@@ -96,15 +101,17 @@ static class Program
     }
 
     /// <summary>
-    /// Check GitHub Releases for a newer version; download and swap if found.
+    /// Vérifie les Releases GitHub ; télécharge et applique la nouvelle version si elle existe.
+    /// Retourne la version distante si une mise à jour est disponible mais que son
+    /// téléchargement a échoué (à signaler dans l'app), sinon null.
     /// </summary>
-    static async Task UpdateSilently()
+    static async Task<string?> CheckAndUpdate()
     {
         var currentExe = Environment.ProcessPath ?? Process.GetCurrentProcess().MainModule?.FileName;
         var installedExe = Path.Combine(InstallDir, ExeName);
         if (currentExe == null ||
             !string.Equals(Path.GetFullPath(currentExe), Path.GetFullPath(installedExe), StringComparison.OrdinalIgnoreCase))
-            return;
+            return null;
 
         var localVersion = "0.0.0";
         if (File.Exists(VersionFile))
@@ -117,66 +124,92 @@ static class Program
             catch { /* corrupted file, treat as 0.0.0 */ }
         }
 
-        using var http = new HttpClient { Timeout = TimeSpan.FromSeconds(10) };
-        http.DefaultRequestHeaders.Add("User-Agent", "TiaOpennessTool");
+        // 1. Vérifier la dernière version publiée (requête légère, timeout court).
+        //    Si la machine est hors ligne, on sort sans rien signaler : pas de nag inutile.
+        string remoteVersion;
+        string? downloadUrl;
+        try
+        {
+            using var api = new HttpClient { Timeout = TimeSpan.FromSeconds(10) };
+            api.DefaultRequestHeaders.Add("User-Agent", "TiaOpennessTool");
+            var json = await api.GetStringAsync(GitHubApiUrl);
+            using var release = JsonDocument.Parse(json);
+            var root = release.RootElement;
+            remoteVersion = (root.GetProperty("tag_name").GetString() ?? "").TrimStart('v');
+            downloadUrl = FindExeAssetUrl(root);
+        }
+        catch
+        {
+            return null;
+        }
 
-        var json = await http.GetStringAsync(GitHubApiUrl);
-        using var release = JsonDocument.Parse(json);
-        var root = release.RootElement;
+        if (string.IsNullOrEmpty(remoteVersion) || remoteVersion == localVersion || downloadUrl == null)
+            return null;
 
-        var remoteTag = root.GetProperty("tag_name").GetString() ?? "";
-        var remoteVersion = remoteTag.TrimStart('v');
+        // 2. Une mise à jour existe : télécharger l'exe (volumineux → timeout large, contrairement
+        //    aux 10 s de la requête API : un lien lent ne doit pas faire échouer la MAJ).
+        try
+        {
+            using var dl = new HttpClient { Timeout = TimeSpan.FromMinutes(5) };
+            dl.DefaultRequestHeaders.Add("User-Agent", "TiaOpennessTool");
+            var bytes = await dl.GetByteArrayAsync(downloadUrl);
 
-        if (remoteVersion == localVersion) return;
+            var tempExe = Path.Combine(Path.GetTempPath(), "TiaOpennessTool_update.exe");
+            await File.WriteAllBytesAsync(tempExe, bytes);
 
-        // Find the .exe asset
-        string? downloadUrl = null;
-        foreach (var asset in root.GetProperty("assets").EnumerateArray())
+            // Save new version
+            File.WriteAllText(VersionFile,
+                $$$"""{"version":"{{{remoteVersion}}}","date":"{{{DateTime.Now:yyyy-MM-dd}}}"}""");
+
+            // Write batch to replace exe and relaunch
+            var batchPath = Path.Combine(Path.GetTempPath(), "tia_openness_update.cmd");
+            File.WriteAllText(batchPath,
+                $"""
+                @echo off
+                timeout /t 2 /nobreak >nul
+                copy /y "{tempExe}" "{installedExe}" >nul
+                start "" "{installedExe}"
+                del "{tempExe}" >nul 2>&1
+                del "%~f0" >nul 2>&1
+                """, Encoding.ASCII);
+
+            Process.Start(new ProcessStartInfo("cmd.exe", $"""/c "{batchPath}" """)
+            {
+                CreateNoWindow = true,
+                WindowStyle = ProcessWindowStyle.Hidden,
+                UseShellExecute = false
+            });
+
+            Environment.Exit(0);
+            return null; // inatteignable
+        }
+        catch
+        {
+            // Téléchargement/échange échoué : on NE met PAS à jour version.json (nouvelle
+            // tentative au prochain lancement) et on signale la version dispo à l'app.
+            return remoteVersion;
+        }
+    }
+
+    /// <summary>
+    /// Retourne l'URL de téléchargement du premier asset .exe de la release (nom versionné
+    /// ou non : la correspondance se fait sur l'extension, pas sur un nom figé).
+    /// </summary>
+    static string? FindExeAssetUrl(JsonElement releaseRoot)
+    {
+        foreach (var asset in releaseRoot.GetProperty("assets").EnumerateArray())
         {
             var name = asset.GetProperty("name").GetString() ?? "";
             if (name.EndsWith(".exe", StringComparison.OrdinalIgnoreCase))
-            {
-                downloadUrl = asset.GetProperty("browser_download_url").GetString();
-                break;
-            }
+                return asset.GetProperty("browser_download_url").GetString();
         }
-        if (downloadUrl == null) return;
-
-        // Download new exe to temp
-        var tempExe = Path.Combine(Path.GetTempPath(), "TiaOpennessTool_update.exe");
-        var bytes = await http.GetByteArrayAsync(downloadUrl);
-        await File.WriteAllBytesAsync(tempExe, bytes);
-
-        // Save new version
-        File.WriteAllText(VersionFile,
-            $$$"""{"version":"{{{remoteVersion}}}","date":"{{{DateTime.Now:yyyy-MM-dd}}}"}""");
-
-        // Write batch to replace exe and relaunch
-        var batchPath = Path.Combine(Path.GetTempPath(), "tia_openness_update.cmd");
-        File.WriteAllText(batchPath,
-            $"""
-            @echo off
-            timeout /t 2 /nobreak >nul
-            copy /y "{tempExe}" "{installedExe}" >nul
-            start "" "{installedExe}"
-            del "{tempExe}" >nul 2>&1
-            del "%~f0" >nul 2>&1
-            """, Encoding.ASCII);
-
-        Process.Start(new ProcessStartInfo("cmd.exe", $"""/c "{batchPath}" """)
-        {
-            CreateNoWindow = true,
-            WindowStyle = ProcessWindowStyle.Hidden,
-            UseShellExecute = false
-        });
-
-        Environment.Exit(0);
+        return null;
     }
 
     /// <summary>
     /// Extract the embedded .ps1 script and run it via powershell.exe (STA, required by WPF).
     /// </summary>
-    static void LaunchScript()
+    static void LaunchScript(string? updateNotice = null)
     {
         var scriptPath = Path.Combine(Path.GetTempPath(), $"TIA-Openness-Tool_{Guid.NewGuid():N}.ps1");
 
@@ -197,6 +230,10 @@ static class Program
                 WindowStyle = ProcessWindowStyle.Hidden,
                 UseShellExecute = false
             };
+
+            // Signale à l'app qu'une mise à jour est dispo mais n'a pas pu être téléchargée.
+            if (!string.IsNullOrEmpty(updateNotice))
+                psi.Environment[UpdateNoticeEnvVar] = updateNotice;
 
             var proc = Process.Start(psi);
             proc?.WaitForExit();
