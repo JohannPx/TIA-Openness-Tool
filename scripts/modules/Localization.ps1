@@ -11,6 +11,11 @@ $Script:Strings = @{
         AppTitle          = "TIA Openness Tool"
         AppSubtitle       = "Export DataBlocks TIA Portal"
 
+        # --- Update ---
+        UpdateBannerText  = "Mise a jour v{0} disponible. Le telechargement automatique a echoue (verifiez la connexion reseau)."
+        BtnUpdateDownload = "Telecharger"
+        TipUpdateDownload = "Ouvrir la page de telechargement de la derniere version"
+
         # --- Navigation ---
         NavConnection     = "Connexion"
         NavExport         = "Export DataBlocks"
@@ -141,6 +146,11 @@ $Script:Strings = @{
         AppTitle          = "TIA Openness Tool"
         AppSubtitle       = "TIA Portal DataBlock Export"
 
+        # --- Update ---
+        UpdateBannerText  = "Update v{0} available. Automatic download failed (check your network connection)."
+        BtnUpdateDownload = "Download"
+        TipUpdateDownload = "Open the latest release download page"
+
         # --- Navigation ---
         NavConnection     = "Connection"
         NavExport         = "Export DataBlocks"
@@ -269,6 +279,9 @@ $Script:Strings = @{
     "ES" = @{
         AppTitle          = "TIA Openness Tool"
         AppSubtitle       = "Exportar DataBlocks TIA Portal"
+        UpdateBannerText  = "Actualizacion v{0} disponible. La descarga automatica fallo (verifique la conexion de red)."
+        BtnUpdateDownload = "Descargar"
+        TipUpdateDownload = "Abrir la pagina de descarga de la ultima version"
         NavConnection     = "Conexion"
         NavExport         = "Exportar DataBlocks"
         LblVersion        = "Version TIA Portal:"
@@ -379,6 +392,9 @@ $Script:Strings = @{
     "IT" = @{
         AppTitle          = "TIA Openness Tool"
         AppSubtitle       = "Esportazione DataBlocks TIA Portal"
+        UpdateBannerText  = "Aggiornamento v{0} disponibile. Il download automatico e fallito (verificare la connessione di rete)."
+        BtnUpdateDownload = "Scarica"
+        TipUpdateDownload = "Aprire la pagina di download dell'ultima versione"
         NavConnection     = "Connessione"
         NavExport         = "Esporta DataBlocks"
         LblVersion        = "Versione TIA Portal:"

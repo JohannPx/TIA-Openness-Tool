@@ -1,6 +1,12 @@
 # UI.ps1 - XAML definition, window initialization, event wiring
 # Pattern from ewon-flexy-config\scripts\modules\UI.ps1
 
+# Page des releases (ouverte depuis le bandeau de mise a jour) et variable d'environnement
+# positionnee par le wrapper .exe quand une MAJ est dispo mais n'a pas pu etre telechargee.
+$Script:ReleasesPageUrl = "https://github.com/JohannPx/TIA-Openness-Tool/releases/latest"
+$Script:UpdateNoticeEnvVar = "TIA_OPENNESS_UPDATE_AVAILABLE"
+$Script:PendingUpdateVersion = $null
+
 $Script:MainXaml = @'
 <Window xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -118,6 +124,21 @@ $Script:MainXaml = @'
             </Grid>
           </Button>
         </StackPanel>
+      </DockPanel>
+    </Border>
+
+    <!-- =================== UPDATE BANNER =================== -->
+    <Border x:Name="brdUpdateBanner" DockPanel.Dock="Top" Visibility="Collapsed"
+            Background="#FEF3C7" BorderBrush="#FCD34D" BorderThickness="0,0,0,1" Padding="16,8">
+      <DockPanel>
+        <Button x:Name="btnUpdateClose" DockPanel.Dock="Right" Content="&#x2715;"
+                Width="26" Height="26" Cursor="Hand" FontSize="12" Foreground="#92400E"
+                Background="Transparent" BorderThickness="0" VerticalAlignment="Center"/>
+        <Button x:Name="btnUpdateDownload" DockPanel.Dock="Right" Content="Telecharger"
+                Height="26" Padding="14,0" Margin="0,0,8,0" Cursor="Hand" FontSize="12"
+                FontWeight="SemiBold" Foreground="White" Background="#D97706" BorderThickness="0"/>
+        <TextBlock x:Name="txtUpdateBanner" VerticalAlignment="Center" TextWrapping="Wrap"
+                   FontSize="12" Foreground="#92400E"/>
       </DockPanel>
     </Border>
 
@@ -404,6 +425,7 @@ function Initialize-MainWindow {
     # Bind all named elements to script variables with ui_ prefix
     $elementNames = @(
         "txtAppTitle", "txtAppSubtitle",
+        "brdUpdateBanner", "txtUpdateBanner", "btnUpdateDownload", "btnUpdateClose",
         "txtLangLabel", "btnLangFR", "btnLangEN", "btnLangES", "btnLangIT",
         "brdConnected", "brdDisconnected", "txtConnectedLabel", "txtDisconnectedLabel",
         "txtVersionLabel", "cbTiaVersion", "txtVersionInfo",
@@ -438,6 +460,7 @@ function Initialize-MainWindow {
     Register-LanguageEvents
     Register-ConnectionEvents
     Register-ExportEvents
+    Initialize-UpdateBanner
 
     # Window close guard
     $Script:ui_Window.Add_Closing({
@@ -542,6 +565,13 @@ function Update-AllTexts {
     $Script:ui_txtAppSubtitle.Text = "$(T 'AppSubtitle')  -  v$(Get-AppVersion)"
     $Script:ui_txtLangLabel.Text = T "LangLabel"
 
+    # Update banner (only relevant when a pending update notice was passed by the wrapper)
+    if ($Script:PendingUpdateVersion) {
+        $Script:ui_txtUpdateBanner.Text = (T "UpdateBannerText") -f $Script:PendingUpdateVersion
+        $Script:ui_btnUpdateDownload.Content = T "BtnUpdateDownload"
+        $Script:ui_btnUpdateDownload.ToolTip = T "TipUpdateDownload"
+    }
+
     # Connection status
     $Script:ui_txtConnectedLabel.Text = T "LblConnected"
     $Script:ui_txtDisconnectedLabel.Text = T "LblDisconnected"
@@ -609,6 +639,28 @@ function Update-AllTexts {
         default { $Script:ui_btnExportCsv.ToolTip = T "TipExportCsv" }
     }
     $Script:ui_btnBrowseFolder.ToolTip = T "TipBrowse"
+}
+
+# =================== UPDATE BANNER ===================
+
+function Initialize-UpdateBanner {
+    # Affiche un bandeau si le wrapper .exe a signale (via variable d'environnement) qu'une
+    # mise a jour est disponible mais que son telechargement automatique a echoue.
+    $version = [Environment]::GetEnvironmentVariable($Script:UpdateNoticeEnvVar)
+    if ([string]::IsNullOrWhiteSpace($version)) { return }
+
+    $Script:PendingUpdateVersion = $version
+    $Script:ui_txtUpdateBanner.Text = (T "UpdateBannerText") -f $version
+    $Script:ui_btnUpdateDownload.Content = T "BtnUpdateDownload"
+    $Script:ui_btnUpdateDownload.ToolTip = T "TipUpdateDownload"
+    $Script:ui_brdUpdateBanner.Visibility = [System.Windows.Visibility]::Visible
+
+    $Script:ui_btnUpdateDownload.Add_Click({
+        try { Start-Process $Script:ReleasesPageUrl } catch {}
+    })
+    $Script:ui_btnUpdateClose.Add_Click({
+        $Script:ui_brdUpdateBanner.Visibility = [System.Windows.Visibility]::Collapsed
+    })
 }
 
 # =================== NAVIGATION EVENTS ===================
