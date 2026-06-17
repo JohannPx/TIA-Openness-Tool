@@ -646,6 +646,8 @@ function Get-EwonS7Address {
     $suffix = $Script:S7_EWON_FORMAT[$dt]
     if (-not $suffix) { $suffix = "W" }
 
+    # Format Ewon S73&400 : "DB<n><format><offset>" sans separateur, ex. DB1F76, DB601S34,
+    # DB12B0#2 (le #bit n'est ajoute que pour les Bool).
     $address = "DB${DbNumber}${suffix}${byteOffset}"
 
     # Bool: append #bit
@@ -716,7 +718,7 @@ function Write-VarLstMemberRow {
         ""                                          #  0 Id (auto)
         (Format-EwonStr $tagName)                   #  1 Name
         (Format-EwonStr $chainedComment)            #  2 Description
-        (Format-EwonStr "S7300")                    #  3 ServerName
+        (Format-EwonStr "S73&400")                  #  3 ServerName
         (Format-EwonStr $EwonConfig.Topic)          #  4 TopicName
         (Format-EwonStr $address)                   #  5 Address
         (Format-EwonFloat 1)                        #  6 Coef

@@ -258,6 +258,45 @@ function Find-PlcSoftwareInDevice {
     return $result
 }
 
+function Find-IpInDeviceTree {
+    # Recherche recursive d'une adresse IP dans l'arbre des DeviceItems d'un CPU.
+    # L'interface reseau (qui porte l'attribut IpAddress) peut etre imbriquee a plusieurs
+    # niveaux selon la famille d'automate (CPU -> interface -> port), donc un parcours a un
+    # seul niveau la manquait pour certains projets (IP vide -> adresse Ewon incomplete).
+    param([object]$DeviceItem)
+
+    foreach ($subItem in $DeviceItem.DeviceItems) {
+        try {
+            foreach ($addr in $subItem.Addresses) {
+                try {
+                    $ip = $addr.GetAttribute("IpAddress")
+                    if ($ip) { return $ip }
+                } catch {}
+            }
+        } catch {}
+
+        $childIp = Find-IpInDeviceTree -DeviceItem $subItem
+        if ($childIp) { return $childIp }
+    }
+    return $null
+}
+
+function Get-DeviceItemSlot {
+    # Lit le numero de slot du CPU (pour calculer le TSAP ISO : rack*32 + slot). Selon la
+    # famille d'automate l'info est portee par PositionNumber (attribut standard Openness)
+    # plutot que SlotNumber : sans cet essai, un S7-1200/1500 (slot 1) retombait sur le
+    # defaut 2 (S7-300/400), donnant un TSAP 03.02 au lieu de 03.01.
+    param([object]$DeviceItem)
+
+    foreach ($attr in @("PositionNumber", "SlotNumber")) {
+        try {
+            $v = $DeviceItem.GetAttribute($attr)
+            if ($null -ne $v) { return [int]$v }
+        } catch {}
+    }
+    return $null
+}
+
 function Build-PlcDeviceInfoList {
     param(
         [array]$PlcResults,
@@ -284,24 +323,10 @@ function Build-PlcDeviceInfoList {
             $plcInfo.Name = $deviceItem.Name
         } catch {}
 
-        # Try to read IP address from DeviceItem or its sub-items
+        # Try to read IP address by recursively walking the CPU's DeviceItems tree
         try {
-            # Search network interfaces in sub-items
-            foreach ($subItem in $deviceItem.DeviceItems) {
-                try {
-                    $addresses = $subItem.Addresses
-                    foreach ($addr in $addresses) {
-                        try {
-                            $ip = $addr.GetAttribute("IpAddress")
-                            if ($ip) {
-                                $plcInfo.IpAddress = $ip
-                                break
-                            }
-                        } catch {}
-                    }
-                    if ($plcInfo.IpAddress) { break }
-                } catch {}
-            }
+            $ip = Find-IpInDeviceTree -DeviceItem $deviceItem
+            if ($ip) { $plcInfo.IpAddress = $ip }
         } catch {}
 
         # Try to read Rack / Slot from attributes
@@ -309,10 +334,8 @@ function Build-PlcDeviceInfoList {
             $rack = $deviceItem.GetAttribute("RackNumber")
             if ($null -ne $rack) { $plcInfo.Rack = [int]$rack }
         } catch {}
-        try {
-            $slot = $deviceItem.GetAttribute("SlotNumber")
-            if ($null -ne $slot) { $plcInfo.Slot = [int]$slot }
-        } catch {}
+        $slot = Get-DeviceItemSlot -DeviceItem $deviceItem
+        if ($null -ne $slot) { $plcInfo.Slot = $slot }
 
         # Compute TSAP from Rack/Slot: format "03.XX" where XX = rack*32 + slot in hex
         $tsapByte = ($plcInfo.Rack * 32 + $plcInfo.Slot)
