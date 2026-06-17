@@ -492,29 +492,33 @@ function Initialize-VersionSelector {
     $Script:ui_cbTiaVersion.Add_SelectionChanged({
         $selectedVersion = $Script:ui_cbTiaVersion.SelectedItem
         if (-not $selectedVersion) { return }
-        $versions = (Get-AppState).InstalledVersions
-        $match = $versions | Where-Object { $_.Version -eq $selectedVersion }
-        if ($match) {
-            $loadResult = Initialize-TiaOpenness -DllPath $match.DllPath
-            if ($loadResult.Success) {
-                Set-AppStateValue -Key "SelectedVersion" -Value $selectedVersion
-                $Script:ui_txtVersionInfo.Text = (T "LblDllLoaded") -f [System.IO.Path]::GetFileName($match.DllPath)
-            } else {
-                $Script:ui_txtVersionInfo.Text = $loadResult.Message
-            }
+        $state = Get-AppState
+        # Une DLL deja chargee ne peut pas etre remplacee dans le meme processus : on
+        # signale qu'un redemarrage est necessaire sans tenter un rechargement voue a l'echec.
+        if ($state.DllLoaded -and $state.SelectedVersion -ne $selectedVersion) {
+            $Script:ui_txtVersionInfo.Text = T "MsgRestartRequired"
+            return
         }
+        # Chargement differe : on memorise seulement la version choisie ; la DLL sera
+        # chargee au premier scan/connexion (voir Confirm-TiaDllLoaded).
+        Set-AppStateValue -Key "SelectedVersion" -Value $selectedVersion
+        $Script:ui_txtVersionInfo.Text = (T "LblVersionPending") -f $selectedVersion
     })
 
-    # Trigger initial load
+    # Memorise la version par defaut sans charger la DLL (chargement differe au scan).
     if ($Script:ui_cbTiaVersion.SelectedItem) {
-        $match = $versions | Where-Object { $_.Version -eq $Script:ui_cbTiaVersion.SelectedItem }
-        if ($match) {
-            $loadResult = Initialize-TiaOpenness -DllPath $match.DllPath
-            if ($loadResult.Success) {
-                Set-AppStateValue -Key "SelectedVersion" -Value $match.Version
-                $Script:ui_txtVersionInfo.Text = (T "LblDllLoaded") -f [System.IO.Path]::GetFileName($match.DllPath)
-            }
-        }
+        Set-AppStateValue -Key "SelectedVersion" -Value $Script:ui_cbTiaVersion.SelectedItem
+        $Script:ui_txtVersionInfo.Text = (T "LblVersionPending") -f $Script:ui_cbTiaVersion.SelectedItem
+    }
+}
+
+function Update-VersionLockState {
+    # Verrouille le selecteur de version des qu'une DLL Openness est chargee : .NET ne
+    # permet pas de charger une autre version dans le meme processus. Un message explicite
+    # invite a redemarrer l'outil pour changer de version.
+    if ((Get-AppState).DllLoaded) {
+        $Script:ui_cbTiaVersion.IsEnabled = $false
+        $Script:ui_txtVersionInfo.Text = (T "LblVersionLoadedLocked") -f (Get-AppState).SelectedVersion
     }
 }
 
@@ -685,6 +689,8 @@ function Register-ConnectionEvents {
                 (T "MsgError"), "OK", "Error")
         } finally {
             $Script:ui_btnScan.IsEnabled = $true
+            # Le scan a (ou aurait) charge la DLL : verrouiller le selecteur en consequence.
+            Update-VersionLockState
         }
     })
 
@@ -738,15 +744,12 @@ function Register-ConnectionEvents {
         $Script:ui_brdConnected.Visibility = [System.Windows.Visibility]::Collapsed
         $Script:ui_brdDisconnected.Visibility = [System.Windows.Visibility]::Visible
         $Script:ui_btnDisconnect.IsEnabled = $false
-        $Script:ui_cbTiaVersion.IsEnabled = $true
         $Script:ui_lbDataBlocks.Items.Clear()
         $Script:ui_txtDBCount.Text = (T "LblDBCount") -f 0
 
-        $versions = (Get-AppState).InstalledVersions
-        $match = $versions | Where-Object { $_.Version -eq $Script:ui_cbTiaVersion.SelectedItem }
-        if ($match) {
-            $Script:ui_txtVersionInfo.Text = (T "LblDllLoaded") -f [System.IO.Path]::GetFileName($match.DllPath)
-        }
+        # La DLL reste chargee apres deconnexion (impossible a decharger) : le selecteur
+        # reste donc verrouille sur la version courante.
+        Update-VersionLockState
     })
 }
 

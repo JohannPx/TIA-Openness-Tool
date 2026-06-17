@@ -72,9 +72,9 @@ function Get-ProjectNameFromProcess {
 }
 
 function Invoke-TiaScan {
-    $state = Get-AppState
-    if (-not $state.DllLoaded) {
-        throw (T "MsgDllRequired")
+    $load = Confirm-TiaDllLoaded
+    if (-not $load.Success) {
+        throw $load.Message
     }
 
     $instances = @()
@@ -288,9 +288,9 @@ function Build-PlcDeviceInfoList {
 function Connect-TiaInstance {
     param([int]$ProcessId)
 
-    $state = Get-AppState
-    if (-not $state.DllLoaded) {
-        return @{ Success = $false; Message = T "MsgDllRequired" }
+    $load = Confirm-TiaDllLoaded
+    if (-not $load.Success) {
+        return @{ Success = $false; Message = $load.Message }
     }
 
     try {
