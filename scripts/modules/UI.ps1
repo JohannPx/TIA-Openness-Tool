@@ -472,8 +472,21 @@ function Initialize-VersionSelector {
     } elseif ($versions.Count -eq 1) {
         $Script:ui_cbTiaVersion.SelectedIndex = 0
     } else {
-        # Select latest version by default
-        $Script:ui_cbTiaVersion.SelectedIndex = $versions.Count - 1
+        # Prefere la version d'une instance TIA Portal deja ouverte : charger une DLL dont
+        # la version ne correspond pas a l'instance ouverte ferait echouer GetProcesses()
+        # silencieusement (liste vide). A defaut d'instance ouverte, prend la plus recente.
+        $defaultIndex = $versions.Count - 1
+        $running = @(Get-RunningTiaPortalVersions)
+        if ($running.Count -gt 0) {
+            $runningMajors = @($running | ForEach-Object { $_.MajorNumber })
+            for ($i = 0; $i -lt $versions.Count; $i++) {
+                if ($runningMajors -contains $versions[$i].MajorNumber) {
+                    $defaultIndex = $i
+                    break
+                }
+            }
+        }
+        $Script:ui_cbTiaVersion.SelectedIndex = $defaultIndex
     }
 
     $Script:ui_cbTiaVersion.Add_SelectionChanged({
@@ -660,8 +673,11 @@ function Register-ConnectionEvents {
                 Set-StatusBanner -Banner $Script:ui_brdScanStatus -TextBlock $Script:ui_txtScanStatus `
                     -Text ((T "LblScanResult") -f $instances.Count) -Type "info"
             } else {
+                # Scan vide : diagnostiquer (mauvaise version chargee, ecart de privileges,
+                # ou reellement aucune instance) pour afficher un message actionnable.
+                $diag = Get-ScanEmptyDiagnostic
                 Set-StatusBanner -Banner $Script:ui_brdScanStatus -TextBlock $Script:ui_txtScanStatus `
-                    -Text (T "LblNoInstance") -Type "warning"
+                    -Text $diag.Text -Type $diag.Type
             }
         } catch {
             [System.Windows.MessageBox]::Show(
