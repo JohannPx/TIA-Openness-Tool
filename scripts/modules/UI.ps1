@@ -955,7 +955,7 @@ function Register-ExportEvents {
             [System.Windows.MessageBox]::Show($summary, (T $doneKey), "OK", $icon)
         } catch {
             [System.Windows.MessageBox]::Show(
-                ((T "MsgLoadError") -f $_.Exception.Message),
+                ((T "MsgExportError") -f $_.Exception.Message),
                 (T "MsgError"), "OK", "Error")
         } finally {
             Set-AppStateValue -Key "IsExporting" -Value $false

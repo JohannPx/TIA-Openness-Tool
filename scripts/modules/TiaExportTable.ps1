@@ -878,7 +878,9 @@ function Invoke-TableExport {
 
     # Garde en amont : l'API Openness interdit l'export de blocs quand l'automate est en ligne.
     # On bloque l'export d'emblee avec un message unique plutot qu'une erreur cryptique par bloc.
-    $onlinePlcs = Get-OnlinePlcNames -SelectedBlocks $SelectedBlocks
+    # @() obligatoire : un retour de fonction a 0 ou 1 element est deballe (null / scalaire),
+    # et `.Count` sur null ou scalaire leve sous Set-StrictMode (cas normal hors-ligne = 0 en ligne).
+    $onlinePlcs = @(Get-OnlinePlcNames -SelectedBlocks $SelectedBlocks)
     if ($onlinePlcs.Count -gt 0) {
         $result.OnlineBlocked = $true
         $result.Message = (T "MsgOnlineModeError") + "`n`n" + ((T "MsgOnlinePlcList") -f ($onlinePlcs -join ', '))
