@@ -366,8 +366,11 @@ function Connect-TiaInstance {
         # Extract PlcSoftware objects for backward compatibility
         $plcList = @($plcResults | ForEach-Object { $_.PlcSoftware })
 
-        # Build PLC device info (name, IP, TSAP)
-        $plcDeviceInfoList = Build-PlcDeviceInfoList -PlcResults $plcResults -Project $project
+        # Build PLC device info (name, IP, TSAP).
+        # @() obligatoire : Build-PlcDeviceInfoList renvoie sa liste via return, et un projet
+        # mono-automate la deballe en hashtable scalaire ; sans @(), PlcDeviceInfoList serait
+        # stocke comme scalaire, ce qui casserait tout .Count / indexation ulterieurs.
+        $plcDeviceInfoList = @(Build-PlcDeviceInfoList -PlcResults $plcResults -Project $project)
 
         # Update state
         Set-AppStateValue -Key "TiaPortal" -Value $tiaPortal
