@@ -117,6 +117,29 @@ function Invoke-TiaScan {
     return $instances
 }
 
+function Get-ScanEmptyDiagnostic {
+    # Quand le scan Openness ne retourne aucune instance, determine la cause probable
+    # pour guider l'utilisateur. GetProcesses() ne voit que les instances de la version
+    # de DLL chargee et echoue silencieusement (liste vide) dans les autres cas :
+    #   - une instance d'une AUTRE version est ouverte -> selectionner la bonne version ;
+    #   - une instance de MEME version est ouverte mais inaccessible -> ecart de privileges ;
+    #   - aucune instance n'est reellement ouverte -> message standard.
+    # Retourne le texte localise et le type de banniere a afficher.
+    $running = @(Get-RunningTiaPortalVersions)
+    if ($running.Count -eq 0) {
+        return @{ Text = (T "LblNoInstance"); Type = "warning" }
+    }
+
+    $loaded = (Get-AppState).SelectedVersion
+    $runningVersions = @($running | ForEach-Object { $_.Version } | Sort-Object -Unique)
+
+    if ($runningVersions -notcontains $loaded) {
+        return @{ Text = ((T "LblScanVersionMismatch") -f ($runningVersions -join ", "), $loaded); Type = "warning" }
+    }
+
+    return @{ Text = ((T "LblScanRunningNotAccessible") -f $loaded); Type = "warning" }
+}
+
 function Get-SoftwareContainer {
     # Calls the generic method DeviceItem.GetService<SoftwareContainer>() via reflection
     # PowerShell 5.1 cannot call parameterless generic methods directly

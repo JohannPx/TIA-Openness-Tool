@@ -67,3 +67,24 @@ function Get-TiaVersionFromProcess {
     } catch {}
     return $null
 }
+
+function Get-RunningTiaPortalVersions {
+    # Detecte les instances TIA Portal reellement en cours d'execution, via WMI, en se
+    # basant sur le chemin de l'executable (Portal Vxx). Independant de l'API Openness,
+    # qui ne voit que les instances de la version de DLL chargee : sert donc a choisir
+    # le bon defaut de version au demarrage et a diagnostiquer un scan vide.
+    $running = @()
+    try {
+        $procs = Get-WmiObject -Query "SELECT ProcessId, ExecutablePath FROM Win32_Process WHERE Name = 'Siemens.Automation.Portal.exe'" -ErrorAction SilentlyContinue
+        foreach ($p in $procs) {
+            if ($p.ExecutablePath -match 'Portal V(\d+)') {
+                $running += @{
+                    ProcessId   = [int]$p.ProcessId
+                    Version     = "V$($Matches[1])"
+                    MajorNumber = [int]$Matches[1]
+                }
+            }
+        }
+    } catch {}
+    return $running
+}
