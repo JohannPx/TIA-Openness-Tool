@@ -88,3 +88,25 @@ function Get-RunningTiaPortalVersions {
     } catch {}
     return $running
 }
+
+function Resolve-SelectedDllPath {
+    # Retourne le chemin de la DLL Openness correspondant a la version actuellement
+    # selectionnee dans l'interface (sans la charger).
+    $state = Get-AppState
+    if (-not $state.SelectedVersion) { return $null }
+    $match = $state.InstalledVersions | Where-Object { $_.Version -eq $state.SelectedVersion } | Select-Object -First 1
+    if ($match) { return $match.DllPath }
+    return $null
+}
+
+function Confirm-TiaDllLoaded {
+    # Charge (paresseusement) la DLL Openness de la version selectionnee si ce n'est pas
+    # deja fait. Le chargement est differe jusqu'au scan/connexion : tant qu'aucune DLL
+    # n'est chargee, l'utilisateur peut librement changer de version. Une fois une version
+    # chargee, .NET ne permet pas d'en charger une autre dans le meme processus -- il faut
+    # alors redemarrer l'outil.
+    if ((Get-AppState).DllLoaded) { return @{ Success = $true; Message = "" } }
+    $dllPath = Resolve-SelectedDllPath
+    if (-not $dllPath) { return @{ Success = $false; Message = T "MsgDllRequired" } }
+    return Initialize-TiaOpenness -DllPath $dllPath
+}
