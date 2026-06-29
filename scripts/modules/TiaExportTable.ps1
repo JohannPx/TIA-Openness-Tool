@@ -1172,6 +1172,7 @@ function Get-ExportSummary {
         foreach ($db in $Result.OptimizedDBs) {
             $msg += "- $db`n"
         }
+        $msg += (T "MsgOptimizedHint") + "`n"
     }
 
     $msg += "`n" + ((T "MsgExportFolder") -f $Result.OutputFolder)
