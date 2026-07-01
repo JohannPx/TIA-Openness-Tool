@@ -26,6 +26,46 @@ function Export-BlockToXml {
 
 # =================== S7 TYPE SIZES (for offset calculation) ===================
 
+function Parse-ArrayType {
+    # Analyse une declaration de tableau S7, mono- ou multidimensionnel :
+    #   "Array[lo..hi] of Type"  ou  "Array[lo..hi, lo..hi, ...] of Type"
+    # Retourne @{ Dimensions = @(@{Lo;Hi}...); ElementType = "..." } ou $null si non-tableau.
+    param([string]$DataType)
+
+    # Pas de Trim('"') ici : cela amputerait le guillemet fermant d'un type element UDT
+    # ("Array[0..3] of ""UDT_Timer""" -> element ""UDT_Timer" tronque).
+    if ($DataType -notmatch '^Array\s*\[(.+?)\]\s+of\s+(.+)$') { return $null }
+
+    $rangesRaw = $Matches[1]
+    $elementType = $Matches[2].Trim()
+
+    $dimensions = @()
+    foreach ($range in ($rangesRaw -split ',')) {
+        if ($range.Trim() -notmatch '^(-?\d+)\.\.(-?\d+)$') { return $null }
+        $dimensions += @{ Lo = [int]$Matches[1]; Hi = [int]$Matches[2] }
+    }
+
+    return @{ Dimensions = $dimensions; ElementType = $elementType }
+}
+
+function Get-ArrayIndexTuples {
+    # Genere la liste des tuples d'indices dans l'ordre memoire S7 (row-major :
+    # la premiere dimension varie le plus lentement). 1D -> @(@(0),@(1),...).
+    param([array]$Dimensions)
+
+    $tuples = @(, @())
+    foreach ($dim in $Dimensions) {
+        $expanded = @()
+        foreach ($tuple in $tuples) {
+            for ($i = $dim.Lo; $i -le $dim.Hi; $i++) {
+                $expanded += , ([int[]]($tuple + $i))
+            }
+        }
+        $tuples = $expanded
+    }
+    return $tuples
+}
+
 function Get-S7TypeInfo {
     # Returns size info for S7 data types (non-optimized memory layout)
     # Returns $null for complex/unknown types (Struct, UDT, FB)
@@ -33,12 +73,14 @@ function Get-S7TypeInfo {
 
     $dt = $DataType.Trim('"')
 
-    # Check Array first: "Array[lo..hi] of Type"
-    if ($dt -match '^Array\s*\[(\d+)\.\.(\d+)\]\s+of\s+(.+)$') {
-        $lo = [int]$Matches[1]; $hi = [int]$Matches[2]
-        $elemInfo = Get-S7TypeInfo -DataType $Matches[3]
+    # Check Array first: "Array[lo..hi(, lo..hi)*] of Type" (mono/multidimensionnel)
+    # On passe le DataType brut (non trim) pour preserver les guillemets d'un type UDT.
+    $arr = Parse-ArrayType -DataType $DataType
+    if ($arr) {
+        $elemInfo = Get-S7TypeInfo -DataType $arr.ElementType
         if (-not $elemInfo) { return $null }
-        $count = $hi - $lo + 1
+        $count = 1
+        foreach ($d in $arr.Dimensions) { $count *= ($d.Hi - $d.Lo + 1) }
         if ($elemInfo.IsBit) {
             # Array of Bool: packed bits, ceil(count/8) bytes
             $bytes = [Math]::Ceiling($count / 8)
@@ -228,6 +270,130 @@ function Parse-SimaticMlMembers {
     }
 }
 
+function Expand-ArrayMember {
+    # Developpe un membre tableau (mono/multidimensionnel) en une ligne par element.
+    # - Element de type simple  : une variable adressable par index (offset calcule).
+    # - Element de type complexe (UDT nomme ou struct anonyme) : reparse la structure
+    #   de l'element pour chaque index, en reutilisant le meme OffsetState continu
+    #   (l'offset progresse donc naturellement, sans taille codee en dur), avec
+    #   alignement sur octet pair entre elements (taille d'instance UDT paire).
+    param(
+        [System.Xml.XmlNode]$Member,
+        [string]$Name,
+        [string]$FullPath,
+        [string]$Comment,
+        [hashtable]$ArrayInfo,
+        [array]$DirectChildren,
+        [array]$AllSections,
+        [int]$DbNumber,
+        [System.Xml.XmlNamespaceManager]$Nsmgr,
+        [string]$Prefix,
+        [hashtable]$OffsetState,
+        [string]$SectionName,
+        [string]$CurrentUdtType,
+        [string]$UdtRelativePath,
+        [hashtable]$ParentComments
+    )
+
+    $results = @()
+    $tuples = Get-ArrayIndexTuples -Dimensions $ArrayInfo.Dimensions
+
+    # Chemin relatif du tableau dans le type courant (resolution du commentaire via type)
+    $arrayUdtPath = if ($CurrentUdtType) {
+        if ($UdtRelativePath) { "$UdtRelativePath.$Name" } else { $Name }
+    } else { $FullPath }
+
+    $baseType = $ArrayInfo.ElementType
+    $elemInfo = Get-S7TypeInfo -DataType $baseType
+
+    # --- Tableau de type simple : une valeur adressable par element ---
+    if ($elemInfo) {
+        if ($OffsetState -and $OffsetState.Enabled) {
+            if ($OffsetState.Bit -gt 0) { $OffsetState.Byte++; $OffsetState.Bit = 0 }
+            if ($OffsetState.Byte % 2 -ne 0) { $OffsetState.Byte++ }
+        }
+        foreach ($tuple in $tuples) {
+            $idxStr = ($tuple -join ', ')
+            $elemOffset = ""
+            if ($OffsetState -and $OffsetState.Enabled) {
+                if ($elemInfo.IsBit) {
+                    $elemOffset = "$($OffsetState.Byte).$($OffsetState.Bit)"
+                    $OffsetState.Bit++
+                    if ($OffsetState.Bit -ge 8) { $OffsetState.Byte++; $OffsetState.Bit = 0 }
+                } else {
+                    $elemOffset = "$($OffsetState.Byte).0"
+                    $OffsetState.Byte += $elemInfo.Bytes
+                }
+            }
+            $results += @{
+                Name     = "${FullPath}[${idxStr}]"
+                DataType = $baseType
+                Offset   = $elemOffset
+                Comment  = $Comment
+                DbNumber = $DbNumber
+                UdtType  = $CurrentUdtType
+                UdtPath  = $arrayUdtPath
+            }
+        }
+        return $results
+    }
+
+    # --- Tableau de type complexe (UDT nomme ou struct anonyme) ---
+    $isNamedUdt = $baseType.StartsWith('"')
+    $udtName = $baseType.Trim('"')
+
+    # Structure inline indisponible : offset incalculable, on emet une ligne unique
+    # et on desactive le suivi d'offset (evite de decaler silencieusement la suite).
+    if ($AllSections.Count -eq 0 -and $DirectChildren.Count -eq 0) {
+        if ($OffsetState -and $OffsetState.Enabled) { $OffsetState.Enabled = $false }
+        $results += @{
+            Name     = $FullPath
+            DataType = $baseType
+            Offset   = ""
+            Comment  = $Comment
+            DbNumber = $DbNumber
+            UdtType  = $CurrentUdtType
+            UdtPath  = $arrayUdtPath
+        }
+        return $results
+    }
+
+    # Alignement d'entree (les instances UDT/struct demarrent sur octet pair)
+    if ($OffsetState -and $OffsetState.Enabled) { Align-OffsetState -State $OffsetState }
+
+    foreach ($tuple in $tuples) {
+        $idxStr = ($tuple -join ', ')
+        $elemPath = "${FullPath}[${idxStr}]"
+
+        # Enregistre l'element comme parent porteur du commentaire du tableau (chainage)
+        if ($null -ne $ParentComments) {
+            $ParentComments[$elemPath] = @{
+                Comment = $Comment
+                UdtType = $CurrentUdtType
+                UdtPath = $arrayUdtPath
+            }
+        }
+
+        if ($isNamedUdt) {
+            # UDT nomme : la structure est dans les Sections, nouveau contexte de type
+            foreach ($sectionNode in $AllSections) {
+                $secName = $sectionNode.GetAttribute("Name")
+                $results += @(Parse-MemberNodes -ParentNode $sectionNode -ParentPath $elemPath -DbNumber $DbNumber -Nsmgr $Nsmgr -Prefix $Prefix -OffsetState $OffsetState -SectionName $secName -CurrentUdtType $udtName -UdtRelativePath "" -ParentComments $ParentComments)
+                if ($OffsetState -and $OffsetState.Enabled) { Align-OffsetState -State $OffsetState }
+            }
+        } else {
+            # Struct anonyme : les champs sont les Member directs du noeud tableau
+            $childUdtPath = if ($CurrentUdtType) {
+                if ($UdtRelativePath) { "$UdtRelativePath.$Name" } else { $Name }
+            } else { "" }
+            $results += @(Parse-MemberNodes -ParentNode $Member -ParentPath $elemPath -DbNumber $DbNumber -Nsmgr $Nsmgr -Prefix $Prefix -OffsetState $OffsetState -SectionName $SectionName -CurrentUdtType $CurrentUdtType -UdtRelativePath $childUdtPath -ParentComments $ParentComments)
+            if ($OffsetState -and $OffsetState.Enabled) { Align-OffsetState -State $OffsetState }
+        }
+    }
+
+    return $results
+}
+
 function Parse-MemberNodes {
     param(
         [System.Xml.XmlNode]$ParentNode,
@@ -304,19 +470,28 @@ function Parse-MemberNodes {
             }
         )
 
+        # Detecte un tableau (mono/multidimensionnel) d'apres le Datatype
+        $arrayInfo = Parse-ArrayType -DataType $dataType
+
         $isComplex = ($directChildren.Count -gt 0) -or ($allSections.Count -gt 0)
         $childResults = @()
         $handledAsOpaque = $false
 
-        # InOut complex types: stored as 6-byte ANY pointer in non-optimized layout
+        # InOut complex/array types: stored as 6-byte ANY pointer in non-optimized layout
         # Not shown in CSV but offset must be accounted for
-        if ($SectionName -eq "InOut" -and $isComplex) {
+        if ($SectionName -eq "InOut" -and ($isComplex -or $arrayInfo)) {
             if ($OffsetState -and $OffsetState.Enabled) {
                 # Close bits and word-align
                 if ($OffsetState.Bit -gt 0) { $OffsetState.Byte++; $OffsetState.Bit = 0 }
                 if ($OffsetState.Byte % 2 -ne 0) { $OffsetState.Byte++ }
                 $OffsetState.Byte += 6  # 6-byte ANY pointer
             }
+            $handledAsOpaque = $true
+        }
+        # Array (simple or complex element type) — one row per element
+        elseif ($arrayInfo) {
+            $childResults += @(Expand-ArrayMember -Member $member -Name $name -FullPath $fullPath -Comment $comment -ArrayInfo $arrayInfo -DirectChildren $directChildren -AllSections $allSections -DbNumber $DbNumber -Nsmgr $Nsmgr -Prefix $Prefix -OffsetState $OffsetState -SectionName $SectionName -CurrentUdtType $CurrentUdtType -UdtRelativePath $UdtRelativePath -ParentComments $ParentComments)
+            # Un tableau vide (lo > hi) ne produit aucune ligne : evite de retomber en feuille
             $handledAsOpaque = $true
         }
         # Struct (direct child Members) — keep same UDT context, extend relative path
@@ -357,87 +532,34 @@ function Parse-MemberNodes {
                 if ($UdtRelativePath) { "$UdtRelativePath.$name" } else { $name }
             } else { $fullPath }
 
-            # Check if this is an Array type to expand into individual elements
-            $dtClean = $dataType.Trim('"')
-            $isArray = $dtClean -match '^Array\s*\[(\d+)\.\.(\d+)\]\s+of\s+(.+)$'
-
-            if ($isArray) {
-                $arrLo = [int]$Matches[1]; $arrHi = [int]$Matches[2]
-                $baseType = $Matches[3].Trim()
-                $elemInfo = Get-S7TypeInfo -DataType $baseType
-
-                if ($elemInfo) {
-                    # Word-align before array start
-                    if ($OffsetState -and $OffsetState.Enabled) {
+            # Regular leaf member — calculate offset
+            $offset = ""
+            if ($OffsetState -and $OffsetState.Enabled) {
+                $typeInfo = Get-S7TypeInfo -DataType $dataType
+                if ($typeInfo) {
+                    if ($typeInfo.IsBit) {
+                        $offset = "$($OffsetState.Byte).$($OffsetState.Bit)"
+                        $OffsetState.Bit++
+                        if ($OffsetState.Bit -ge 8) { $OffsetState.Byte++; $OffsetState.Bit = 0 }
+                    } else {
                         if ($OffsetState.Bit -gt 0) { $OffsetState.Byte++; $OffsetState.Bit = 0 }
-                        if ($OffsetState.Byte % 2 -ne 0) { $OffsetState.Byte++ }
-                    }
-
-                    for ($arrIdx = $arrLo; $arrIdx -le $arrHi; $arrIdx++) {
-                        $elemOffset = ""
-                        if ($OffsetState -and $OffsetState.Enabled) {
-                            if ($elemInfo.IsBit) {
-                                $elemOffset = "$($OffsetState.Byte).$($OffsetState.Bit)"
-                                $OffsetState.Bit++
-                                if ($OffsetState.Bit -ge 8) { $OffsetState.Byte++; $OffsetState.Bit = 0 }
-                            } else {
-                                $elemOffset = "$($OffsetState.Byte).0"
-                                $OffsetState.Byte += $elemInfo.Bytes
-                            }
-                        }
-                        $results += @{
-                            Name     = "${fullPath}[${arrIdx}]"
-                            DataType = $baseType
-                            Offset   = $elemOffset
-                            Comment  = $comment
-                            DbNumber = $DbNumber
-                            UdtType  = $CurrentUdtType
-                            UdtPath  = $leafUdtPath
-                        }
+                        if ($typeInfo.WordAlign -and ($OffsetState.Byte % 2 -ne 0)) { $OffsetState.Byte++ }
+                        $offset = "$($OffsetState.Byte).0"
+                        $OffsetState.Byte += $typeInfo.Bytes
                     }
                 } else {
-                    # Unknown base type — emit as single entry without expansion
-                    $results += @{
-                        Name     = $fullPath
-                        DataType = $dataType
-                        Offset   = ""
-                        Comment  = $comment
-                        DbNumber = $DbNumber
-                        UdtType  = $CurrentUdtType
-                        UdtPath  = $leafUdtPath
-                    }
-                    if ($OffsetState -and $OffsetState.Enabled) { $OffsetState.Enabled = $false }
+                    $OffsetState.Enabled = $false
                 }
-            } else {
-                # Regular leaf member — calculate offset
-                $offset = ""
-                if ($OffsetState -and $OffsetState.Enabled) {
-                    $typeInfo = Get-S7TypeInfo -DataType $dataType
-                    if ($typeInfo) {
-                        if ($typeInfo.IsBit) {
-                            $offset = "$($OffsetState.Byte).$($OffsetState.Bit)"
-                            $OffsetState.Bit++
-                            if ($OffsetState.Bit -ge 8) { $OffsetState.Byte++; $OffsetState.Bit = 0 }
-                        } else {
-                            if ($OffsetState.Bit -gt 0) { $OffsetState.Byte++; $OffsetState.Bit = 0 }
-                            if ($typeInfo.WordAlign -and ($OffsetState.Byte % 2 -ne 0)) { $OffsetState.Byte++ }
-                            $offset = "$($OffsetState.Byte).0"
-                            $OffsetState.Byte += $typeInfo.Bytes
-                        }
-                    } else {
-                        $OffsetState.Enabled = $false
-                    }
-                }
+            }
 
-                $results += @{
-                    Name     = $fullPath
-                    DataType = $dataType
-                    Offset   = $offset
-                    Comment  = $comment
-                    DbNumber = $DbNumber
-                    UdtType  = $CurrentUdtType
-                    UdtPath  = $leafUdtPath
-                }
+            $results += @{
+                Name     = $fullPath
+                DataType = $dataType
+                Offset   = $offset
+                Comment  = $comment
+                DbNumber = $DbNumber
+                UdtType  = $CurrentUdtType
+                UdtPath  = $leafUdtPath
             }
         }
     }
