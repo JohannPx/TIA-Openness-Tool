@@ -10,8 +10,28 @@ function Get-InstalledTiaVersions {
             if ($dirName -match 'Portal V(\d+)') {
                 $vNum = $Matches[1]
                 $vLabel = "V$vNum"
-                $dllPath = Join-Path $_.FullName "PublicAPI\V$vNum\Siemens.Engineering.dll"
-                if (Test-Path $dllPath) {
+                $publicApi = Join-Path $_.FullName "PublicAPI\V$vNum"
+
+                # Ancien layout (V15-V19) : une seule assembly Siemens.Engineering.dll a la
+                # racine de PublicAPI\V<num>\.
+                $legacyDll = Join-Path $publicApi "Siemens.Engineering.dll"
+
+                # Nouveau layout (V20/V21+) : l'API Openness est eclatee en plusieurs
+                # assemblies (Siemens.Engineering.Base.dll + Siemens.Engineering.Step7.dll,
+                # ...) rangees dans un sous-dossier de framework cible (net48, net6.0, ...).
+                # Il n'existe plus de Siemens.Engineering.dll unique ; la DLL principale a
+                # charger devient Siemens.Engineering.Base.dll.
+                $dllPath = $null
+                if (Test-Path $legacyDll) {
+                    $dllPath = $legacyDll
+                } else {
+                    foreach ($tfm in @('net48', 'net472', 'net6.0-windows', 'net6.0', 'net8.0-windows', 'net8.0')) {
+                        $cand = Join-Path $publicApi "$tfm\Siemens.Engineering.Base.dll"
+                        if (Test-Path $cand) { $dllPath = $cand; break }
+                    }
+                }
+
+                if ($dllPath) {
                     $versions += @{
                         Version     = $vLabel
                         MajorNumber = [int]$vNum
@@ -23,6 +43,33 @@ function Get-InstalledTiaVersions {
     }
 
     return $versions | Sort-Object { $_.MajorNumber }
+}
+
+function Register-OpennessAssemblyResolver {
+    # A partir de TIA V20/V21, l'API Openness est eclatee en plusieurs assemblies rangees
+    # dans un sous-dossier (net48, ...). Charger Siemens.Engineering.Base.dll ne suffit pas :
+    # .NET doit pouvoir resoudre ses dependances (Siemens.Engineering.Step7.dll, etc.) depuis
+    # ce meme dossier. On enregistre donc un resolver AssemblyResolve qui va chercher toute
+    # assembly manquante dans le dossier de la DLL principale. Une seule version Openness peut
+    # etre chargee par processus : un seul dossier de sondage suffit, on capture donc $ProbeDir
+    # dans une closure et on n'enregistre le handler qu'une fois.
+    param([string]$ProbeDir)
+    if (-not $ProbeDir) { return }
+    $already = [bool](Get-Variable -Name OpennessResolverRegistered -Scope Script -ValueOnly -ErrorAction SilentlyContinue)
+    if ($already) { return }
+
+    $resolver = {
+        param($sender, $eventArgs)
+        $simpleName = ($eventArgs.Name -split ',')[0].Trim()
+        $candidate = Join-Path $ProbeDir ($simpleName + '.dll')
+        if (Test-Path $candidate) {
+            try { return [System.Reflection.Assembly]::LoadFrom($candidate) } catch {}
+        }
+        return $null
+    }.GetNewClosure()
+
+    [System.AppDomain]::CurrentDomain.add_AssemblyResolve($resolver)
+    Set-Variable -Name OpennessResolverRegistered -Scope Script -Value $true
 }
 
 function Initialize-TiaOpenness {
@@ -41,7 +88,22 @@ function Initialize-TiaOpenness {
     }
 
     try {
+        # Nouveau layout V20/V21+ : enregistrer un resolver pour les dependances puis charger
+        # les assemblies compagnons (les types SW.Blocks / PlcSoftware vivent desormais dans
+        # Siemens.Engineering.Step7.dll). Sans effet sur l'ancien layout mono-DLL (aucun
+        # compagnon present, le resolver ne sert jamais).
+        $probeDir = Split-Path -Parent $DllPath
+        Register-OpennessAssemblyResolver -ProbeDir $probeDir
+
         [System.Reflection.Assembly]::LoadFrom($DllPath) | Out-Null
+
+        foreach ($companion in @('Siemens.Engineering.Step7.dll')) {
+            $companionPath = Join-Path $probeDir $companion
+            if (Test-Path $companionPath) {
+                try { [System.Reflection.Assembly]::LoadFrom($companionPath) | Out-Null } catch {}
+            }
+        }
+
         Set-AppStateValue -Key "DllPath" -Value $DllPath
         Set-AppStateValue -Key "DllLoaded" -Value $true
         return @{ Success = $true; Message = "" }
